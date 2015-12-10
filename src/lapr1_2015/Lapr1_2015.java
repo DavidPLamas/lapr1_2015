@@ -7,7 +7,7 @@ package lapr1_2015;
 
 /**
  *
- * @author Miguel
+ * @author Grupo 2
  */
 public class Lapr1_2015 {
 
