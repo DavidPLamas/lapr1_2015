@@ -8,7 +8,7 @@ package lapr1_2015;
 /**
  *
  * @author Grupo 2
- * @version 1.0
+ * 
  */
 public class Lapr1_2015 {
 
