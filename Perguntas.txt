@@ -1,4 +1,0 @@
-A primeira linha é sempre a funçao objetivo?
-A linha da funçao objetivo pode não estar bem formatada? Por exemplo, 2x2 + 2x1 = Z ou tem sempre o formato Z= nx1 + nx2 ?
-As linhas das restrições estão sempre bem formatadas? Por exemplo, pode nao ter o sinal <= ??
-Como mostramos os erros ao ler o ficheiro input? Num ficheiro de texto ou diretamente no ecrã?

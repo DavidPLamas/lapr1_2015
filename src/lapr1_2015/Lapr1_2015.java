@@ -41,6 +41,10 @@ public class Lapr1_2015 {
             return;
         }
         
+        if(!Ficheiro.isValid(ficheiroInput)){
+            System.err.println("O ficheiro nao é válido!!");
+            return;
+        }
         int nrLinhas = Ficheiro.contaNrLinhas(ficheiroInput);
         
         if(nrLinhas <= 0){
