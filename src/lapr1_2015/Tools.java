@@ -2,7 +2,7 @@ package lapr1_2015;
 
 /**
  *
- * @author User
+ * @author Grupo 2
  */
 public class Tools {
     

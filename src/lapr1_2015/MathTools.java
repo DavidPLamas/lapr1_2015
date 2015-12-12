@@ -2,7 +2,7 @@ package lapr1_2015;
 
 /**
  *
- * @author Grupo_2
+ * @author Grupo 2
  */
 public class MathTools {
 
