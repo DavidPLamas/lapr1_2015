@@ -6,22 +6,32 @@ package lapr1_2015;
  */
 public class MathTools {
 
-    public static final String padraoVariavel = "[+-]?\\d{0,3}X[1-2]";
     
-    public static float retirarCoeficienteDeVariavel(String variavel){
-        String coeficiente = "";
+    public static final String PADRAO_VARIAVEL = "[+-]?\\d{0,3}X[1-2]";
+    
+    public static float getVariableCoeficient(String variavel){
+        
+        String coeficiente;
+        
         int posX = variavel.indexOf("X");
+        
         if(posX > 0){
+            
             coeficiente = variavel.substring(0, posX);
+            
         }else{
+            
             coeficiente = "1";
+            
         }
         
         if(coeficiente.equals("-") || coeficiente.equals("+")){
+            
             coeficiente += "1";
         }
         
         return Float.parseFloat(coeficiente);
+        
     }
     
     /* @todo Retirar no futuro
@@ -32,26 +42,53 @@ public class MathTools {
         return equacao.matches(padrao);
     }*/
     
-    public static float calcularSimetrico(float num){
+    public static float calculateSimetric(float num){
         return (num * -1);
     }
     
-    public static boolean validaFuncaoObjetiva(String equacao){
-        String padrao = "^Z=(" + padraoVariavel + ")([+-]\\d{0,3}X[1-2])?$";
+    public static boolean validatesObjectiveFunction(String equacao){
+        
+        String padrao = "^Z=(" + PADRAO_VARIAVEL + ")([+-]\\d{0,3}X[1-2])?$";
+        
         return equacao.matches(padrao);
     }
     
-    public static boolean validaRestricao(String equacao){
-        String padrao = "(" + padraoVariavel + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
+    public static boolean validatesRestriction(String equacao){
+        
+        String padrao = "(" + PADRAO_VARIAVEL + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
+        
         return equacao.matches(padrao);
     }
     
-    public static int retirarIndiceDeX(String variavel){
-        int posDoX = variavel.indexOf("X");
-        if(posDoX == -1){
+    public static int getXIndex(String variable){
+        
+        int XPos = variable.indexOf("X");
+        
+        if (XPos == -1){
+            
             return -1;
+            
         }
         
-        return (Integer.parseInt(variavel.substring(posDoX +1)));
+        return (Integer.parseInt(variable.substring(XPos +1)));
+        
     }
+    
+    public static float[] multiplyLineByScalar (int [][] matrix, int lineIndex, int scalar){
+        
+        float newLine [] = new float [matrix[0].length];
+        
+        for (int i = 0; i < matrix[0].length; i++){
+            
+            newLine[i] = matrix [lineIndex][i] * scalar;
+            
+        }
+        
+        return newLine;
+       
+    }
+    
 }
+
+
+

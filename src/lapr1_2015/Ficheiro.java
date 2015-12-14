@@ -27,14 +27,14 @@ public class Ficheiro {
     }
     
     public static boolean interpretarFuncaoObjetivo(String linha, float [][] matriz, int linhaDaMatriz){
-        int col = 0;
-        Matcher m = Pattern.compile("(" + MathTools.padraoVariavel +")").matcher(linha);
+        int col;
+        Matcher m = Pattern.compile("(" + MathTools.PADRAO_VARIAVEL +")").matcher(linha);
         
         while(m.find()){
             String variavel = m.group(1);
-            float coeficiente = MathTools.retirarCoeficienteDeVariavel(variavel);
-            col = MathTools.retirarIndiceDeX(variavel);
-            matriz[linhaDaMatriz][col -1] = MathTools.calcularSimetrico(coeficiente);
+            float coeficiente = MathTools.getVariableCoeficient(variavel);
+            col = MathTools.getXIndex(variavel);
+            matriz[linhaDaMatriz][col -1] = MathTools.calculateSimetric(coeficiente);
         }
         
         matriz[linhaDaMatriz][matriz[linhaDaMatriz].length - 1] = 0;
@@ -44,14 +44,14 @@ public class Ficheiro {
     
     public static boolean interpretarRestricao(String linha, float [][] matriz, int linhaDaMatriz){
         String parts[] = linha.split("<=");
-        int col = 0;
-        Matcher m = Pattern.compile("(" + MathTools.padraoVariavel +")").matcher(parts[0]);
+        int col;
+        Matcher m = Pattern.compile("(" + MathTools.PADRAO_VARIAVEL +")").matcher(parts[0]);
         
         //Preenche os x1, x2, etc
         while(m.find()){
             String variavel = m.group(1);
-            float coeficiente = MathTools.retirarCoeficienteDeVariavel(variavel);
-            col = MathTools.retirarIndiceDeX(variavel);
+            float coeficiente = MathTools.getVariableCoeficient(variavel);
+            col = MathTools.getXIndex(variavel);
             matriz[linhaDaMatriz][col -1] = coeficiente;
         }
         
@@ -99,12 +99,12 @@ public class Ficheiro {
                     continue;
                 }
                 if(nrLinha == 0){
-                    if(!MathTools.validaFuncaoObjetiva(Tools.retirarEspacos(linha))){
+                    if(!MathTools.validatesObjectiveFunction(Tools.retirarEspacos(linha))){
                         //@todo log erros?
                         return false;
                     }
                 }else{
-                    if(!MathTools.validaRestricao(Tools.retirarEspacos(linha))){
+                    if(!MathTools.validatesRestriction(Tools.retirarEspacos(linha))){
                         //@todo log erros?
                         return false;
                     }
