@@ -24,14 +24,6 @@ public class MathTools {
         return Float.parseFloat(coeficiente);
     }
     
-    /* @todo Retirar no futuro
-    public static boolean validaParteComVariaveis(String equacao){
-        //Para ser válido, tem de começar por uma variavel padrao (ou seja, pode nao ter sinal atrás)
-        //mas o resto das variaveis terão de ter obrigatoriamente sinal
-        String padrao = "";
-        return equacao.matches(padrao);
-    }*/
-    
     public static float calcularSimetrico(float num){
         return (num * -1);
     }
