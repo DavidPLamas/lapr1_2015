@@ -15,7 +15,20 @@ public class Lapr1_2015 {
         while(pivotColumn >= 0 && pivotLine >= 0){
             float pivot = matrix[pivotLine][pivotColumn];
             
-            //MathTools.multiplyLineByScalar(matrix, pivotLine, 1/pivot);
+            matrix[pivotLine] = MathTools.multiplyLineByScalar(matrix, pivotLine, 1/pivot);
+            
+            for(int i = 0; i < matrix.length; i++){
+                if(i == pivotLine){
+                    continue;
+                }
+                float scalar = MathTools.calculateSimetric(matrix[i][pivotColumn]);
+                matrix[i] = MathTools.addTwoLinesWithScalar(matrix,i,pivotLine, scalar);
+            }
+            
+            outputMatrix(matrix);
+            
+            pivotColumn = MathTools.findPivotColumn(matrix, nrVar);
+            pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
         }
     }
     
@@ -28,7 +41,16 @@ public class Lapr1_2015 {
                 linhaDaMatriz = Ficheiro.analisarLinha(linha, matriz, linhaDaMatriz);
             }
         } catch (Exception e) {
-            
+            Tools.writeError("Ocorreu um erro ao ler o ficheiro");
+        }
+    }
+    
+    static void outputMatrix(float [][] matrix){
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.printf("%.2f |",matrix[i][j]);
+            }
+            System.out.println("");
         }
     }
     /**
