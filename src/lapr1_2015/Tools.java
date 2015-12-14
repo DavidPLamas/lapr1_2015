@@ -11,7 +11,7 @@ public class Tools {
         return linha.replaceAll("\\s+","");
     }
     
-    public static void writeError(String message){
-        System.err.println(message);
+    public static void printError(String message){
+        System.err.printf("%s%n",message);
     }
 }

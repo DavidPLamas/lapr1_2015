@@ -7,30 +7,30 @@ package lapr1_2015;
 public class MathTools {
 
     
-    public static final String PADRAO_VARIAVEL = "[+-]?\\d{0,3}X[1-2]";
+    public static final String VARIABLE_PATTERN = "[+-]?\\d{0,3}X[1-2]";
     
     public static float getVariableCoeficient(String variavel){
         
-        String coeficiente;
+        String coeficient;
         
         int posX = variavel.indexOf("X");
         
         if(posX > 0){
             
-            coeficiente = variavel.substring(0, posX);
+            coeficient = variavel.substring(0, posX);
             
         }else{
             
-            coeficiente = "1";
+            coeficient = "1";
             
         }
         
-        if(coeficiente.equals("-") || coeficiente.equals("+")){
+        if(coeficient.equals("-") || coeficient.equals("+")){
             
-            coeficiente += "1";
+            coeficient += "1";
         }
 
-        return Float.parseFloat(coeficiente);
+        return Float.parseFloat(coeficient);
         
     }
     
@@ -40,14 +40,14 @@ public class MathTools {
     
     public static boolean validatesObjectiveFunction(String equacao){
         
-        String padrao = "^Z=(" + PADRAO_VARIAVEL + ")([+-]\\d{0,3}X[1-2])?$";
+        String padrao = "^Z=(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?$";
         
         return equacao.matches(padrao);
     }
     
     public static boolean validatesRestriction(String equacao){
         
-        String padrao = "(" + PADRAO_VARIAVEL + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
+        String padrao = "(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
         
         return equacao.matches(padrao);
     }
@@ -76,6 +76,22 @@ public class MathTools {
        
     }
     
+    public static float[] addTwoLinesWithScalar(float[][] matrix, int lineIndex1, int lineIndex2, float scalar) {
+
+        float[] lineToSum = multiplyLineByScalar(matrix, lineIndex2, scalar);
+
+        float[] newLine = new float[matrix[0].length];
+
+        for (int i = 0; i < matrix[0].length; i++) {
+
+            newLine[i] = lineToSum[i] + matrix[lineIndex1][i];
+
+        }
+
+        return newLine;
+
+    }
+     
     public static int findPivotColumn(float[][] matrix) {
         float minor = Float.MAX_VALUE;
         int column = 0;
@@ -119,22 +135,6 @@ public class MathTools {
             }
         } 
         return line;
-    }
-    
-    public static float[] addTwoLinesWithScalar(float[][] matrix, int lineIndex1, int lineIndex2, float scalar) {
-
-        float[] lineToSum = multiplyLineByScalar(matrix, lineIndex2, scalar);
-
-        float[] newLine = new float[matrix[0].length];
-
-        for (int i = 0; i < matrix[0].length; i++) {
-
-            newLine[i] = lineToSum[i] + matrix[lineIndex1][i];
-
-        }
-
-        return newLine;
-
     }
     
 }

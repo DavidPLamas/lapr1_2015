@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Lapr1_2015 {
 
     static void methodSimplex(float [][] matrix, File inputFile){
-        preencherMatrizDoFicheiro(matrix, inputFile);
+        fillMatrix(matrix, inputFile);
         
         int pivotColumn = MathTools.findPivotColumn(matrix);
         int pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
@@ -36,16 +36,16 @@ public class Lapr1_2015 {
         System.out.println(output);
     }
     
-    static void preencherMatrizDoFicheiro(float[][] matriz, File ficheiro){
-        int linhaDaMatriz = 0;
+    static void fillMatrix(float[][] matrix, File file){
+        int matrixLine = 0;
         try{
-            Scanner scan = new Scanner(ficheiro);
+            Scanner scan = new Scanner(file);
             while(scan.hasNextLine()){
-                String linha = scan.nextLine();
-                linhaDaMatriz = Ficheiro.analisarLinha(linha, matriz, linhaDaMatriz);
+                String line = scan.nextLine();
+                matrixLine = Ficheiro.readLine(line, matrix, matrixLine);
             }
         } catch (Exception e) {
-            Tools.writeError("Ocorreu um erro ao ler o ficheiro");
+            Tools.printError("Ocorreu um erro ao ler o ficheiro");
         }
     }
     
@@ -70,36 +70,36 @@ public class Lapr1_2015 {
     public static void main(String[] args) {
         //Verificar se o programa recebeu dois argumentos
         if(args.length < 2){
-            System.err.println("O programa precisa de dois argumentos!");
+            Tools.printError("O programa precisa de dois argumentos!");
             return;
         }
         
-        String nomeFicheiroInput = args[0];
-        String nomeFicheiroOutput = args[1];
+        String inputFileName = args[0];
+        String outputFileName = args[1];
         
-        File ficheiroInput = new File(nomeFicheiroInput);
+        File inputFile = new File(inputFileName);
         
         //Verifica se o ficheiro input existe
-        if(!ficheiroInput.exists() || ficheiroInput.isDirectory()){
-            System.err.printf("O ficheiro %s não existe", ficheiroInput);
+        if(!inputFile.exists() || inputFile.isDirectory()){
+            Tools.printError("O ficheiro %s não existe");
             return;
         }
         
-        if(!Ficheiro.isValid(ficheiroInput)){
-            System.err.println("O ficheiro nao é válido!!");
+        if(!Ficheiro.isValid(inputFile)){
+            Tools.printError("O ficheiro nao é válido!!");
             return;
         }
-        int nrLinhas = Ficheiro.contaNrLinhas(ficheiroInput);
+        int nrLines = Ficheiro.getNumberOfLines(inputFile);
         
-        if(nrLinhas <= 0){
-            System.err.printf("O ficheiro %s deve ter mais de 0 linhas com conteúdo", ficheiroInput);
+        if(nrLines <= 0){
+            Tools.printError("O ficheiro %s deve ter mais de 0 linhas com conteúdo");
             return;
         }
         
-        int nrVariaveis = 2;
-        float[][] matriz = new float[nrLinhas][nrLinhas + nrVariaveis];
+        int nrVar = 2;
+        float[][] matriz = new float[nrLines][nrLines + nrVar];
         
-        methodSimplex(matriz, ficheiroInput);
+        methodSimplex(matriz, inputFile);
     }
     
 }

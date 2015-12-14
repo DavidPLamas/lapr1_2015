@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @author Grupo 2
  */
 public class Ficheiro {
-    public static int contaNrLinhas(File ficheiro){
+    public static int getNumberOfLines(File ficheiro){
         int nrLinhas = 0;
         try {
             Scanner scan = new Scanner(ficheiro);
@@ -28,7 +28,7 @@ public class Ficheiro {
     
     public static boolean interpretarFuncaoObjetivo(String linha, float [][] matriz, int linhaDaMatriz){
         int col;
-        Matcher m = Pattern.compile("(" + MathTools.PADRAO_VARIAVEL +")").matcher(linha);
+        Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN +")").matcher(linha);
         
         while(m.find()){
             String variavel = m.group(1);
@@ -45,7 +45,7 @@ public class Ficheiro {
     public static boolean interpretarRestricao(String linha, float [][] matriz, int linhaDaMatriz){
         String parts[] = linha.split("<=");
         int col;
-        Matcher m = Pattern.compile("(" + MathTools.PADRAO_VARIAVEL +")").matcher(parts[0]);
+        Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN +")").matcher(parts[0]);
         
         //Preenche os x1, x2, etc
         while(m.find()){
@@ -65,26 +65,26 @@ public class Ficheiro {
         return true;
     }
  
-    public static int analisarLinha(String linha, float[][] matriz, int linhaDaMatriz){
-        linha = Tools.retirarEspacos(linha);
-        if(linha.equals("")){
-            return linhaDaMatriz;
+    public static int readLine(String line, float[][] matrix, int matrixLine){
+        line = Tools.retirarEspacos(line);
+        if(line.equals("")){
+            return matrixLine;
         }
         
-        int nrCols = matriz[linhaDaMatriz].length;
+        int nrCols = matrix[matrixLine].length;
         
         int indice = 0;
         
         float linhaTemp[] = new float[nrCols];
         
-        if(linhaDaMatriz == 0){
-            interpretarFuncaoObjetivo(linha, matriz, linhaDaMatriz);
+        if(matrixLine == 0){
+            interpretarFuncaoObjetivo(line, matrix, matrixLine);
         }else{
-            interpretarRestricao(linha, matriz, linhaDaMatriz);
+            interpretarRestricao(line, matrix, matrixLine);
         }
         
         
-        return ++linhaDaMatriz;
+        return ++matrixLine;
         
     }
     
