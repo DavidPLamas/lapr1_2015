@@ -35,18 +35,6 @@ public class MathTools {
         return Float.parseFloat(coeficiente);
         
     }
-            return -1;
-            
-        }
-        
-    
-    /* @todo Retirar no futuro
-    public static boolean validaParteComVariaveis(String equacao){
-        //Para ser válido, tem de começar por uma variavel padrao (ou seja, pode nao ter sinal atrás)
-        //mas o resto das variaveis terão de ter obrigatoriamente sinal
-        String padrao = "";
-        return equacao.matches(padrao);
-    }*/
     
     public static float calculateSimetric(float num){
         return (num * -1);
@@ -67,10 +55,12 @@ public class MathTools {
     }
     
     public static int getXIndex(String variable){
-        
         int XPos = variable.indexOf("X");
-        
-        if (XPos == -1){
+        if (XPos == -1) {
+            return -1;
+        }
+
+        return (Integer.parseInt(variable.substring(XPos + 1)));
             
     }
     
@@ -86,6 +76,51 @@ public class MathTools {
         
         return newLine;
        
+    }
+    
+    public static int findPivotColumn(float[][] matrix, int nrVar) {
+        float minor = Float.MAX_VALUE;
+        int column = 0;
+        
+        for (int i = 0; i < nrVar; i++) {
+            if (matrix[0][i] < minor) {
+                minor = matrix[0][i];
+                column = i;
+            }
+        }
+        
+        //Return -1 if the minor is not negative. 
+        //This means the method should be over
+        if(minor >= 0){
+            return -1;
+        }else{
+            return column;
+        }
+    }
+
+    public static int findPivotLine(float[][] matrix, int column) {
+        //Check if the column parameter is valid
+        if(column < 0){
+            return -1;
+        }
+        
+        float minor = Float.MAX_VALUE;
+        int line = -1;
+        int lastColumn = matrix[0].length -1; 
+        
+        for (int i = 0; i < matrix.length; i++) {
+            //Skip this line if either one of the columns is negative
+            if(matrix[i][column] < 0 || matrix[i][lastColumn] < 0){
+                continue;
+            }
+            
+            //Check if this line has a minor value
+            if((matrix[i][lastColumn]/matrix[i][column]) < minor){
+                minor = matrix[i][column];
+                line = i;
+            }
+        } 
+        return line;
     }
     
 }
