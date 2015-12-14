@@ -8,6 +8,17 @@ import java.util.Scanner;
  */
 public class Lapr1_2015 {
 
+    static void methodSimplex(float [][] matrix, int nrVar){
+        int pivotColumn = MathTools.findPivotColumn(matrix, nrVar);
+        int pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
+        
+        while(pivotColumn >= 0 && pivotLine >= 0){
+            float pivot = matrix[pivotLine][pivotColumn];
+            
+            //MathTools.multiplyLineByScalar(matrix, pivotLine, 1/pivot);
+        }
+    }
+    
     static void preencherMatrizDoFicheiro(float[][] matriz, File ficheiro){
         int linhaDaMatriz = 0;
         try{
@@ -57,6 +68,7 @@ public class Lapr1_2015 {
         
         preencherMatrizDoFicheiro(matriz, ficheiroInput);
         
+        methodSimplex(matriz, nrVariaveis);
     }
     
 }
