@@ -8,10 +8,12 @@ import java.util.Scanner;
  */
 public class Lapr1_2015 {
 
-    static void methodSimplex(float [][] matrix, int nrVar){
-        int pivotColumn = MathTools.findPivotColumn(matrix, nrVar);
-        int pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
+    static void methodSimplex(float [][] matrix, File inputFile){
+        preencherMatrizDoFicheiro(matrix, inputFile);
         
+        int pivotColumn = MathTools.findPivotColumn(matrix);
+        int pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
+        String output = appendNewMatrixOutput("",matrix);
         while(pivotColumn >= 0 && pivotLine >= 0){
             float pivot = matrix[pivotLine][pivotColumn];
             
@@ -25,11 +27,13 @@ public class Lapr1_2015 {
                 matrix[i] = MathTools.addTwoLinesWithScalar(matrix,i,pivotLine, scalar);
             }
             
-            outputMatrix(matrix);
+            output = appendNewMatrixOutput(output,matrix);
             
-            pivotColumn = MathTools.findPivotColumn(matrix, nrVar);
+            pivotColumn = MathTools.findPivotColumn(matrix);
             pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
         }
+        
+        System.out.println(output);
     }
     
     static void preencherMatrizDoFicheiro(float[][] matriz, File ficheiro){
@@ -45,13 +49,20 @@ public class Lapr1_2015 {
         }
     }
     
-    static void outputMatrix(float [][] matrix){
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.printf("%.2f |",matrix[i][j]);
+    static String appendNewMatrixOutput(String previousOutput, float [][] matrix){
+        String newOutput = previousOutput;
+        
+        for (float[] line : matrix) {
+            for (int j = 0; j < line.length; j++) {
+                newOutput += String.format("%7.2f", line[j]);
+                if(j != (line.length -1)){
+                    newOutput += " | ";
+                }
             }
-            System.out.println("");
+            newOutput += "\n";
         }
+        
+        return newOutput + "\n";
     }
     /**
      * @param args the command line arguments
@@ -88,9 +99,7 @@ public class Lapr1_2015 {
         int nrVariaveis = 2;
         float[][] matriz = new float[nrLinhas][nrLinhas + nrVariaveis];
         
-        preencherMatrizDoFicheiro(matriz, ficheiroInput);
-        
-        methodSimplex(matriz, nrVariaveis);
+        methodSimplex(matriz, ficheiroInput);
     }
     
 }

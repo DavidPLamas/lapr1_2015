@@ -76,11 +76,11 @@ public class MathTools {
        
     }
     
-    public static int findPivotColumn(float[][] matrix, int nrVar) {
+    public static int findPivotColumn(float[][] matrix) {
         float minor = Float.MAX_VALUE;
         int column = 0;
         
-        for (int i = 0; i < nrVar; i++) {
+        for (int i = 0; i < matrix[0].length; i++) {
             if (matrix[0][i] < minor) {
                 minor = matrix[0][i];
                 column = i;
@@ -114,7 +114,7 @@ public class MathTools {
             
             //Check if this line has a minor value
             if((matrix[i][lastColumn]/matrix[i][column]) < minor){
-                minor = matrix[i][column];
+                minor = matrix[i][lastColumn]/matrix[i][column];
                 line = i;
             }
         } 
