@@ -1,7 +1,5 @@
 package lapr1_2015;
 
-import java.sql.DatabaseMetaData;
-
 /**
  *
  * @author Grupo 2
@@ -64,7 +62,7 @@ public class MathTools {
             
     }
     
-    public static float[] multiplyLineByScalar (int [][] matrix, int lineIndex, int scalar){
+    public static float[] multiplyLineByScalar (float [][] matrix, int lineIndex, float scalar){
         
         float newLine [] = new float [matrix[0].length];
         
@@ -121,6 +119,22 @@ public class MathTools {
             }
         } 
         return line;
+    }
+    
+    public static float[] addTwoLinesWithScalar(float[][] matrix, int lineIndex1, int lineIndex2, float scalar) {
+
+        float[] lineToSum = multiplyLineByScalar(matrix, lineIndex2, scalar);
+
+        float[] newLine = new float[matrix[0].length];
+
+        for (int i = 0; i < matrix[0].length; i++) {
+
+            newLine[i] = lineToSum[i] + matrix[lineIndex1][i];
+
+        }
+
+        return newLine;
+
     }
     
 }
