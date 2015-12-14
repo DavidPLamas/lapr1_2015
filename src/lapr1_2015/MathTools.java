@@ -52,6 +52,6 @@ public class MathTools {
             return -1;
         }
         
-        return (Integer.parseInt(variavel.substring(posDoX)));
+        return (Integer.parseInt(variavel.substring(posDoX +1)));
     }
 }

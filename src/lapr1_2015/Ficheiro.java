@@ -34,27 +34,35 @@ public class Ficheiro {
             String variavel = m.group(1);
             float coeficiente = MathTools.retirarCoeficienteDeVariavel(variavel);
             col = MathTools.retirarIndiceDeX(variavel);
-            matriz[linhaDaMatriz][col] = MathTools.calcularSimetrico(coeficiente);
+            matriz[linhaDaMatriz][col -1] = MathTools.calcularSimetrico(coeficiente);
         }
         
-        matriz[linhaDaMatriz][matriz[linhaDaMatriz].length] = 0;
+        matriz[linhaDaMatriz][matriz[linhaDaMatriz].length - 1] = 0;
         
         return true;
     }
     
-    public static int interpretarRestricao(String linha, float [][] matriz, int linhaDaMatriz){
+    public static boolean interpretarRestricao(String linha, float [][] matriz, int linhaDaMatriz){
         String parts[] = linha.split("<=");
         int col = 0;
-        Matcher m = Pattern.compile("(" + MathTools.padraoVariavel +")").matcher(linha);
+        Matcher m = Pattern.compile("(" + MathTools.padraoVariavel +")").matcher(parts[0]);
         
+        //Preenche os x1, x2, etc
         while(m.find()){
-            //@todo continuar
-            /*String variavel = m.group(1);
+            String variavel = m.group(1);
             float coeficiente = MathTools.retirarCoeficienteDeVariavel(variavel);
-            col = MathTools.retirarIndiceDeX(variavel);*/
-            //matriz[linhaDaMatriz][col] = MathTools.calcularSimetrico(coeficiente);
+            col = MathTools.retirarIndiceDeX(variavel);
+            matriz[linhaDaMatriz][col -1] = coeficiente;
         }
-        return ++linhaDaMatriz;
+        
+        //Preencher o s1, s2, etc
+        matriz[linhaDaMatriz][linhaDaMatriz+1] = 1;
+        
+        //Preencher a solucao
+        matriz[linhaDaMatriz][matriz[linhaDaMatriz].length -1] = Float.parseFloat(parts[1]);
+        
+        
+        return true;
     }
  
     public static int analisarLinha(String linha, float[][] matriz, int linhaDaMatriz){
