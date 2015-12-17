@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class Lapr1_2015 {
 
-    private static void simplexMethod(float[][] matrix, File inputFile) {
+    private static void simplexMethod(float[][] matrix, File inputFile, int nrVar) {
 
         fillMatrix(matrix, inputFile);
 
@@ -18,7 +18,7 @@ public class Lapr1_2015 {
 
         int pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
 
-        String output = appendNewMatrixOutput("", matrix);
+        String output = appendNewMatrixOutput("", matrix, nrVar);
 
         while (pivotColumn >= 0 && pivotLine >= 0) {
 
@@ -38,7 +38,7 @@ public class Lapr1_2015 {
                 matrix[i] = MathTools.addTwoLinesWithScalar(matrix, i, pivotLine, scalar);
             }
 
-            output = appendNewMatrixOutput(output, matrix);
+            output = appendNewMatrixOutput(output, matrix, nrVar);
 
             pivotColumn = MathTools.findPivotColumn(matrix);
 
@@ -70,7 +70,7 @@ public class Lapr1_2015 {
         }
     }
 
-    private static String appendNewMatrixOutput(String previousOutput, float[][] matrix) {
+    private static String appendNewMatrixOutput(String previousOutput, float[][] matrix, int nrVar) {
 
         String newOutput = previousOutput;
 
@@ -90,7 +90,50 @@ public class Lapr1_2015 {
 
         }
 
-        return newOutput + "\n";
+        newOutput += "\n" + findZValue(matrix);
+        newOutput += "\n" + findVariableValues(matrix, nrVar);
+
+        return (newOutput + "\n\n");
+    }
+
+    private static String findVariableValues(float[][] matrix, int nrVar) {
+        String output = "";
+        String[] indexes = {"(","("};
+        float[] indexValues = new float[matrix[0].length - 1];
+        int lastColumnIndex =  matrix[0].length -1;
+        
+        for (int i = 1; i < matrix.length; i++) {
+            for (int j = 0; j < lastColumnIndex; j++) {
+                if(matrix[i][j] == 1){
+                    indexValues[j] = matrix[i][lastColumnIndex];
+                    break;
+                }
+            }
+        }
+        
+        for (int i = 1; i <= matrix[0].length -1; i++) {
+            if(i <= nrVar){
+                indexes[0] += "X" + i + ", ";
+            }else{
+                indexes[0] += "S" + (i-nrVar) + ", ";
+            }
+            indexes[1] += indexValues[i - 1] + ", ";
+        }
+        indexes[0] = indexes[0].substring(0, indexes[0].length() -2) + ")";
+        indexes[1] = indexes[1].substring(0, indexes[1].length() -2) + ")";
+        
+        output = indexes[0] + " = " + indexes[1];
+        
+        return output;
+    }
+    
+    public static String findZValue(float[][] matrix){
+        String output = "";
+        
+        //Get the zValue
+        float zValue = matrix[0][matrix[0].length - 1];
+        
+        return "Z = " + zValue;
     }
 
     /**
@@ -140,7 +183,7 @@ public class Lapr1_2015 {
 
         float[][] matriz = new float[nrLines][nrLines + nrVar];
 
-        simplexMethod(matriz, inputFile);
+        simplexMethod(matriz, inputFile, nrVar);
 
     }
 

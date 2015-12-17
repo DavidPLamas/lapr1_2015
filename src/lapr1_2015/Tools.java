@@ -12,9 +12,11 @@ public class Tools {
         
     }
 
-    public static void printError(String message) {
+    public static boolean printError(String message) {
 
         System.err.printf("%s%n", message);
+        
+        return true;
 
     }
 }
