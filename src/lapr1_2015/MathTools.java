@@ -2,22 +2,22 @@ package lapr1_2015;
 
 /**
  *
- * @author Grupo 2
+ * @author Group 2
  */
 public class MathTools {
 
     
     public static final String VARIABLE_PATTERN = "[+-]?\\d{0,3}X[1-2]";
     
-    public static float getVariableCoeficient(String variavel){
+    public static float getVariableCoeficient(String variable){
         
         String coeficient;
         
-        int posX = variavel.indexOf("X");
+        int posX = variable.indexOf("X");
         
         if(posX > 0){
             
-            coeficient = variavel.substring(0, posX);
+            coeficient = variable.substring(0, posX);
             
         }else{
             
@@ -35,26 +35,31 @@ public class MathTools {
     }
     
     public static float calculateSimetric(float num){
+        
         return (num * -1);
+        
     }
     
-    public static boolean validatesObjectiveFunction(String equacao){
+    public static boolean validatesObjectiveFunction(String equation){
         
-        String padrao = "^Z=(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?$";
+        String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?$";
         
-        return equacao.matches(padrao);
+        return equation.matches(pattern);
     }
     
-    public static boolean validatesRestriction(String equacao){
+    public static boolean validatesRestriction(String equation){
         
-        String padrao = "(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
+        String pattern = "(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
         
-        return equacao.matches(padrao);
+        return equation.matches(pattern);
     }
     
     public static int getXIndex(String variable){
+        
         int XPos = variable.indexOf("X");
+        
         if (XPos == -1) {
+            
             return -1;
         }
 
@@ -93,47 +98,65 @@ public class MathTools {
     }
      
     public static int findPivotColumn(float[][] matrix) {
+        
         float minor = Float.MAX_VALUE;
+        
         int column = 0;
         
         for (int i = 0; i < matrix[0].length; i++) {
+            
             if (matrix[0][i] < minor) {
+                
                 minor = matrix[0][i];
+                
                 column = i;
             }
         }
         
-        //Return -1 if the minor is not negative. 
-        //This means the method should be over
+        //Returns -1 if the minor is not negative. 
+        //This means the method should be over.
         if(minor >= 0){
+            
             return -1;
+            
         }else{
+            
             return column;
+            
         }
     }
 
     public static int findPivotLine(float[][] matrix, int column) {
-        //Check if the column parameter is valid
+        //Checks if the column parameter is valid.
         if(column < 0){
+            
             return -1;
+            
         }
         
         float minor = Float.MAX_VALUE;
+        
         int line = -1;
+        
         int lastColumn = matrix[0].length -1; 
         
         for (int i = 0; i < matrix.length; i++) {
-            //Skip this line if either one of the columns is negative
+            //Skips this line if either one of the columns is negative.
             if(matrix[i][column] < 0 || matrix[i][lastColumn] < 0){
+                
                 continue;
+           
             }
             
-            //Check if this line has a minor value
+            //Checks if this line has a minor value.
             if((matrix[i][lastColumn]/matrix[i][column]) < minor){
+                
                 minor = matrix[i][lastColumn]/matrix[i][column];
+                
                 line = i;
             }
         } 
+        
         return line;
     }
     
