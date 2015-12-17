@@ -130,13 +130,13 @@ public class FileTools {
 
                 if (nrLine == 0) {
 
-                    if (!MathTools.validatesObjectiveFunction(Tools.removeSpaces(line))) {
+                    if (!MathTools.validatesObjectiveFunction(line)) {
                         //@todo log errors?
 
                         return false;
                     }
 
-                } else if (!MathTools.validatesRestriction(Tools.removeSpaces(line))) {
+                } else if (!MathTools.validatesRestriction(line)) {
                     //@todo log errors?
 
                     return false;

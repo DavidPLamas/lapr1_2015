@@ -13,8 +13,10 @@ public class MathTools {
         String coeficient;
 
         int posX = variable.indexOf("X");
-
-        if (posX > 0) {
+        
+        if(posX == -1){
+            throw new Error("Couldn't find the X in "+variable);
+        }else if (posX > 0) {
 
             coeficient = variable.substring(0, posX);
 
@@ -40,14 +42,16 @@ public class MathTools {
     }
 
     public static boolean validatesObjectiveFunction(String equation) {
-
+        equation = Tools.removeSpaces(equation);
+        
         String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?$";
 
         return equation.matches(pattern);
     }
 
     public static boolean validatesRestriction(String equation) {
-
+        equation = Tools.removeSpaces(equation);
+        
         String pattern = "(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
 
         return equation.matches(pattern);
@@ -139,16 +143,16 @@ public class MathTools {
 
         int lastColumn = matrix[0].length - 1;
 
-        for (int i = 0; i < matrix.length; i++) {
+        for (int i = 1; i < matrix.length; i++) {
             //Skips this line if either one of the columns is negative.
-            if (matrix[i][column] < 0 || matrix[i][lastColumn] < 0) {
+            if (matrix[i][lastColumn] <= 0) {
 
                 continue;
 
             }
 
             //Checks if this line has a minor value.
-            if ((matrix[i][lastColumn] / matrix[i][column]) < minor) {
+            if ((matrix[i][lastColumn] / matrix[i][column]) < minor && (matrix[i][lastColumn] / matrix[i][column]) > 0) {
 
                 minor = matrix[i][lastColumn] / matrix[i][column];
 
