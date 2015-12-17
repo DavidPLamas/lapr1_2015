@@ -10,150 +10,146 @@ import java.util.regex.Pattern;
  * @author Group 2
  */
 public class FileTools {
-    
-    public static int getNumberOfLines(File file){
-        
+
+    public static int getNumberOfLines(File file) {
+
         int nrLines = 0;
-        
+
         try {
-            
+
             Scanner scan = new Scanner(file);
-            
-            while(scan.hasNextLine()){
-                
+
+            while (scan.hasNextLine()) {
+
                 String line = scan.nextLine();
-                
-                if(!line.trim().equals("")){
-                    
+
+                if (!line.trim().equals("")) {
+
                     nrLines++;
                 }
             }
-            
+
         } catch (Exception e) {
-            
+
         }
-        
+
         return nrLines;
     }
-    
-    public static boolean interpretObjectiveFunction(String line, float [][] matrix, int matrixLine){
-        
+
+    public static float[] getObjectiveFunction(String line, int nrColumns) {
         int column;
-        
-        Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN +")").matcher(line);
-        
-        while(m.find()){
-            
+        float[] newLine = new float[nrColumns];
+
+        Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(line);
+
+        while (m.find()) {
+
             String variable = m.group(1);
-            
+
             float coeficient = MathTools.getVariableCoeficient(variable);
-            
+
             column = MathTools.getXIndex(variable);
-            
-            matrix[matrixLine][column -1] = MathTools.calculateSimetric(coeficient);
+
+            newLine[column - 1] = MathTools.calculateSimetric(coeficient);
         }
-        
-        matrix[matrixLine][matrix[matrixLine].length - 1] = 0;
-        
-        return true;
+
+        newLine[nrColumns - 1] = 0;
+
+        return newLine;
     }
-    
-    public static boolean interpretRestriction(String line, float [][] matrix, int matrixLine){
-        
+
+    public static float[] getRestriction(String line, int matrixLine, int nrColumns) {
+
         String parts[] = line.split("<=");
-        
+
         int col;
-        
-        Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN +")").matcher(parts[0]);
-        
+        float[] newLine = new float[nrColumns];
+
+        Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(parts[0]);
+
         //Fills X1, X2, etc.
-        while(m.find()){
-            
+        while (m.find()) {
+
             String variable = m.group(1);
-            
+
             float coeficient = MathTools.getVariableCoeficient(variable);
-            
+
             col = MathTools.getXIndex(variable);
-            
-            matrix[matrixLine][col -1] = coeficient;
+
+            newLine[col - 1] = coeficient;
         }
-        
+
         //Fills S1, S2, etc.
-        matrix[matrixLine][matrixLine + 1] = 1;
-        
+        newLine[matrixLine + 1] = 1;
+
         //Fills solution.
-        matrix[matrixLine][matrix[matrixLine].length -1] = Float.parseFloat(parts[1]);
-        
-        
-        return true;
+        newLine[nrColumns - 1] = Float.parseFloat(parts[1]);
+
+        return newLine;
     }
- 
-    public static int readLine(String line, float[][] matrix, int matrixLine){
-        
+
+    public static int readLine(String line, float[][] matrix, int matrixLine) {
+
         line = Tools.removeSpaces(line);
-        
-        if(line.equals("")){
+
+        if (line.equals("")) {
             
             return matrixLine;
             
         }
-        
-        if(matrixLine == 0){
+
+        if (matrixLine == 0) {
             
-            interpretObjectiveFunction(line, matrix, matrixLine);
+            matrix[matrixLine] = getObjectiveFunction(line, matrix[matrixLine].length);
             
-        }else{
-            
-            interpretRestriction(line, matrix, matrixLine);
-            
+        } else {
+
+            matrix[matrixLine] = getRestriction(line, matrixLine, matrix[matrixLine].length);
         }
-        
+
         return ++matrixLine;
-        
+
     }
-    
-    public static boolean isValid(File file){
-        
+
+    public static boolean isValid(File file) {
+
         int nrLine = 0;
-        
+
         try {
-            
+
             Scanner scan = new Scanner(file);
-            
-            while(scan.hasNextLine()){
-                
+
+            while (scan.hasNextLine()) {
+
                 String line = scan.nextLine();
-                
-                if(line.equals("")){
-                    
+
+                if (line.equals("")) {
+
                     continue;
                 }
-                
-                if(nrLine == 0){
-                    
-                    if(!MathTools.validatesObjectiveFunction(Tools.removeSpaces(line))){
+
+                if (nrLine == 0) {
+
+                    if (!MathTools.validatesObjectiveFunction(Tools.removeSpaces(line))) {
                         //@todo log errors?
-                        
+
                         return false;
                     }
-                    
-                }else{
-                    
-                    if(!MathTools.validatesRestriction(Tools.removeSpaces(line))){
-                        //@todo log errors?
-                        
-                        return false;
-                    }
+
+                } else if (!MathTools.validatesRestriction(Tools.removeSpaces(line))) {
+                    //@todo log errors?
+
+                    return false;
                 }
-                
+
                 nrLine++;
             }
         } catch (Exception e) {
-            
+
             return false;
-            
+
         }
-        
+
         return (nrLine > 0);
     }
 }

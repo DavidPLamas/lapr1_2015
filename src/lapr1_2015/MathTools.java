@@ -6,81 +6,80 @@ package lapr1_2015;
  */
 public class MathTools {
 
-    
     public static final String VARIABLE_PATTERN = "[+-]?\\d{0,3}X[1-2]";
-    
-    public static float getVariableCoeficient(String variable){
-        
+
+    public static float getVariableCoeficient(String variable) {
+
         String coeficient;
-        
+
         int posX = variable.indexOf("X");
-        
-        if(posX > 0){
-            
+
+        if (posX > 0) {
+
             coeficient = variable.substring(0, posX);
-            
-        }else{
-            
+
+        } else {
+
             coeficient = "1";
-            
+
         }
-        
-        if(coeficient.equals("-") || coeficient.equals("+")){
-            
+
+        if (coeficient.equals("-") || coeficient.equals("+")) {
+
             coeficient += "1";
         }
 
         return Float.parseFloat(coeficient);
-        
+
     }
-    
-    public static float calculateSimetric(float num){
-        
+
+    public static float calculateSimetric(float num) {
+
         return (num * -1);
-        
+
     }
-    
-    public static boolean validatesObjectiveFunction(String equation){
-        
+
+    public static boolean validatesObjectiveFunction(String equation) {
+
         String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?$";
-        
+
         return equation.matches(pattern);
     }
-    
-    public static boolean validatesRestriction(String equation){
-        
+
+    public static boolean validatesRestriction(String equation) {
+
         String pattern = "(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
-        
+
         return equation.matches(pattern);
     }
-    
-    public static int getXIndex(String variable){
-        
+
+    public static int getXIndex(String variable) {
+
         int XPos = variable.indexOf("X");
-        
+
         if (XPos == -1) {
-            
+
             return -1;
         }
 
         return (Integer.parseInt(variable.substring(XPos + 1)));
-            
+
     }
-    
-    public static float[] multiplyLineByScalar (float [][] matrix, int lineIndex, float scalar){
-        
-        float newLine [] = new float [matrix[0].length];
-        
-        for (int i = 0; i < matrix[0].length; i++){
-            
-            newLine[i] = matrix [lineIndex][i] * scalar;
-            
+
+    public static float[] multiplyLineByScalar(float[][] matrix, int lineIndex, float scalar) {
+
+        float newLine[] = new float[matrix[0].length];
+
+        for (int i = 0; i < matrix[0].length; i++) {
+
+            newLine[i] = matrix[lineIndex][i] * scalar;
+
         }
-        
+
         return newLine;
-       
+
     }
-    
+
     public static float[] addTwoLinesWithScalar(float[][] matrix, int lineIndex1, int lineIndex2, float scalar) {
 
         float[] lineToSum = multiplyLineByScalar(matrix, lineIndex2, scalar);
@@ -96,71 +95,68 @@ public class MathTools {
         return newLine;
 
     }
-     
+
     public static int findPivotColumn(float[][] matrix) {
-        
+
         float minor = Float.MAX_VALUE;
-        
+
         int column = 0;
-        
+
         for (int i = 0; i < matrix[0].length; i++) {
-            
+
             if (matrix[0][i] < minor) {
-                
+
                 minor = matrix[0][i];
-                
+
                 column = i;
             }
         }
-        
+
         //Returns -1 if the minor is not negative. 
         //This means the method should be over.
-        if(minor >= 0){
-            
+        if (minor >= 0) {
+
             return -1;
-            
-        }else{
-            
+
+        } else {
+
             return column;
-            
+
         }
     }
 
     public static int findPivotLine(float[][] matrix, int column) {
         //Checks if the column parameter is valid.
-        if(column < 0){
-            
+        if (column < 0) {
+
             return -1;
-            
+
         }
-        
+
         float minor = Float.MAX_VALUE;
-        
+
         int line = -1;
-        
-        int lastColumn = matrix[0].length -1; 
-        
+
+        int lastColumn = matrix[0].length - 1;
+
         for (int i = 0; i < matrix.length; i++) {
             //Skips this line if either one of the columns is negative.
-            if(matrix[i][column] < 0 || matrix[i][lastColumn] < 0){
-                
+            if (matrix[i][column] < 0 || matrix[i][lastColumn] < 0) {
+
                 continue;
-           
+
             }
-            
+
             //Checks if this line has a minor value.
-            if((matrix[i][lastColumn]/matrix[i][column]) < minor){
-                
-                minor = matrix[i][lastColumn]/matrix[i][column];
-                
+            if ((matrix[i][lastColumn] / matrix[i][column]) < minor) {
+
+                minor = matrix[i][lastColumn] / matrix[i][column];
+
                 line = i;
             }
-        } 
-        
+        }
+
         return line;
     }
-    
+
 }
-
-
-
