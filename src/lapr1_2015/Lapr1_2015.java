@@ -51,7 +51,7 @@ public class Lapr1_2015 {
         }
 
         outputFileData += LINE_SEPARATOR + "• = Pivot"
-                + LINE_SEPARATOR + findZValue(matrix) 
+                + LINE_SEPARATOR + findZValue(matrix)
                 + LINE_SEPARATOR + findVariableValues(matrix, nrVar);
 
         System.out.println(findZValue(matrix) + LINE_SEPARATOR + findVariableValues(matrix, nrVar));
@@ -89,40 +89,25 @@ public class Lapr1_2015 {
         String[] lineArgs = new String[nrColumns];
 
         output += getOutputMatrixHeader(nrColumns, nrVar, lineFormat, lineArgs);
-        
+
         int pivotColumn = MathTools.findPivotColumn(matrix);
         int pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
-        
+
         for (int i = 0; i < matrix.length; i++) {
             float[] line = matrix[i];
             for (int j = 0; j < line.length; j++) {
-                if(pivotLine == i && pivotColumn == j){
+                if (pivotLine == i && pivotColumn == j) {
                     lineArgs[j] = String.format("%s%.2f", "•", line[j]);
-                }else{
+                } else {
                     lineArgs[j] = String.format("%.2f", line[j]);
                 }
-                
 
             }
             output += String.format(lineFormat, (Object[]) lineArgs);
         }
 
-        return output+"%n";
+        return output + "%n";
     }
-
-    /*private static String getVariableNameForLine(float[][] matrix, int line, int nrVar) {
-        int lastColumnIndex = matrix[line].length;
-        for (int j = 1; j <= lastColumnIndex; j++) {
-            if (matrix[line][j-1] == 1) {
-                if(j <= nrVar){
-                    return "X"+j;
-                }else{
-                    return "S"+(j-nrVar);
-                }
-            }
-        }
-        return "Undefined";
-    }*/
 
     private static String getOutputLineFormat(int nrColumns) {
         String format = "";
@@ -198,7 +183,7 @@ public class Lapr1_2015 {
         //Get the zValue
         float zValue = matrix[0][matrix[0].length - 1];
 
-        return "Z = " + String.format("%.2f",zValue);
+        return "Z = " + String.format("%.2f", zValue);
     }
 
     /**

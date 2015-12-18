@@ -13,10 +13,10 @@ public class MathTools {
         String coeficient;
 
         int posX = variable.indexOf("X");
-        
-        if(posX == -1){
-            throw new Error("Couldn't find the X in "+variable);
-        }else if (posX > 0) {
+
+        if (posX == -1) {
+            throw new Error("Couldn't find the X in " + variable);
+        } else if (posX > 0) {
 
             coeficient = variable.substring(0, posX);
 
@@ -43,7 +43,7 @@ public class MathTools {
 
     public static boolean validatesObjectiveFunction(String equation) {
         equation = Tools.removeSpaces(equation);
-        
+
         String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?$";
 
         return equation.matches(pattern);
@@ -51,7 +51,7 @@ public class MathTools {
 
     public static boolean validatesRestriction(String equation) {
         equation = Tools.removeSpaces(equation);
-        
+
         String pattern = "(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
 
         return equation.matches(pattern);
@@ -152,7 +152,7 @@ public class MathTools {
             }
 
             //Checks if this line has a minor value.
-            if ((matrix[i][lastColumn] / matrix[i][column]) < minor && (matrix[i][lastColumn] / matrix[i][column]) > 0) {
+            if ((matrix[i][lastColumn] / matrix[i][column]) > 0 && (matrix[i][lastColumn] / matrix[i][column]) < minor) {
 
                 minor = matrix[i][lastColumn] / matrix[i][column];
 
