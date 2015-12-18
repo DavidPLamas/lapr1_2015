@@ -70,7 +70,7 @@ public class MathToolsTest {
      */
     @Test
     public void testCalculateSimetric() {
-        System.out.println("calculateSimetric");
+        System.out.printf("%nTesting MathTools.calculateSimetric...%n");
         float num = -3;
         float expResult = 3;
         float result = MathTools.calculateSimetric(num);
@@ -90,6 +90,7 @@ public class MathToolsTest {
         expResult = -1;
         result = MathTools.calculateSimetric(num);
         assertEquals(expResult, result, 0.0F);
+        System.out.printf("End of testing MathTools.calculateSimetric...%n");
     }
 
     /**
@@ -97,7 +98,7 @@ public class MathToolsTest {
      */
     @Test
     public void testValidatesObjectiveFunction() {
-        System.out.println("validatesObjectiveFunction");
+        System.out.printf("%nTesting MathTools.validatesObjectiveFunction...%n");
         String equation = "Z=3X1+2X2";
         boolean expResult = true;
         boolean result = MathTools.validatesObjectiveFunction(equation);
@@ -122,6 +123,7 @@ public class MathToolsTest {
         expResult = false;
         result = MathTools.validatesObjectiveFunction(equation);
         assertEquals(expResult, result);
+        System.out.printf("End of testing MathTools.validatesObjectiveFunction...%n");
     }
 
     /**
@@ -129,7 +131,7 @@ public class MathToolsTest {
      */
     @Test
     public void testValidatesRestriction() {
-        System.out.println("validatesRestriction");
+        System.out.printf("%nTesting MathTools.validatesRestriction...%n");
         String equation = "3X1 <= 30";
         boolean expResult = true;
         boolean result = MathTools.validatesRestriction(equation);
@@ -149,6 +151,8 @@ public class MathToolsTest {
         expResult = false;
         result = MathTools.validatesRestriction(equation);
         assertEquals(expResult, result);
+        System.out.printf("End of testing MathTools.validatesRestriction...%n");
+
     }
 
     /**
@@ -156,7 +160,7 @@ public class MathToolsTest {
      */
     @Test
     public void testGetXIndex() {
-        System.out.println("getXIndex");
+        System.out.printf("%nTesting MathTools.getXIndex...%n");
         String variable = "-3X1";
         int expResult = 1;
         int result = MathTools.getXIndex(variable);
@@ -176,6 +180,7 @@ public class MathToolsTest {
         expResult = -1;
         result = MathTools.getXIndex(variable);
         assertEquals(expResult, result);
+        System.out.printf("End of testing MathTools.getXIndex...%n");
     }
 
     /**
@@ -183,7 +188,7 @@ public class MathToolsTest {
      */
     @Test
     public void testMultiplyLineByScalar() {
-        System.out.println("multiplyLineByScalar");
+        System.out.printf("%nTesting MathTools.multiplyLineByScalar...%n");
         // 1 2 3
         // 4 5 6
         // 7 8 9
@@ -205,6 +210,7 @@ public class MathToolsTest {
         float[] expResult3 = {5.5F,11,16.5F};
         result = MathTools.multiplyLineByScalar(matrix, lineIndex, scalar);
         assertArrayEquals(expResult3, result, 0.0F);
+        System.out.printf("End of testing MathTools.multiplyLineByScalar...%n");
     }
 
     /**
@@ -212,7 +218,7 @@ public class MathToolsTest {
      */
     @Test
     public void testAddTwoLinesWithScalar() {
-        System.out.println("addTwoLinesWithScalar");
+        System.out.printf("%nTesting MathTools.addTwoLinesWithScalar...%n");
         // 1  1 3
         // 3 -1 5
         // 2 -1 3
@@ -223,6 +229,7 @@ public class MathToolsTest {
         float[] expResult = {10,-2,18};
         float[] result = MathTools.addTwoLinesWithScalar(matrix, lineIndex1, lineIndex2, scalar);
         assertArrayEquals(expResult, result, 0.0F);
+        System.out.printf("End of testing MathTools.addTwoLinesWithScalar...%n");
     }
 
     /**
@@ -230,7 +237,7 @@ public class MathToolsTest {
      */
     @Test
     public void testFindPivotColumn() {
-        System.out.println("findPivotColumn");
+        System.out.printf("%nTesting MathTools.findPivotColumn...%n");
         float[][] matrix = {{-1,-5,0,0,3},{3,-1,5,3,2},{2,-1,3,5,8}};
         int expResult = 1;
         int result = MathTools.findPivotColumn(matrix);
@@ -245,6 +252,7 @@ public class MathToolsTest {
         expResult = -1;
         result = MathTools.findPivotColumn(matrix3);
         assertEquals(expResult, result);
+        System.out.printf("End of testing MathTools.findPivotColumn...%n");
     }
 
     /**
@@ -252,7 +260,7 @@ public class MathToolsTest {
      */
     @Test
     public void testFindPivotLine() {
-        System.out.println("findPivotLine");
+        System.out.printf("%nTesting MathTools.findPivotLine...%n");
         // -1 -5  0  0  3
         // 3  -1  5  3  2
         // 2  -1  3  5  8
@@ -276,6 +284,7 @@ public class MathToolsTest {
         expResult = 1;
         result = MathTools.findPivotLine(matrix, column);
         assertEquals(expResult, result);
+        System.out.printf("End of testing MathTools.findPivotLine...%n");
     }
     
 }

@@ -42,7 +42,7 @@ public class ToolsTest {
      */
     @Test
     public void testRemoveSpaces() {
-        System.out.println("removeSpaces");
+        System.out.printf("%nTesting MathTools.removeSpaces...%n");
         String line = "Z = 3X1 + 5X2 ";
         String expResult = "Z=3X1+5X2";
         String result = Tools.removeSpaces(line);
@@ -52,6 +52,7 @@ public class ToolsTest {
         expResult = "2X2<=12";
         result = Tools.removeSpaces(line);
         assertEquals(expResult, result);
+        System.out.printf("End of testing MathTools.removeSpaces...%n");
     }
 
     /**
@@ -59,11 +60,12 @@ public class ToolsTest {
      */
     @Test
     public void testPrintError() {
-        System.out.println("printError");
+        System.out.printf("%nTesting MathTools.printError...%n");
         String message = "Erro ao ler o ficheiro.";
         boolean expResult = true;
         boolean result = Tools.printError(message);
         assertEquals(expResult, result);
+         System.out.printf("End of testing MathTools.printError...%n");
     }
     
 }

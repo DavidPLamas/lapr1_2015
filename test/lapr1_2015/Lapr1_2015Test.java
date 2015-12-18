@@ -42,15 +42,16 @@ public class Lapr1_2015Test {
      */
     @Test
     public void testFindZValue() {
-        System.out.println("findZValue");
+        System.out.printf("%nTesting MathTools.findZValue...%n");
         float[][] matrix = null;
         String expResult = "";
         String result = Lapr1_2015.findZValue(matrix);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+        System.out.printf("End of testing MathTools.findZValue...%n");
     }
-
+    
     /**
      * Test of main method, of class Lapr1_2015.
      */
