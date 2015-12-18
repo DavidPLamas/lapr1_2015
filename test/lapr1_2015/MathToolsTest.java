@@ -41,26 +41,26 @@ public class MathToolsTest {
      * Test of getVariableCoeficient method, of class MathTools.
      */
     @Test
-    public void testGetVariableCoeficient() {
+    public void testGetVariableCoefficient() {
         System.out.printf("%nTesting MathTools.getVariableCoeficient...%n");
         String variable = "-3X1";
         float expResult = -3;
-        float result = MathTools.getVariableCoeficient(variable);
+        float result = MathTools.getVariableCoefficient(variable);
         assertEquals(expResult, result, 0.0F);
         
         variable = "X1";
         expResult = 1;
-        result = MathTools.getVariableCoeficient(variable);
+        result = MathTools.getVariableCoefficient(variable);
         assertEquals(expResult, result, 0.0F);
         
         variable = "-X2";
         expResult = -1;
-        result = MathTools.getVariableCoeficient(variable);
+        result = MathTools.getVariableCoefficient(variable);
         assertEquals(expResult, result, 0.0F);
         
         variable = "100X5";
         expResult = 100;
-        result = MathTools.getVariableCoeficient(variable);
+        result = MathTools.getVariableCoefficient(variable);
         assertEquals(expResult, result, 0.0F);
         System.out.printf("End of testing MathTools.getVariableCoeficient...%n");
     }
@@ -69,26 +69,26 @@ public class MathToolsTest {
      * Test of calculateSimetric method, of class MathTools.
      */
     @Test
-    public void testCalculateSimetric() {
+    public void testCalculateSymmetric() {
         System.out.println("calculateSimetric");
         float num = -3;
         float expResult = 3;
-        float result = MathTools.calculateSimetric(num);
+        float result = MathTools.calculateSymmetric(num);
         assertEquals(expResult, result, 0.0F);
         
         num = -6;
         expResult = 6;
-        result = MathTools.calculateSimetric(num);
+        result = MathTools.calculateSymmetric(num);
         assertEquals(expResult, result, 0.0F);
         
         num = 10;
         expResult = -10;
-        result = MathTools.calculateSimetric(num);
+        result = MathTools.calculateSymmetric(num);
         assertEquals(expResult, result, 0.0F);
         
         num = 1;
         expResult = -1;
-        result = MathTools.calculateSimetric(num);
+        result = MathTools.calculateSymmetric(num);
         assertEquals(expResult, result, 0.0F);
     }
 
