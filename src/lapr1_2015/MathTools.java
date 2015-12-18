@@ -188,7 +188,7 @@ public class MathTools {
      * @return the {@code line} that contains the pivot.
      */
     public static int findPivotLine(float[][] matrix, int column) {
-        //Checks if the column parameter is valid.
+        //Check if the column parameter is valid.
         if (column < 0) {
 
             return -1;
@@ -202,14 +202,14 @@ public class MathTools {
         int lastColumn = matrix[0].length - 1;
 
         for (int i = 1; i < matrix.length; i++) {
-            //Skips this line if either one of the columns is negative.
-            if (matrix[i][lastColumn] <= 0) {
+            //Skip this element in the pivot column is zero (it's mathematically impossible)
+            if (matrix[i][column] == 0) {
 
                 continue;
 
             }
 
-            //Checks if this line has a minor value.
+            //Check if this line has a minor value.
             if ((matrix[i][lastColumn] / matrix[i][column]) > 0 && (matrix[i][lastColumn] / matrix[i][column]) < minor) {
 
                 minor = matrix[i][lastColumn] / matrix[i][column];
