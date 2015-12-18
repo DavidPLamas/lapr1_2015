@@ -29,4 +29,9 @@ public class Tools {
         return true;
 
     }
+    
+    public static int getNumberOfLines(String text){
+        String lineSeparator = System.getProperty("line.separator");
+        return text.split(lineSeparator).length;
+    }
 }
