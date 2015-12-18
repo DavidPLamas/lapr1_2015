@@ -47,11 +47,11 @@ public class FileTools {
 
             String variable = m.group(1);
 
-            float coeficient = MathTools.getVariableCoeficient(variable);
+            float coeficient = MathTools.getVariableCoefficient(variable);
 
             column = MathTools.getXIndex(variable);
 
-            newLine[column - 1] = MathTools.calculateSimetric(coeficient);
+            newLine[column - 1] = MathTools.calculateSymmetric(coeficient);
         }
 
         newLine[nrColumns - 1] = 0;
@@ -73,7 +73,7 @@ public class FileTools {
 
             String variable = m.group(1);
 
-            float coeficient = MathTools.getVariableCoeficient(variable);
+            float coeficient = MathTools.getVariableCoefficient(variable);
 
             column = MathTools.getXIndex(variable);
 

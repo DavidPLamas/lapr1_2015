@@ -33,7 +33,7 @@ public class Lapr1_2015 {
                     continue;
                 }
 
-                float scalar = MathTools.calculateSimetric(matrix[i][pivotColumn]);
+                float scalar = MathTools.calculateSymmetric(matrix[i][pivotColumn]);
 
                 matrix[i] = MathTools.addTwoLinesWithScalar(matrix, i, pivotLine, scalar);
             }
