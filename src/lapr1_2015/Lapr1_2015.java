@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 public class Lapr1_2015 {
 
-    private static void simplexMethod(float[][] matrix, File inputFile, int nrVar) {
+    private static void simplexMethod(float[][] matrix, File inputFile, String outputFileName, int nrVar) {
 
         fillMatrix(matrix, inputFile);
 
@@ -18,7 +18,7 @@ public class Lapr1_2015 {
 
         int pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
 
-        String output = appendNewMatrixOutput("", matrix, nrVar);
+        String ouputFileData = appendNewMatrixOutput("", matrix, nrVar);
 
         while (pivotColumn >= 0 && pivotLine >= 0) {
 
@@ -38,14 +38,15 @@ public class Lapr1_2015 {
                 matrix[i] = MathTools.addTwoLinesWithScalar(matrix, i, pivotLine, scalar);
             }
 
-            output = appendNewMatrixOutput(output, matrix, nrVar);
+            ouputFileData = appendNewMatrixOutput(ouputFileData, matrix, nrVar);
 
             pivotColumn = MathTools.findPivotColumn(matrix);
 
             pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
         }
 
-        System.out.println(output);
+        System.out.printf(appendNewMatrixOutput("", matrix, nrVar));
+        FileTools.saveToFile(outputFileName, ouputFileData);
 
     }
 
@@ -86,14 +87,14 @@ public class Lapr1_2015 {
                 }
             }
 
-            newOutput += "\n";
+            newOutput += "%n";
 
         }
 
-        newOutput += "\n" + findZValue(matrix);
-        newOutput += "\n" + findVariableValues(matrix, nrVar);
+        newOutput += "%n" + findZValue(matrix);
+        newOutput += "%n" + findVariableValues(matrix, nrVar);
 
-        return (newOutput + "\n\n");
+        return (newOutput + "%n%n");
     }
 
     private static String findVariableValues(float[][] matrix, int nrVar) {
@@ -117,7 +118,7 @@ public class Lapr1_2015 {
             }else{
                 indexes[0] += "S" + (i-nrVar) + ", ";
             }
-            indexes[1] += indexValues[i - 1] + ", ";
+            indexes[1] += String.format("%.2f",indexValues[i - 1]) + ", ";
         }
         indexes[0] = indexes[0].substring(0, indexes[0].length() -2) + ")";
         indexes[1] = indexes[1].substring(0, indexes[1].length() -2) + ")";
@@ -158,23 +159,23 @@ public class Lapr1_2015 {
         //Verifies if the input file exists.
         if (!inputFile.exists() || inputFile.isDirectory()) {
 
-            Tools.printError("The file %s doesn't exist.");
+            Tools.printError(String.format("The file %s doesn't exist.", inputFileName));
+
+            return;
+        }
+        
+        int nrLines = FileTools.getNumberOfLines(inputFile);
+
+        if (nrLines <= 0) {
+
+            Tools.printError(String.format("The file %s shouldn't be empty.",inputFileName));
 
             return;
         }
 
         if (!FileTools.isValid(inputFile)) {
 
-            Tools.printError("The file is not valid.");
-
-            return;
-        }
-
-        int nrLines = FileTools.getNumberOfLines(inputFile);
-
-        if (nrLines <= 0) {
-
-            Tools.printError("The file %s shouldn't be empty.");
+            Tools.printError(String.format("The file %s is not valid.",inputFileName));
 
             return;
         }
@@ -183,7 +184,7 @@ public class Lapr1_2015 {
 
         float[][] matriz = new float[nrLines][nrLines + nrVar];
 
-        simplexMethod(matriz, inputFile, nrVar);
+        simplexMethod(matriz, inputFile, outputFileName, nrVar);
 
     }
 

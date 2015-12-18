@@ -6,7 +6,7 @@ package lapr1_2015;
  */
 public class MathTools {
 
-    public static final String VARIABLE_PATTERN = "[+-]?\\d{0,3}X[1-2]";
+    public static final String VARIABLE_PATTERN = "[+-]?\\d{0,}X[1-2]";
 
     public static float getVariableCoeficient(String variable) {
 

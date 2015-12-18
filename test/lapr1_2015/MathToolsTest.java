@@ -42,7 +42,7 @@ public class MathToolsTest {
      */
     @Test
     public void testGetVariableCoeficient() {
-        System.out.println("getVariableCoeficient");
+        System.out.printf("%nTesting MathTools.getVariableCoeficient...%n");
         String variable = "-3X1";
         float expResult = -3;
         float result = MathTools.getVariableCoeficient(variable);
@@ -62,6 +62,7 @@ public class MathToolsTest {
         expResult = 100;
         result = MathTools.getVariableCoeficient(variable);
         assertEquals(expResult, result, 0.0F);
+        System.out.printf("End of testing MathTools.getVariableCoeficient...%n");
     }
 
     /**

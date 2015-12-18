@@ -1,6 +1,7 @@
 package lapr1_2015;
 
 import java.io.File;
+import java.util.Formatter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,7 +63,7 @@ public class FileTools {
 
         String parts[] = line.split("<=");
 
-        int col;
+        int column;
         float[] newLine = new float[nrColumns];
 
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(parts[0]);
@@ -74,9 +75,9 @@ public class FileTools {
 
             float coeficient = MathTools.getVariableCoeficient(variable);
 
-            col = MathTools.getXIndex(variable);
+            column = MathTools.getXIndex(variable);
 
-            newLine[col - 1] = coeficient;
+            newLine[column - 1] = coeficient;
         }
 
         //Fills S1, S2, etc.
@@ -151,5 +152,16 @@ public class FileTools {
         }
 
         return (nrLine > 0);
+    }
+    
+    public static boolean saveToFile(String fileName, String data){
+        try{
+            Formatter outputFile = new Formatter(new File(fileName));
+            outputFile.format(data);
+            outputFile.close();
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 }
