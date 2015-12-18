@@ -55,13 +55,13 @@ public class FileToolsTest {
      */
     @Test
     public void testGetObjectiveFunction() {
-        System.out.printf("%nTesting MathTools.getObjectiveFunction...%n");
+        System.out.printf("%nTesting FileTools.getObjectiveFunction...%n");
         String line = "Z=3X1+2X2";
         int nrColumns = 4;
         float[] expResult = {-3,-2,0,0};
         float[] result = FileTools.getObjectiveFunction(line, nrColumns);
         assertArrayEquals(expResult, result, 0.0F);
-        System.out.printf("End of testing MathTools.getObjectiveFunction...%n");
+        System.out.printf("End of testing FileTools.getObjectiveFunction...%n");
     }
 
     /**
@@ -69,7 +69,7 @@ public class FileToolsTest {
      */
     @Test
     public void testGetRestriction() {
-        System.out.printf("%nTesting MathTools.getRestriction...%n");
+        System.out.printf("%nTesting FileTools.getRestriction...%n");
         String line = "3X1-2X2<=4";
         int matrixLine = 1;
         int nrColumns = 4;
@@ -90,7 +90,7 @@ public class FileToolsTest {
         float[] expResult3 = {-2,0,1,7};
         float[] result3 = FileTools.getRestriction(line, matrixLine, nrColumns);
         assertArrayEquals(expResult3, result3, 0.0F);
-        System.out.printf("End of testing MathTools.getRestriction...%n");
+        System.out.printf("End of testing FileTools.getRestriction...%n");
     }
 
     /**
@@ -98,7 +98,7 @@ public class FileToolsTest {
      */
     @Test
     public void testReadLine() {
-        System.out.printf("%nTesting MathTools.readLine...%n");
+        System.out.printf("%nTesting FileTools.readLine...%n");
         String line = "3X1 + 2X2 <= 3";
         float[][] matrix = new float[3][4];
         int matrixLine = 2;
@@ -112,7 +112,7 @@ public class FileToolsTest {
         expResult = 1;
         result = FileTools.readLine(line, matrix2, matrixLine);
         assertEquals(expResult, result);
-        System.out.printf("End of testing MathTools.readLine...%n");
+        System.out.printf("End of testing FileTools.readLine...%n");
     }
 
     /**
@@ -120,14 +120,14 @@ public class FileToolsTest {
      */
     @Test
     public void testIsValid() {
-        System.out.printf("%nTesting MathTools.isValid...%n");
+        System.out.printf("%nTesting FileTools.isValid...%n");
         File file = null;
         boolean expResult = false;
         boolean result = FileTools.isValid(file);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-         System.out.printf("End of testing MathTools.isValid...%n");
+        System.out.printf("End of testing FileTools.isValid...%n");
     }
 
     /**
@@ -135,7 +135,7 @@ public class FileToolsTest {
      */
     @Test
     public void testSaveToFile() {
-        System.out.printf("%nTesting MathTools.saveToFile...%n");
+        System.out.printf("%nTesting FileTools.saveToFile...%n");
         String fileName = "";
         String data = "";
         boolean expResult = false;
@@ -143,7 +143,21 @@ public class FileToolsTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-        System.out.printf("End of testing MathTools.saveToFile...%n");
+        System.out.printf("End of testing FileTools.saveToFile...%n");
+    }
+
+    /**
+     * Test of getFileData method, of class FileTools.
+     */
+    @Test
+    public void testGetFileData() {
+        System.out.println("getFileData");
+        File file = null;
+        String expResult = "";
+        String result = FileTools.getFileData(file);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

@@ -42,7 +42,7 @@ public class ToolsTest {
      */
     @Test
     public void testRemoveSpaces() {
-        System.out.printf("%nTesting MathTools.removeSpaces...%n");
+        System.out.printf("%nTesting Tools.removeSpaces...%n");
         String line = "Z = 3X1 + 5X2 ";
         String expResult = "Z=3X1+5X2";
         String result = Tools.removeSpaces(line);
@@ -52,7 +52,7 @@ public class ToolsTest {
         expResult = "2X2<=12";
         result = Tools.removeSpaces(line);
         assertEquals(expResult, result);
-        System.out.printf("End of testing MathTools.removeSpaces...%n");
+        System.out.printf("End of testing Tools.removeSpaces...%n");
     }
 
     /**
@@ -60,12 +60,40 @@ public class ToolsTest {
      */
     @Test
     public void testPrintError() {
-        System.out.printf("%nTesting MathTools.printError...%n");
-        String message = "Erro ao ler o ficheiro.";
+        System.out.printf("%nTesting Tools.printError...%n");
+        String message = "Testing print";
         boolean expResult = true;
         boolean result = Tools.printError(message);
         assertEquals(expResult, result);
-         System.out.printf("End of testing MathTools.printError...%n");
+        System.out.printf("End of testing Tools.printError...%n");
+    }
+
+    /**
+     * Test of getNumberOfLines method, of class Tools.
+     */
+    @Test
+    public void testGetNumberOfLines() {
+        System.out.printf("%nTesting Tools.getNumberOfLines...%n");
+        String separator = System.getProperty("line.separator");
+        String text = "Test";
+        int expResult = 1;
+        int result = Tools.getNumberOfLines(text);
+        assertEquals(expResult, result);
+        
+        text = "Test"+separator;
+        expResult = 1;
+        result = Tools.getNumberOfLines(text);
+        assertEquals(expResult, result);
+        
+        text = "Test"+separator+"test2";
+        expResult = 2;
+        result = Tools.getNumberOfLines(text);
+        assertEquals(expResult, result);
+        
+        text = "";
+        expResult = 0;
+        result = Tools.getNumberOfLines(text);
+        assertEquals(expResult, result);
     }
     
 }

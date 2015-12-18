@@ -31,7 +31,16 @@ public class Tools {
     }
     
     public static int getNumberOfLines(String text){
+        text = text.trim();
         String lineSeparator = System.getProperty("line.separator");
+        
+        if(text.isEmpty() || text.equals("")){
+            return 0;
+        }
+        
+        if(!text.contains(lineSeparator)){
+            return 1;
+        }
         return text.split(lineSeparator).length;
     }
 }

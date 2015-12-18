@@ -12,7 +12,7 @@ public class Lapr1_2015 {
 
     static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    private static void simplexMethod(float[][] matrix, File inputFile, String outputFileName, int nrVar, String inputFileData) {
+    public static void simplexMethod(float[][] matrix, File inputFile, String outputFileName, int nrVar, String inputFileData) {
 
         fillMatrix(matrix, inputFile);
 
@@ -59,7 +59,7 @@ public class Lapr1_2015 {
 
     }
 
-    private static void fillMatrix(float[][] matrix, File file) {
+    public static void fillMatrix(float[][] matrix, File file) {
 
         int matrixLine = 0;
 
@@ -80,7 +80,7 @@ public class Lapr1_2015 {
         }
     }
 
-    private static String getFormattedMatrix(float[][] matrix, int nrVar) {
+    public static String getFormattedMatrix(float[][] matrix, int nrVar) {
 
         String output = "";
 
@@ -109,7 +109,7 @@ public class Lapr1_2015 {
         return output + "%n";
     }
 
-    private static String getOutputLineFormat(int nrColumns) {
+    public static String getOutputLineFormat(int nrColumns) {
         String format = "";
 
         for (int i = 0; i < nrColumns; i++) {
@@ -122,7 +122,7 @@ public class Lapr1_2015 {
 
     }
 
-    private static String getOutputMatrixHeader(int nrColumns, int nrVar, String lineFormat, String[] lineArgs) {
+    public static String getOutputMatrixHeader(int nrColumns, int nrVar, String lineFormat, String[] lineArgs) {
         String header = "";
         for (int i = 1; i <= nrColumns; i++) {
             if (i <= nrVar) {
@@ -146,7 +146,7 @@ public class Lapr1_2015 {
 
     }
 
-    private static String findVariableValues(float[][] matrix, int nrVar) {
+    public static String findVariableValues(float[][] matrix, int nrVar) {
         String output = "";
         String[] indexes = {"(", "("};
         float[] indexValues = new float[matrix[0].length - 1];
