@@ -12,6 +12,26 @@ import java.util.regex.Pattern;
  */
 public class FileTools {
 
+    public static String getFileData(File file){
+        String fileData = "";
+        try {
+            Scanner scan = new Scanner(file);
+            String lineSeparator = System.getProperty("line.separator");
+            while(scan.hasNext()){
+                String line = scan.nextLine().trim();
+                if(!line.equals("")){
+                    fileData += lineSeparator +line.trim();
+                }
+            }
+            //Remove the very first lineSeparator
+            fileData = fileData.replaceFirst(lineSeparator, "");
+            
+            return fileData;
+        } catch (Exception e) {
+            return fileData;
+        }
+    }
+    
     public static int getNumberOfLines(File file) {
 
         int nrLines = 0;
@@ -47,11 +67,11 @@ public class FileTools {
 
             String variable = m.group(1);
 
-            float coeficient = MathTools.getVariableCoeficient(variable);
+            float coeficient = MathTools.getVariableCoefficient(variable);
 
             column = MathTools.getXIndex(variable);
 
-            newLine[column - 1] = MathTools.calculateSimetric(coeficient);
+            newLine[column - 1] = MathTools.calculateSymmetric(coeficient);
         }
 
         newLine[nrColumns - 1] = 0;
@@ -73,7 +93,7 @@ public class FileTools {
 
             String variable = m.group(1);
 
-            float coeficient = MathTools.getVariableCoeficient(variable);
+            float coeficient = MathTools.getVariableCoefficient(variable);
 
             column = MathTools.getXIndex(variable);
 
@@ -81,6 +101,7 @@ public class FileTools {
         }
 
         //Fills S1, S2, etc.
+        //@todo possible buggy if more than 2 variables
         newLine[matrixLine + 1] = 1;
 
         //Fills solution.
