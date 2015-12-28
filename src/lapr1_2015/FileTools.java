@@ -7,31 +7,55 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
  * @author Group 2
  */
 public class FileTools {
 
-    public static String getFileData(File file){
+    /**
+     * Gets the input file's data.
+     *
+     * @param file The input file.
+     * @return The input file's data.
+     */
+    public static String getFileData(File file) {
+
         String fileData = "";
+
         try {
+
             Scanner scan = new Scanner(file);
+
             String lineSeparator = System.getProperty("line.separator");
-            while(scan.hasNext()){
+
+            while (scan.hasNext()) {
+
                 String line = scan.nextLine().trim();
-                if(!line.equals("")){
-                    fileData += lineSeparator +line.trim();
+
+                if (!line.equals("")) {
+
+                    fileData += lineSeparator + line.trim();
                 }
             }
-            //Remove the very first lineSeparator
+
+            //Removes the very first lineSeparator.
             fileData = fileData.replaceFirst(lineSeparator, "");
-            
+
             return fileData;
+
         } catch (Exception e) {
+
             return fileData;
+
         }
+
     }
-    
+
+    /**
+     * Gets the number of lines of the input file.
+     * 
+     * @param file The input file.
+     * @return The number of lines of the input file.
+     */
     public static int getNumberOfLines(File file) {
 
         int nrLines = 0;
@@ -55,10 +79,19 @@ public class FileTools {
         }
 
         return nrLines;
+        
     }
 
+    /**
+     * 
+     * @param line The line that contains the objective function.
+     * @param nrColumns The number of columns the 
+     * @return 
+     */
     public static float[] getObjectiveFunction(String line, int nrColumns) {
+        
         int column;
+        
         float[] newLine = new float[nrColumns];
 
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(line);
@@ -84,6 +117,7 @@ public class FileTools {
         String parts[] = line.split("<=");
 
         int column;
+        
         float[] newLine = new float[nrColumns];
 
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(parts[0]);
@@ -101,7 +135,6 @@ public class FileTools {
         }
 
         //Fills S1, S2, etc.
-        //@todo possible buggy if more than 2 variables
         newLine[matrixLine + 1] = 1;
 
         //Fills solution.
@@ -115,15 +148,15 @@ public class FileTools {
         line = Tools.removeSpaces(line);
 
         if (line.equals("")) {
-            
+
             return matrixLine;
-            
+
         }
 
         if (matrixLine == 0) {
-            
+
             matrix[matrixLine] = getObjectiveFunction(line, matrix[matrixLine].length);
-            
+
         } else {
 
             matrix[matrixLine] = getRestriction(line, matrixLine, matrix[matrixLine].length);
@@ -174,14 +207,14 @@ public class FileTools {
 
         return (nrLine > 0);
     }
-    
-    public static boolean saveToFile(String fileName, String data){
-        try{
+
+    public static boolean saveToFile(String fileName, String data) {
+        try {
             Formatter outputFile = new Formatter(new File(fileName));
             outputFile.format(data);
             outputFile.close();
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }

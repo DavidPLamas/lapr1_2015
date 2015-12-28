@@ -1,32 +1,29 @@
 package lapr1_2015;
 
 /**
- *
  * @author Group 2
  */
 public class MathTools {
 
-    /**
-     *
-     */
     public static final String VARIABLE_PATTERN = "[+-]?\\d{0,}X[1-2]";
 
     /**
      * Gets the coefficient of a certain variable.
-     * @param variable - variable from where the coefficient will be taken.
-     * @return the coefficient.
+     *
+     * @param variable Variable from where the coefficient will be taken.
+     * @return The coefficient.
      */
     public static float getVariableCoefficient(String variable) {
 
         String coefficient;
 
         int posX = variable.indexOf("X");
-        
-        if(posX == -1){
-            
-            throw new Error("Couldn't find the X in "+variable);
-            
-        }else if (posX > 0) {
+
+        if (posX == -1) {
+
+            throw new Error("Couldn't find the X in " + variable);
+
+        } else if (posX > 0) {
 
             coefficient = variable.substring(0, posX);
 
@@ -47,8 +44,9 @@ public class MathTools {
 
     /**
      * Calculates the symmetric of a number.
-     * @param num - the number which symmetric will be calculated. 
-     * @return {@code num}'s symmetric.
+     *
+     * @param num The number which symmetric will be calculated.
+     * @return Number's symmetric.
      */
     public static float calculateSymmetric(float num) {
 
@@ -58,11 +56,13 @@ public class MathTools {
 
     /**
      * Validates the objective function.
-     * @param equation - the function that will be verified.
-     * @return {@code true} if the {@code equation} is valid or {@code false} if the {@code equation} is not valid.
+     *
+     * @param equation The function that will be verified.
+     * @return True if the function is valid or false if the function is not
+     * valid.
      */
     public static boolean validatesObjectiveFunction(String equation) {
-        
+
         equation = Tools.removeSpaces(equation);
 
         String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?$";
@@ -72,11 +72,13 @@ public class MathTools {
 
     /**
      * Validates a restriction.
-     * @param equation - the restriction that will be verified.
-     * @return {@code true} if the {@code equation} is valid or {@code false} if the {@code equation} is not valid.
+     *
+     * @param equation The restriction that will be verified.
+     * @return True if the restricion is valid or false if the restriction is
+     * not valid.
      */
     public static boolean validatesRestriction(String equation) {
-        
+
         equation = Tools.removeSpaces(equation);
 
         String pattern = "(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
@@ -86,8 +88,9 @@ public class MathTools {
 
     /**
      * Gets the index of a variable.
-     * @param variable - the variable which index will be gotten.
-     * @return the index of the variable.
+     *
+     * @param variable The variable that will be used.
+     * @return The index of the variable.
      */
     public static int getXIndex(String variable) {
 
@@ -104,10 +107,11 @@ public class MathTools {
 
     /**
      * Multiplies a line by a scalar.
-     * @param matrix - the matrix that contains the line that will be multiplied.
-     * @param lineIndex - the line's index.
-     * @param scalar - the scalar that will be multiplied with the line.
-     * @return the line multiplied.
+     *
+     * @param matrix The matrix that contains the line that will be multiplied.
+     * @param lineIndex The line's index.
+     * @param scalar The scalar that will be multiplied with the line.
+     * @return The line multiplied.
      */
     public static float[] multiplyLineByScalar(float[][] matrix, int lineIndex, float scalar) {
 
@@ -125,11 +129,13 @@ public class MathTools {
 
     /**
      * Adds two lines, where one of them is multiplied by a scalar.
-     * @param matrix - the matrix that contains the line that will be multiplied.
-     * @param lineIndex1 - the index of the line that will be altered.
-     * @param lineIndex2 - the index of the line that will alter the other line.
-     * @param scalar - the scalar that will be multiplied with the line that will be used to alter the other line.
-     * @return the line that was modified.
+     *
+     * @param matrix The matrix that contains the line that will be multiplied.
+     * @param lineIndex1 The index of the line that will be altered.
+     * @param lineIndex2 The index of the line that will alter the other line.
+     * @param scalar The scalar that will be multiplied with the line that will
+     * be used to alter the other line.
+     * @return The line that was modified.
      */
     public static float[] addTwoLinesWithScalar(float[][] matrix, int lineIndex1, int lineIndex2, float scalar) {
 
@@ -149,8 +155,10 @@ public class MathTools {
 
     /**
      * Finds the column that contains the pivot.
-     * @param matrix - the matrix where the column that contains the pivot will be found.
-     * @return the {@code column} that contains the pivot.
+     *
+     * @param matrix The matrix where the column that contains the pivot will be
+     * found.
+     * @return The column that contains the pivot.
      */
     public static int findPivotColumn(float[][] matrix) {
 
@@ -183,12 +191,15 @@ public class MathTools {
 
     /**
      * Finds the line that contains the pivot.
-     * @param matrix - the matrix where the line that contains the pivot will be found.
-     * @param column - the column that contains the pivot.
-     * @return the {@code line} that contains the pivot.
+     *
+     * @param matrix The matrix where the line that contains the pivot will be
+     * found.
+     * @param column The column that contains the pivot.
+     * @return The line that contains the pivot.
      */
     public static int findPivotLine(float[][] matrix, int column) {
-        //Check if the column parameter is valid.
+
+        //Checks if the column parameter is valid.
         if (column < 0) {
 
             return -1;
@@ -202,14 +213,15 @@ public class MathTools {
         int lastColumn = matrix[0].length - 1;
 
         for (int i = 1; i < matrix.length; i++) {
-            //Skip this element in the pivot column is zero (it's mathematically impossible)
+
+            //Skips this element in the pivot column is zero (it's mathematically impossible).
             if (matrix[i][column] == 0) {
 
                 continue;
 
             }
 
-            //Check if this line has a minor value.
+            //Checks if this line has a minor value.
             if ((matrix[i][lastColumn] / matrix[i][column]) > 0 && (matrix[i][lastColumn] / matrix[i][column]) < minor) {
 
                 minor = matrix[i][lastColumn] / matrix[i][column];
@@ -220,5 +232,5 @@ public class MathTools {
 
         return line;
     }
-
+    
 }
