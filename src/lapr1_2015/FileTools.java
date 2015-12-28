@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class FileTools {
 
     /**
-     * Gets the input file's data.
+     * Get the input file's data.
      *
      * @param file The input file.
      * @return The input file's data.
@@ -34,10 +34,12 @@ public class FileTools {
                 if (!line.equals("")) {
 
                     fileData += lineSeparator + line.trim();
+
                 }
+
             }
 
-            //Removes the very first lineSeparator.
+            //Remove the very first lineSeparator.
             fileData = fileData.replaceFirst(lineSeparator, "");
 
             return fileData;
@@ -51,8 +53,8 @@ public class FileTools {
     }
 
     /**
-     * Gets the number of lines of the input file.
-     * 
+     * Get the number of lines of the input file.
+     *
      * @param file The input file.
      * @return The number of lines of the input file.
      */
@@ -79,19 +81,20 @@ public class FileTools {
         }
 
         return nrLines;
-        
+
     }
 
     /**
-     * 
+     * Read the objective function from the input file and put it on a vector.
+     *
      * @param line The line that contains the objective function.
-     * @param nrColumns The number of columns the 
-     * @return 
+     * @param nrColumns The number of columns the matrix.
+     * @return A vector that contains the objective function's information.
      */
     public static float[] getObjectiveFunction(String line, int nrColumns) {
-        
+
         int column;
-        
+
         float[] newLine = new float[nrColumns];
 
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(line);
@@ -105,24 +108,35 @@ public class FileTools {
             column = MathTools.getXIndex(variable);
 
             newLine[column - 1] = MathTools.calculateSymmetric(coeficient);
+            
         }
 
         newLine[nrColumns - 1] = 0;
 
         return newLine;
+
     }
 
+    /**
+     * Read a restricion from the input file and put it on a vector.
+     *
+     * @param line The line that contains the restriction.
+     * @param matrixLine The index of the line that will be filled with the
+     * restriction's information.
+     * @param nrColumns The number of columns of the matrix.
+     * @return A vector that contains the restriction's information.
+     */
     public static float[] getRestriction(String line, int matrixLine, int nrColumns) {
 
         String parts[] = line.split("<=");
 
         int column;
-        
+
         float[] newLine = new float[nrColumns];
 
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(parts[0]);
 
-        //Fills X1, X2, etc.
+        //Fill X1, X2, etc.
         while (m.find()) {
 
             String variable = m.group(1);
@@ -132,17 +146,29 @@ public class FileTools {
             column = MathTools.getXIndex(variable);
 
             newLine[column - 1] = coeficient;
+
         }
 
-        //Fills S1, S2, etc.
+        //Fill S1, S2, etc.
         newLine[matrixLine + 1] = 1;
 
-        //Fills solution.
+        //Fill solution.
         newLine[nrColumns - 1] = Float.parseFloat(parts[1]);
 
         return newLine;
+
     }
 
+    /**
+     * Inspects a line, and based on the type of line (objective function or
+     * restriction), adds information to the main matrix.
+     *
+     * @param line The line that will be read.
+     * @param matrix The main matrix.
+     * @param matrixLine The index of the line that will be filled.
+     * @return ++matrixLine if the line is valid or matrixLine is the line is
+     * not valid.
+     */
     public static int readLine(String line, float[][] matrix, int matrixLine) {
 
         line = Tools.removeSpaces(line);
@@ -166,6 +192,12 @@ public class FileTools {
 
     }
 
+    /**
+     * Verify in the input file is valid.
+     *
+     * @param file The input file.
+     * @return True if the file is valid or false if the file is not valid.
+     */
     public static boolean isValid(File file) {
 
         int nrLine = 0;
@@ -186,19 +218,20 @@ public class FileTools {
                 if (nrLine == 0) {
 
                     if (!MathTools.validatesObjectiveFunction(line)) {
-                        //@todo log errors?
 
                         return false;
                     }
 
                 } else if (!MathTools.validatesRestriction(line)) {
-                    //@todo log errors?
 
                     return false;
+
                 }
 
                 nrLine++;
+                
             }
+            
         } catch (Exception e) {
 
             return false;
@@ -206,16 +239,34 @@ public class FileTools {
         }
 
         return (nrLine > 0);
+
     }
 
+    /**
+     * Write information to the output file.
+     *
+     * @param fileName The name of the output file.
+     * @param data The information that will be written on the output file.
+     * @return True if sucessfully executed or false if unsucessfully executed.
+     */
     public static boolean saveToFile(String fileName, String data) {
+
         try {
+
             Formatter outputFile = new Formatter(new File(fileName));
+
             outputFile.format(data);
+
             outputFile.close();
+
             return true;
+
         } catch (Exception e) {
+
             return false;
+
         }
+
     }
+
 }

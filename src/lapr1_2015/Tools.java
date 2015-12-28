@@ -6,7 +6,7 @@ package lapr1_2015;
 public class Tools {
 
     /**
-     * Deletes the extra spaces of a line.
+     * Delete the extra spaces of a line.
      *
      * @param line Line that will be modified.
      * @return The line without spaces.
@@ -18,7 +18,7 @@ public class Tools {
     }
 
     /**
-     * Prints an error message on the screen.
+     * Print an error message on the screen.
      *
      * @param message The error message that will be printed on the screen.
      * @return True if successfully executed or false if unsuccessfully
@@ -33,7 +33,7 @@ public class Tools {
     }
 
     /**
-     * Gets the number of lines of a text.
+     * Get the number of lines of a text.
      *
      * @param text The text that will be analysed.
      * @return The number of lines of the text.
@@ -47,14 +47,17 @@ public class Tools {
         if (text.isEmpty() || text.equals("")) {
 
             return 0;
+            
         }
 
         if (!text.contains(lineSeparator)) {
 
             return 1;
+            
         }
 
         return text.split(lineSeparator).length;
+        
     }
-    
+
 }

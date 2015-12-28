@@ -9,15 +9,17 @@ import java.util.Scanner;
 public class Lapr1_2015 {
 
     static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    
+
     /**
-     * Applies the simplex method to a problem.
-     * 
-     * @param matrix The matrix that will be used to solve the problem.
+     * Apply the simplex method to a problem.
+     *
+     * @param matrix The main matrix (the matrix that will be used to receive
+     * and manipulate the necessary data to solve the problem).
      * @param inputFile The file that contains the problem's information.
-     * @param outputFileName The file that will contain the solution of the problem.
-     * @param nrVar
-     * @param inputFileData 
+     * @param outputFileName The file that will contain the solution of the
+     * problem.
+     * @param nrVar The number of variables in the problem.
+     * @param inputFileData The information existent in the input file.
      */
     public static void simplexMethod(float[][] matrix, File inputFile, String outputFileName, int nrVar, String inputFileData) {
 
@@ -28,11 +30,8 @@ public class Lapr1_2015 {
         int pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
 
         String outputFileData = inputFileData
-                
                 + LINE_SEPARATOR
-                
                 + LINE_SEPARATOR
-                
                 + getFormattedMatrix(matrix, nrVar);
 
         while (pivotColumn >= 0 && pivotLine >= 0) {
@@ -46,11 +45,13 @@ public class Lapr1_2015 {
                 if (i == pivotLine) {
 
                     continue;
+
                 }
 
                 float scalar = MathTools.calculateSymmetric(matrix[i][pivotColumn]);
 
                 matrix[i] = MathTools.addTwoLinesWithScalar(matrix, i, pivotLine, scalar);
+
             }
 
             outputFileData += LINE_SEPARATOR + getFormattedMatrix(matrix, nrVar);
@@ -58,12 +59,11 @@ public class Lapr1_2015 {
             pivotColumn = MathTools.findPivotColumn(matrix);
 
             pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
+
         }
 
         outputFileData += LINE_SEPARATOR + "• = Pivot"
-                
                 + LINE_SEPARATOR + findZValue(matrix)
-                
                 + LINE_SEPARATOR + findVariableValues(matrix, nrVar);
 
         System.out.println(findZValue(matrix) + LINE_SEPARATOR + findVariableValues(matrix, nrVar));
@@ -72,6 +72,12 @@ public class Lapr1_2015 {
 
     }
 
+    /**
+     * Fill the main matrix with the problem's information.
+     *
+     * @param matrix The main matrix.
+     * @param file The input file.
+     */
     public static void fillMatrix(float[][] matrix, File file) {
 
         int matrixLine = 0;
@@ -85,18 +91,22 @@ public class Lapr1_2015 {
                 String line = scan.nextLine();
 
                 matrixLine = FileTools.readLine(line, matrix, matrixLine);
+
             }
 
         } catch (Exception e) {
 
             Tools.printError("An error ocurred while reading the file.");
+
         }
+
     }
 
     /**
+     * Create a format for the main matrix to be written on the main file.
      *
-     * @param matrix The matrix that will be used.
-     * @param nrVar
+     * @param matrix The main matrix.
+     * @param nrVar The number of variables in the problem.
      * @return The formatted matrix.
      */
     public static String getFormattedMatrix(float[][] matrix, int nrVar) {
@@ -138,10 +148,11 @@ public class Lapr1_2015 {
         }
 
         return output + "%n";
+
     }
 
     /**
-     * Creates a format for the lines to be written in the output file.
+     * Create a format for the lines to be written in the output file.
      *
      * @param nrColumns The number of columns in the matrix.
      * @return The format of a line.
@@ -167,13 +178,13 @@ public class Lapr1_2015 {
     }
 
     /**
-     * Creates a header for the matrix to be written in the output file.
+     * Create a header for the main matrix to be written in the output file.
      *
      * @param nrColumns The number of columns in the matrix.
-     * @param nrVar
-     * @param lineFormat
+     * @param nrVar The number of variables of the problem.
+     * @param lineFormat The format that will be used to write a line.
      * @param lineArgs
-     * @return
+     * @return The header of the main matrix.
      */
     public static String getOutputMatrixHeader(int nrColumns, int nrVar, String lineFormat, String[] lineArgs) {
 
@@ -194,6 +205,7 @@ public class Lapr1_2015 {
                 lineArgs[i - 1] = "S" + (i - nrVar);
 
             }
+
         }
 
         header += String.format(lineFormat, (Object[]) lineArgs);
@@ -201,6 +213,7 @@ public class Lapr1_2015 {
         for (int i = 0; i < (nrColumns * 9); i++) {
 
             header += "-";
+            
         }
 
         header += "%n";
@@ -210,11 +223,12 @@ public class Lapr1_2015 {
     }
 
     /**
-     * Finds the
+     * Find the values of the variables on the final matrix and format that
+     * information.
      *
      * @param matrix The matrix that will be analysed.
-     * @param nrVar
-     * @return
+     * @param nrVar The number of variables of the problem.
+     * @return The values of the variables conveniently formatted.
      */
     public static String findVariableValues(float[][] matrix, int nrVar) {
 
@@ -236,7 +250,9 @@ public class Lapr1_2015 {
 
                     break;
                 }
+
             }
+
         }
 
         for (int i = 1; i <= matrix[0].length - 1; i++) {
@@ -251,6 +267,7 @@ public class Lapr1_2015 {
             }
 
             indexes[1] += String.format("%.2f", indexValues[i - 1]) + ", ";
+            
         }
 
         indexes[0] = indexes[0].substring(0, indexes[0].length() - 2) + ")";
@@ -260,10 +277,11 @@ public class Lapr1_2015 {
         output = indexes[0] + " = " + indexes[1];
 
         return output;
+
     }
 
     /**
-     * Gets the Z Value.
+     * Get the Z Value.
      *
      * @param matrix The matrix that will be analysed.
      * @return The Z value.
@@ -273,6 +291,7 @@ public class Lapr1_2015 {
         float zValue = matrix[0][matrix[0].length - 1];
 
         return "Z = " + String.format("%.2f", zValue);
+
     }
 
     /**
@@ -280,7 +299,7 @@ public class Lapr1_2015 {
      */
     public static void main(String[] args) {
 
-        //Verifies if the program received two arguments.
+        //Verify if the program received two arguments.
         if (args.length < 2) {
 
             Tools.printError("The program needs two arguments to work.");
@@ -295,32 +314,35 @@ public class Lapr1_2015 {
 
         File inputFile = new File(inputFileName);
 
-        //Verifies if the input file exists.
+        //Verify if the input file exists.
         if (!inputFile.exists() || inputFile.isDirectory()) {
 
             Tools.printError(String.format("The file %s doesn't exist.", inputFileName));
 
             return;
+            
         }
 
         String inputFileData = FileTools.getFileData(inputFile);
 
         int nrLines = Tools.getNumberOfLines(inputFileData);
 
-        //Verifies if the input file is not empty.
+        //Verify if the input file is not empty.
         if (nrLines <= 0) {
 
             Tools.printError(String.format("The file %s shouldn't be empty.", inputFileName));
 
             return;
+            
         }
 
-        //Verifies if the input file is valid.    
+        //Verify if the input file is valid.    
         if (!FileTools.isValid(inputFile)) {
 
             Tools.printError(String.format("The file %s is not valid.", inputFileName));
 
             return;
+            
         }
 
         int nrVar = 2;
