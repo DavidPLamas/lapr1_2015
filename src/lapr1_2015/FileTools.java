@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class FileTools {
 
     /**
-     * Get the input file's data.
+     * Get the file's data and ignore all empty lines.
      *
      * @param file The input file.
      * @return The input file's data.
@@ -53,10 +53,10 @@ public class FileTools {
     }
 
     /**
-     * Get the number of lines of the input file.
+     * Find the number of lines of a specific file, ignoring all empty lines.
      *
-     * @param file The input file.
-     * @return The number of lines of the input file.
+     * @param file The file.
+     * @return The number of lines
      */
     public static int getNumberOfLines(File file) {
 
@@ -85,11 +85,12 @@ public class FileTools {
     }
 
     /**
-     * Read the objective function from the input file and put it on a vector.
+     * Transform the line which contains the objective function into an array of floats
+     * that represents the first line of the matrix
      *
      * @param line The line that contains the objective function.
-     * @param nrColumns The number of columns the matrix.
-     * @return A vector that contains the objective function's information.
+     * @param nrColumns The number of columns we're from the main matrix (Number of variables + number of restrictions + 1).
+     * @return An array that represents the objective function.
      */
     public static float[] getObjectiveFunction(String line, int nrColumns) {
 
@@ -118,13 +119,14 @@ public class FileTools {
     }
 
     /**
-     * Read a restricion from the input file and put it on a vector.
+     * Transform the line which contains a restriction into an array of floats
+     * that represents one restriction
      *
      * @param line The line that contains the restriction.
-     * @param matrixLine The index of the line that will be filled with the
-     * restriction's information.
-     * @param nrColumns The number of columns of the matrix.
-     * @return A vector that contains the restriction's information.
+     * @param matrixLine The index of the line that where we will be using the output of this method.
+     *                   We need this to correctly fill the S1, S2, etc...
+     * @param nrColumns The number of columns of the main matrix.
+     * @return An array that represents the restriction.
      */
     public static float[] getRestriction(String line, int matrixLine, int nrColumns) {
 
@@ -166,8 +168,7 @@ public class FileTools {
      * @param line The line that will be read.
      * @param matrix The main matrix.
      * @param matrixLine The index of the line that will be filled.
-     * @return ++matrixLine if the line is valid or matrixLine is the line is
-     * not valid.
+     * @return The next line that will be filled
      */
     public static int readLine(String line, float[][] matrix, int matrixLine) {
 
@@ -193,10 +194,15 @@ public class FileTools {
     }
 
     /**
-     * Verify in the input file is valid.
+     * Check if a file is valid. To be valid, the first line must be the objective function
+     * and the other lines should be restrictions. This means, the first line must have, for example,
+     * Z = 2X1 and the other lines must have, for example, X1 <= 3. 
+     * All variables must be identified by X and a number after it. That number should not be superior
+     * than 2.
+     * 
      *
-     * @param file The input file.
-     * @return True if the file is valid or false if the file is not valid.
+     * @param file The file.
+     * @return Whether the file is valid or not.
      */
     public static boolean isValid(File file) {
 
@@ -243,11 +249,12 @@ public class FileTools {
     }
 
     /**
-     * Write information to the output file.
+     * Write information to a file. If the file already exists, it will be replaced with the new
+     * informtation
      *
-     * @param fileName The name of the output file.
-     * @param data The information that will be written on the output file.
-     * @return True if sucessfully executed or false if unsucessfully executed.
+     * @param fileName The name of the file.
+     * @param data The information that will be written to the file.
+     * @return Whether it was successfull or not
      */
     public static boolean saveToFile(String fileName, String data) {
 

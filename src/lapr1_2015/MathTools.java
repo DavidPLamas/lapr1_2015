@@ -8,7 +8,8 @@ public class MathTools {
     public static final String VARIABLE_PATTERN = "[+-]?\\d{0,}X[1-2]";
 
     /**
-     * Get the coefficient of a certain variable.
+     * Get the coefficient value of a certain variable. If there is no X in the variable,
+     * an error will be thrown.
      *
      * @param variable Variable from where the coefficient will be taken.
      * @return The coefficient.
@@ -45,7 +46,7 @@ public class MathTools {
     /**
      * Calculate the symmetric of a number.
      *
-     * @param num The number which symmetric will be calculated.
+     * @param num The number
      * @return Number's symmetric.
      */
     public static float calculateSymmetric(float num) {
@@ -56,10 +57,11 @@ public class MathTools {
 
     /**
      * Validate the objective function.
+     * To be valid, the objective function must contain Z as the first character
+     * followed by an = operator and one or more variables.
      *
-     * @param equation The function that will be verified.
-     * @return True if the function is valid or false if the function is not
-     * valid.
+     * @param equation The equation that will be verified.
+     * @return Wether this is a valid objective function or not
      */
     public static boolean validatesObjectiveFunction(String equation) {
 
@@ -73,10 +75,11 @@ public class MathTools {
 
     /**
      * Validate a restriction.
+     * To be valid, the restriction start with one or more variables followed
+     * by <= operator and a number next to it.
      *
-     * @param equation The restriction that will be verified.
-     * @return True if the restricion is valid or false if the restriction is
-     * not valid.
+     * @param equation The equation that will be verified.
+     * @return Whether or not this is a valid restriction
      */
     public static boolean validatesRestriction(String equation) {
 
@@ -89,10 +92,10 @@ public class MathTools {
     }
 
     /**
-     * Get the index of a variable.
+     * Get the index of a variable. 
      *
      * @param variable The variable that will be used.
-     * @return The index of the variable.
+     * @return The index of the variable. If there is no X in the variable, will return -1
      */
     public static int getXIndex(String variable) {
 
@@ -108,6 +111,7 @@ public class MathTools {
     }
 
     /**
+     * @todo continuar aqui
      * Multiply a line by a scalar.
      *
      * @param matrix The matrix main matrix.
