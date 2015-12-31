@@ -214,7 +214,7 @@ public class Lapr1_2015 {
         for (int i = 0; i < (nrColumns * 9); i++) {
 
             header += "-";
-            
+
         }
 
         header += "%n";
@@ -268,7 +268,7 @@ public class Lapr1_2015 {
             }
 
             indexes[1] += String.format("%.2f", indexValues[i - 1]) + ", ";
-            
+
         }
 
         indexes[0] = indexes[0].substring(0, indexes[0].length() - 2) + ")";
@@ -321,7 +321,7 @@ public class Lapr1_2015 {
             Tools.printError(String.format("The file %s doesn't exist.", inputFileName));
 
             return;
-            
+
         }
 
         String inputFileData = FileTools.getFileData(inputFile);
@@ -334,7 +334,7 @@ public class Lapr1_2015 {
             Tools.printError(String.format("The file %s shouldn't be empty.", inputFileName));
 
             return;
-            
+
         }
 
         //Verify if the input file is valid.    
@@ -343,7 +343,7 @@ public class Lapr1_2015 {
             Tools.printError(String.format("The file %s is not valid.", inputFileName));
 
             return;
-            
+
         }
 
         int nrVar = 2;
