@@ -11,19 +11,17 @@ public class Lapr1_2015 {
     static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     /**
-     * Apply the simplex method to a problem.
+     * Apply the simplex method to a problem. This assumes the matrix is already filled with
+     * the data from the file.
      *
-     * @param matrix The main matrix (the matrix that will be used to receive
-     * and manipulate the necessary data to solve the problem).
-     * @param inputFile The file that contains the problem's information.
+     * @param matrix The matrix that will be used to receive and manipulate the necessary data to solve the problem.
      * @param outputFileName The file that will contain the solution of the
      * problem.
      * @param nrVar The number of variables in the problem.
      * @param inputFileData The information existent in the input file.
+     * @see #fillMatrix(float[][], java.io.File) 
      */
-    public static void simplexMethod(float[][] matrix, File inputFile, String outputFileName, int nrVar, String inputFileData) {
-
-        fillMatrix(matrix, inputFile);
+    public static void simplexMethod(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
 
         int pivotColumn = MathTools.findPivotColumn(matrix);
 
@@ -73,10 +71,12 @@ public class Lapr1_2015 {
     }
 
     /**
-     * Fill the main matrix with the problem's information.
-     *
-     * @param matrix The main matrix.
+     * Fill the matrix with the problem's information.
+     * This assumes that the file was already validated.
+     * 
+     * @param matrix The matrix.
      * @param file The input file.
+     * @see FileTools#isValid(java.io.File) 
      */
     public static void fillMatrix(float[][] matrix, File file) {
 
@@ -105,7 +105,7 @@ public class Lapr1_2015 {
     /**
      * Create a format for the main matrix to be written on the main file.
      *
-     * @param matrix The main matrix.
+     * @param matrix The matrix.
      * @param nrVar The number of variables in the problem.
      * @return The formatted matrix.
      */
@@ -152,7 +152,8 @@ public class Lapr1_2015 {
     }
 
     /**
-     * Create a format for the lines to be written in the output file.
+     * Create the format type to use with String.format
+     * This just helps make sure all the lines have the same output format.
      *
      * @param nrColumns The number of columns in the matrix.
      * @return The format of a line.
@@ -183,7 +184,7 @@ public class Lapr1_2015 {
      * @param nrColumns The number of columns in the matrix.
      * @param nrVar The number of variables of the problem.
      * @param lineFormat The format that will be used to write a line.
-     * @param lineArgs
+     * @param lineArgs lineArgs
      * @return The header of the main matrix.
      */
     public static String getOutputMatrixHeader(int nrColumns, int nrVar, String lineFormat, String[] lineArgs) {
@@ -347,9 +348,11 @@ public class Lapr1_2015 {
 
         int nrVar = 2;
 
-        float[][] matriz = new float[nrLines][nrLines + nrVar];
+        float[][] matrix = new float[nrLines][nrLines + nrVar];
 
-        simplexMethod(matriz, inputFile, outputFileName, nrVar, inputFileData);
+        fillMatrix(matrix, inputFile);
+        
+        simplexMethod(matrix, outputFileName, nrVar, inputFileData);
 
     }
 

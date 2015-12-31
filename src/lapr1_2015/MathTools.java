@@ -5,6 +5,9 @@ package lapr1_2015;
  */
 public class MathTools {
 
+    /**
+     * The regex pattern of variable. 
+     */
     public static final String VARIABLE_PATTERN = "[+-]?\\d{0,}X[1-2]";
 
     /**
@@ -13,6 +16,7 @@ public class MathTools {
      *
      * @param variable Variable from where the coefficient will be taken.
      * @return The coefficient.
+     * @throws Error
      */
     public static float getVariableCoefficient(String variable) {
 
@@ -76,7 +80,7 @@ public class MathTools {
     /**
      * Validate a restriction.
      * To be valid, the restriction start with one or more variables followed
-     * by <= operator and a number next to it.
+     * by &lt;= operator and a number next to it.
      *
      * @param equation The equation that will be verified.
      * @return Whether or not this is a valid restriction
@@ -111,13 +115,12 @@ public class MathTools {
     }
 
     /**
-     * @todo continuar aqui
-     * Multiply a line by a scalar.
+     * Multiply a line of a matrix by a scalar.
      *
-     * @param matrix The matrix main matrix.
-     * @param lineIndex The line's index.
-     * @param scalar The scalar that will be multiplied with the line.
-     * @return The line multiplied.
+     * @param matrix The matrix
+     * @param lineIndex The matrix line's index.
+     * @param scalar The scalar that will be multiplied to the line.
+     * @return The line multiplied by that scalar.
      */
     public static float[] multiplyLineByScalar(float[][] matrix, int lineIndex, float scalar) {
 
@@ -134,13 +137,12 @@ public class MathTools {
     }
 
     /**
-     * Add two lines, where one of them is multiplied by a scalar.
+     * Add one line to another multipled by a scalar
      *
-     * @param matrix The main matrix.
-     * @param lineIndex1 The index of the line that will be altered.
-     * @param lineIndex2 The index of the line that will alter the other line.
-     * @param scalar The scalar that will be multiplied with the line that will
-     * be used to alter the other line.
+     * @param matrix The matrix.
+     * @param lineIndex1 The first line index
+     * @param lineIndex2 The line index that will be multiplied
+     * @param scalar The scalar that will be multiplied to the lineIndex2
      * @return The line that was modified.
      */
     public static float[] addTwoLinesWithScalar(float[][] matrix, int lineIndex1, int lineIndex2, float scalar) {
@@ -162,8 +164,8 @@ public class MathTools {
     /**
      * Find the column that contains the pivot.
      *
-     * @param matrix The main matrix.
-     * @return The column that contains the pivot.
+     * @param matrix The matrix.
+     * @return The column that contains the pivot or -1 if there is not a pivot.
      */
     public static int findPivotColumn(float[][] matrix) {
 
@@ -198,11 +200,12 @@ public class MathTools {
     }
 
     /**
-     * Find the line that contains the pivot.
+     * Find the line that contains the pivot based on a specific column.
+     * 
      *
-     * @param matrix The main matrix.
-     * @param column The column that contains the pivot.
-     * @return The line that contains the pivot.
+     * @param matrix The matrix.
+     * @param column The column that contains the pivot. Should be a number greater or equal to 0.
+     * @return The line that contains the pivot or -1 if there is not a pivot line
      */
     public static int findPivotLine(float[][] matrix, int column) {
 

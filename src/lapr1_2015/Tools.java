@@ -6,10 +6,10 @@ package lapr1_2015;
 public class Tools {
 
     /**
-     * Delete the extra spaces of a line.
+     * Delete all whitespaces from a string.
      *
      * @param line Line that will be modified.
-     * @return The line without spaces.
+     * @return The line without whitespaces.
      */
     public static String removeSpaces(String line) {
 
@@ -21,8 +21,7 @@ public class Tools {
      * Print an error message on the screen.
      *
      * @param message The error message that will be printed on the screen.
-     * @return True if successfully executed or false if unsuccessfully
-     * executed.
+     * @return True if successfull, false otherwise.
      */
     public static boolean printError(String message) {
 
@@ -33,10 +32,11 @@ public class Tools {
     }
 
     /**
-     * Get the number of lines of a text.
-     *
+     * Get the number of lines of specific text.
+     * The number of lines is based on the system's line separator.
+     * 
      * @param text The text that will be analysed.
-     * @return The number of lines of the text.
+     * @return The number of lines of that text.
      */
     public static int getNumberOfLines(String text) {
 
