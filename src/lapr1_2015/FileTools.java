@@ -195,12 +195,11 @@ public class FileTools {
     }
 
     /**
-     * Check if a file is valid. 
-     * To be valid, the first line must be the objective function and the other lines should be restrictions. 
-     * This means, the first line must have, for example, Z = 2X1 and the other lines must have, 
-     * for example, X1 &lt;= 3. 
-     * All variables must be identified by X and a number after it. That number should not be superior than 2.
-     * 
+     * Check if a file is valid. To be valid, the first line must be the
+     * objective function and the other lines should be restrictions. This
+     * means, the first line must have, for example, Z = 2X1 and the other lines
+     * must have, for example, X1 &lt;= 3. All variables must be identified by X
+     * and a number after it. That number should not be superior than 2.
      *
      * @param file The file.
      * @return Whether the file is valid or not.
@@ -255,7 +254,7 @@ public class FileTools {
      *
      * @param fileName The name of the file.
      * @param data The information that will be written to the file.
-     * @return Whether it was successfull or not.
+     * @return Whether it was successful or not.
      */
     public static boolean saveToFile(String fileName, String data) {
 
