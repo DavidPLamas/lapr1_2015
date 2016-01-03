@@ -186,7 +186,7 @@ public class MathTools {
         }
 
         //Return -1 if the minor is not negative. 
-        //This means there is not pivot column
+        //This means there is no pivot column.
         if (minor >= 0) {
 
             return -1;
