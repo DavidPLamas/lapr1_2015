@@ -225,7 +225,7 @@ public class MathTools {
 
         for (int i = 1; i < matrix.length; i++) {
 
-            //Skip this element in the pivot column is zero (it's mathematically impossible).
+            //Skip this element if the pivot column is zero (it is mathematically impossible).
             if (matrix[i][column] == 0) {
 
                 continue;
