@@ -209,27 +209,38 @@ public class MathTools {
     public static int findPivotLine(float[][] matrix, int column) {
         //Check if the column parameter is valid.
         if (column < 0) {
+            
             return -1;
+            
         }
         
         float minor = Float.MAX_VALUE;
+        
         int line = -1;
+        
         int lastColumn = matrix[0].length - 1;
         
         for (int i = 1; i < matrix.length; i++) {
             //Skip this element if it equals 0 (it's mathematically impossible to divide by 0).
             if (matrix[i][column] == 0) {
+                
                 continue;
+                
             }
 
             //Check if this line has a minor value.
             if ((matrix[i][lastColumn] / matrix[i][column]) > 0 && (matrix[i][lastColumn] / matrix[i][column]) < minor) {
+                
                 minor = matrix[i][lastColumn] / matrix[i][column];
+                
                 line = i;
+                
             }
 
         }
+        
         return line;
+        
     }
 
 }
