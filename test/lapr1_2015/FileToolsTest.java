@@ -12,22 +12,22 @@ import static org.junit.Assert.*;
  * @author Group 2
  */
 public class FileToolsTest {
-    
+
     public FileToolsTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -53,23 +53,22 @@ public class FileToolsTest {
         System.out.printf("%nTesting FileTools.getObjectiveFunction...%n");
         String line = "Z=3X1+2X2";
         int nrColumns = 4;
-        float[] expResult = {-3,-2,0,0};
+        float[] expResult = {-3, -2, 0, 0};
         float[] result = FileTools.getObjectiveFunction(line, nrColumns);
         assertArrayEquals(expResult, result, 0.0F);
-        
+
         line = "Z=5X1";
         nrColumns = 4;
-        float[] expResult2 = {-5,0,0,0};
+        float[] expResult2 = {-5, 0, 0, 0};
         result = FileTools.getObjectiveFunction(line, nrColumns);
         assertArrayEquals(expResult2, result, 0.0F);
-        
-        
+
         line = "Z=-X2";
         nrColumns = 4;
-        float[] expResult3 = {0,1,0,0};
+        float[] expResult3 = {0, 1, 0, 0};
         result = FileTools.getObjectiveFunction(line, nrColumns);
         assertArrayEquals(expResult3, result, 0.0F);
-        
+
         System.out.printf("End of testing FileTools.getObjectiveFunction...%n");
     }
 
@@ -82,21 +81,21 @@ public class FileToolsTest {
         String line = "3X1-2X2<=4";
         int matrixLine = 1;
         int nrColumns = 5;
-        float[] expResult = {3,-2,1,0,4};
+        float[] expResult = {3, -2, 1, 0, 4};
         float[] result = FileTools.getRestriction(line, matrixLine, nrColumns);
         assertArrayEquals(expResult, result, 0.0F);
-        
+
         line = "-2X2<=5";
         matrixLine = 2;
         nrColumns = 5;
-        float[] expResult2 = {0,-2,0,1,5};
+        float[] expResult2 = {0, -2, 0, 1, 5};
         float[] result2 = FileTools.getRestriction(line, matrixLine, nrColumns);
         assertArrayEquals(expResult2, result2, 0.0F);
-        
+
         line = "-2X1<=7";
         matrixLine = 1;
         nrColumns = 5;
-        float[] expResult3 = {-2,0,1,0,7};
+        float[] expResult3 = {-2, 0, 1, 0, 7};
         float[] result3 = FileTools.getRestriction(line, matrixLine, nrColumns);
         assertArrayEquals(expResult3, result3, 0.0F);
         System.out.printf("End of testing FileTools.getRestriction...%n");
@@ -114,7 +113,7 @@ public class FileToolsTest {
         int expResult = 3;
         int result = FileTools.readLine(line, matrix, matrixLine);
         assertEquals(expResult, result);
-        
+
         line = "3X1 + 2X2 <= 3";
         float[][] matrix2 = new float[3][5];
         matrixLine = 0;
@@ -150,5 +149,5 @@ public class FileToolsTest {
         assertEquals(expResult, result);
         System.out.printf("End of testing FileTools.saveToFile...%n");
     }
-    
+
 }

@@ -6,7 +6,7 @@ package lapr1_2015;
 public class MathTools {
 
     /**
-     * The regex pattern of variable. 
+     * The regex pattern of variable.
      */
     public static final String VARIABLE_PATTERN = "[+-]?\\d{0,}X[1-2]";
 
@@ -50,8 +50,8 @@ public class MathTools {
     /**
      * Calculate the symmetric of a number.
      *
-     * @param num The number
-     * @return Number's symmetric.
+     * @param num The number.
+     * @return The symmetric of the number.
      */
     public static float calculateSymmetric(float num) {
 
@@ -78,9 +78,8 @@ public class MathTools {
     }
 
     /**
-     * Validate a restriction.
-     * To be valid, the restriction start with one or more variables followed
-     * by &lt;= operator and a number next to it.
+     * Validate a restriction. To be valid, the restriction start with one or
+     * more variables followed by &lt;= operator and a number next to it.
      *
      * @param equation The equation that will be verified.
      * @return Whether this is a valid restriction or not.
@@ -118,7 +117,7 @@ public class MathTools {
     /**
      * Multiply a line of a matrix by a scalar.
      *
-     * @param matrix The matrix
+     * @param matrix The matrix.
      * @param lineIndex The matrix line's index.
      * @param scalar The scalar that will be multiplied to the line.
      * @return The line multiplied by that scalar.
@@ -138,12 +137,12 @@ public class MathTools {
     }
 
     /**
-     * Add one line to another multipled by a scalar
+     * Add one line to another multiplied by a scalar.
      *
      * @param matrix The matrix.
-     * @param lineIndex1 The first line index
-     * @param lineIndex2 The line index that will be multiplied
-     * @param scalar The scalar that will be multiplied to the lineIndex2
+     * @param lineIndex1 The first line index.
+     * @param lineIndex2 The line index that will be multiplied.
+     * @param scalar The scalar that will be multiplied to the lineIndex2.
      * @return The line that was modified.
      */
     public static float[] addTwoLinesWithScalar(float[][] matrix, int lineIndex1, int lineIndex2, float scalar) {
@@ -202,7 +201,6 @@ public class MathTools {
 
     /**
      * Find the line that contains the pivot based on a specific column.
-     * 
      *
      * @param matrix The matrix.
      * @param column The column that contains the pivot.
@@ -219,7 +217,7 @@ public class MathTools {
         int lastColumn = matrix[0].length - 1;
         
         for (int i = 1; i < matrix.length; i++) {
-            //Skip this element in the pivot column is zero (it's mathematically impossible).
+            //Skip this element if it equals 0 (it's mathematically impossible to divide by 0).
             if (matrix[i][column] == 0) {
                 continue;
             }

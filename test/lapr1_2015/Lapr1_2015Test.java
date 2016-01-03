@@ -11,22 +11,22 @@ import static org.junit.Assert.*;
  * @author Group 2
  */
 public class Lapr1_2015Test {
-    
+
     public Lapr1_2015Test() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -37,12 +37,12 @@ public class Lapr1_2015Test {
     @Test
     public void testFindZValue() {
         System.out.printf("%nTesting Lapr1_2015.findZValue...%n");
-        float[][] matrix = {{1,2,3,4},{5,6,7,8},{9,10,11,12}};
+        float[][] matrix = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
         String expResult = "Z = 4,00";
         String result = Lapr1_2015.findZValue(matrix);
         assertEquals(expResult, result);
-        
-        float[][] matrix2 = {{1,2,3,-32}};
+
+        float[][] matrix2 = {{1, 2, 3, -32}};
         expResult = "Z = -32,00";
         result = Lapr1_2015.findZValue(matrix2);
         assertEquals(expResult, result);
@@ -59,18 +59,18 @@ public class Lapr1_2015Test {
         String expResult = "%8s|%8s|%8s|%8s|%8s%n";
         String result = Lapr1_2015.getOutputLineFormat(nrColumns);
         assertEquals(expResult, result);
-        
+
         nrColumns = 0;
         expResult = "%n";
         result = Lapr1_2015.getOutputLineFormat(nrColumns);
         assertEquals(expResult, result);
-        
+
         nrColumns = 1;
         expResult = "%8s%n";
         result = Lapr1_2015.getOutputLineFormat(nrColumns);
         assertEquals(expResult, result);
-        
+
         System.out.println("End of testing Lapr1_2015.getOutputLineFormat...%n");
     }
-    
+
 }

@@ -11,22 +11,22 @@ import static org.junit.Assert.*;
  * @author Group 2
  */
 public class ToolsTest {
-    
+
     public ToolsTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -41,7 +41,7 @@ public class ToolsTest {
         String expResult = "Z=3X1+5X2";
         String result = Tools.removeSpaces(line);
         assertEquals(expResult, result);
-        
+
         line = "2X2   <=  12  ";
         expResult = "2X2<=12";
         result = Tools.removeSpaces(line);
@@ -73,21 +73,21 @@ public class ToolsTest {
         int expResult = 1;
         int result = Tools.getNumberOfLines(text);
         assertEquals(expResult, result);
-        
-        text = "Test"+separator;
+
+        text = "Test" + separator;
         expResult = 1;
         result = Tools.getNumberOfLines(text);
         assertEquals(expResult, result);
-        
-        text = "Test"+separator+"test2";
+
+        text = "Test" + separator + "test2";
         expResult = 2;
         result = Tools.getNumberOfLines(text);
         assertEquals(expResult, result);
-        
+
         text = "";
         expResult = 0;
         result = Tools.getNumberOfLines(text);
         assertEquals(expResult, result);
     }
-    
+
 }
