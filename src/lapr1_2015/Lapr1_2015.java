@@ -296,19 +296,40 @@ public class Lapr1_2015 {
 
     }
 
-    public static void maximizeFunction(float [][] matrix, String outputFileName, int nrVar, String inputFileData){
-     applySimplexMethod(matrix, outputFileName, nrVar, inputFileData); 
+    /**
+     * Resolve a maximization problem.
+     *
+     * @param matrix The matrix that will be maximizated.
+     * @param outputFileName The file that will contain the solution of the
+     * problem.
+     * @param nrVar The number of variables in the problem.
+     * @param inputFileData The information existent in the input file.
+     * 
+     */
+    public static void maximizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+        applySimplexMethod(matrix, outputFileName, nrVar, inputFileData);
     }
-    public static void minimizeeFunction(float [][] matrix, String outputFileName, int nrVar, String inputFileData){
-        float [][] newMatrix = MathTools.transposeMatrix(matrix);
-        applySimplexMethod(newMatrix, outputFileName, nrVar, inputFileData); 
+
+    /**
+     * Resolve a minimization problem.
+     *
+     * @param matrix The matrix that will be maximizated.
+     * @param outputFileName The file that will contain the solution of the
+     * problem.
+     * @param nrVar The number of variables in the problem.
+     * @param inputFileData The information existent in the input file.
+     * 
+     */
+    public static void minimizeeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+        float[][] newMatrix = MathTools.transposeMatrix(matrix);
+        applySimplexMethod(newMatrix, outputFileName, nrVar, inputFileData);
     }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         //Verify if the program received two arguments.
         if (args.length < 2) {
 
@@ -363,15 +384,15 @@ public class Lapr1_2015 {
 
         String[] parts = inputFileData.split(LINE_SEPARATOR);
         String line2 = parts[1];
-        
+
         if (line2.contains("<=") || line2.contains("≤")) {
             maximizeFunction(matrix, outputFileName, nrVar, inputFileData);
         }
-             
+
         if (line2.contains(">=") || line2.contains("≥")) {
             minimizeeFunction(matrix, outputFileName, nrVar, inputFileData);
         }
- 
+
     }
 
 }
