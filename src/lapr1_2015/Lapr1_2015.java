@@ -22,7 +22,7 @@ public class Lapr1_2015 {
      * @param inputFileData The information existent in the input file.
      * @see #fillMatrix(float[][], java.io.File).
      */
-    public static void simplexMethod(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+    public static void applySimplexMethod(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
 
         int pivotColumn = MathTools.findPivotColumn(matrix);
 
@@ -296,6 +296,14 @@ public class Lapr1_2015 {
 
     }
 
+    public static void maximizeFunction(float [][] matrix, String outputFileName, int nrVar, String inputFileData){
+     applySimplexMethod(matrix, outputFileName, nrVar, inputFileData); 
+    }
+    public static void minimizeeFunction(float [][] matrix, String outputFileName, int nrVar, String inputFileData){
+        float [][] newMatrix = MathTools.transposeMatrix(matrix);
+        applySimplexMethod(newMatrix, outputFileName, nrVar, inputFileData); 
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -353,8 +361,17 @@ public class Lapr1_2015 {
 
         fillMatrix(matrix, inputFile);
 
-        simplexMethod(matrix, outputFileName, nrVar, inputFileData);
-
+        String[] parts = inputFileData.split(LINE_SEPARATOR);
+        String line2 = parts[1];
+        
+        if (line2.contains("<=") || line2.contains("≤")) {
+            maximizeFunction(matrix, outputFileName, nrVar, inputFileData);
+        }
+             
+        if (line2.contains(">=") || line2.contains("≥")) {
+            minimizeeFunction(matrix, outputFileName, nrVar, inputFileData);
+        }
+ 
     }
 
 }

@@ -204,43 +204,71 @@ public class MathTools {
      *
      * @param matrix The matrix.
      * @param column The column that contains the pivot.
-     * @return The line that contains the pivot or -1 if there is not a pivot line
+     * @return The line that contains the pivot or -1 if there is not a pivot
+     * line
      */
     public static int findPivotLine(float[][] matrix, int column) {
         //Check if the column parameter is valid.
         if (column < 0) {
-            
+
             return -1;
-            
+
         }
-        
+
         float minor = Float.MAX_VALUE;
-        
+
         int line = -1;
-        
+
         int lastColumn = matrix[0].length - 1;
-        
+
         for (int i = 1; i < matrix.length; i++) {
             //Skip this element if it equals 0 (it's mathematically impossible to divide by 0).
             if (matrix[i][column] == 0) {
-                
+
                 continue;
-                
+
             }
 
             //Check if this line has a minor value.
             if ((matrix[i][lastColumn] / matrix[i][column]) > 0 && (matrix[i][lastColumn] / matrix[i][column]) < minor) {
-                
+
                 minor = matrix[i][lastColumn] / matrix[i][column];
-                
+
                 line = i;
-                
+
             }
 
         }
-        
+
         return line;
-        
+
     }
 
+    public static void Transpose(float[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = i + 1; j < matrix.length; j++) {
+                float temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+    }
+
+    public static float[][] transposeMatrix(float[][] matrix) {
+        float[][] transposeMatrix = new float[matrix[0].length][matrix.length];
+        for (int line = 0; line < transposeMatrix.length; line++) {
+            for (int column = 0; column < transposeMatrix[line].length; column++) {
+                if (column > line || column < line) {
+                    transposeMatrix[line][column] = matrix[column][line];
+                }
+                if (column == line) {
+                    transposeMatrix[line][column] = matrix[line][column];
+                }
+            }
+        }
+        return transposeMatrix;
+    }
+
+    
+ 
 }
