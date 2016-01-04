@@ -299,6 +299,7 @@ public class Lapr1_2015 {
     public static void maximizeFunction(float [][] matrix, String outputFileName, int nrVar, String inputFileData){
      applySimplexMethod(matrix, outputFileName, nrVar, inputFileData); 
     }
+    
     public static void minimizeeFunction(float [][] matrix, String outputFileName, int nrVar, String inputFileData){
         float [][] newMatrix = MathTools.transposeMatrix(matrix);
         applySimplexMethod(newMatrix, outputFileName, nrVar, inputFileData); 
@@ -355,7 +356,8 @@ public class Lapr1_2015 {
 
         }
 
-        int nrVar = 2;
+        //@todo David - continuar aqui. Criar funçao para determinar numero de variaveis
+        int nrVar = 3;
 
         float[][] matrix = new float[nrLines][nrLines + nrVar];
 

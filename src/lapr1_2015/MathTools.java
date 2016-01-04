@@ -5,10 +5,19 @@ package lapr1_2015;
  */
 public class MathTools {
 
+    /**
+     * The regex pattern for a number of type REAL. 
+     * This means it can be either an integer, decimal or fractional number
+     */
     public static final String REAL_NUMBER_PATTERN = "(([0-9]*)|(([1-9]*)\\.([0-9]*))|([1-9]*/[1-9]*))";
     
     /**
-     * The regex pattern of variable.
+     * @todo review syntax
+     * The regex pattern for any variable.
+     * A variable is made of a signal (+ or -) or none, followed by
+     * any number. After that should be an X followed by a number from 1 to 99,
+     * which indicates the variable index
+     * @see #REAL_NUMBER_PATTERN
      */
     public static final String VARIABLE_PATTERN = "[+-]?" + REAL_NUMBER_PATTERN + "X\\d{1,2}";
 
@@ -73,7 +82,7 @@ public class MathTools {
 
         equation = Tools.removeSpaces(equation);
 
-        String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2})?$";
+        String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2}){0,}$";
 
         return equation.matches(pattern);
 
