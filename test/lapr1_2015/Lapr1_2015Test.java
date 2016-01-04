@@ -54,7 +54,7 @@ public class Lapr1_2015Test {
      */
     @Test
     public void testGetOutputLineFormat() {
-        System.out.println("%nTesting Lapr1_2015.getOutputLineFormat...%n");
+        System.out.printf("%nTesting Lapr1_2015.getOutputLineFormat...%n");
         int nrColumns = 5;
         String expResult = "%8s|%8s|%8s|%8s|%8s%n";
         String result = Lapr1_2015.getOutputLineFormat(nrColumns);

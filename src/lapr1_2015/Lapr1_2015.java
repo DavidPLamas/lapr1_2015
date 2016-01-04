@@ -308,7 +308,7 @@ public class Lapr1_2015 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
+        
         //Verify if the program received two arguments.
         if (args.length < 2) {
 

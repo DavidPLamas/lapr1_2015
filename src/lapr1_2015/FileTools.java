@@ -223,12 +223,12 @@ public class FileTools {
 
                 if (nrLine == 0) {
 
-                    if (!MathTools.validatesObjectiveFunction(line)) {
+                    if (!MathTools.validateObjectiveFunction(line)) {
 
                         return false;
                     }
 
-                } else if (!MathTools.validatesRestriction(line)) {
+                } else if (!MathTools.validateRestriction(line)) {
 
                     return false;
 

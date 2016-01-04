@@ -88,64 +88,79 @@ public class MathToolsTest {
     }
 
     /**
-     * Test of validatesObjectiveFunction method, of class MathTools.
+     * Test of validateObjectiveFunction method, of class MathTools.
      */
     @Test
     public void testValidatesObjectiveFunction() {
-        System.out.printf("%nTesting MathTools.validatesObjectiveFunction...%n");
+        System.out.printf("%nTesting MathTools.validateObjectiveFunction...%n");
         String equation = "Z=3X1+2X2";
         boolean expResult = true;
-        boolean result = MathTools.validatesObjectiveFunction(equation);
+        boolean result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "Z=X1+X2";
         expResult = true;
-        result = MathTools.validatesObjectiveFunction(equation);
+        result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "Z=X1+2";
         expResult = false;
-        result = MathTools.validatesObjectiveFunction(equation);
+        result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "z=X1+X2";
         expResult = false;
-        result = MathTools.validatesObjectiveFunction(equation);
+        result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "Z=x12";
         expResult = false;
-        result = MathTools.validatesObjectiveFunction(equation);
+        result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
-        System.out.printf("End of testing MathTools.validatesObjectiveFunction...%n");
+        System.out.printf("End of testing MathTools.validateObjectiveFunction...%n");
     }
 
     /**
-     * Test of validatesRestriction method, of class MathTools.
+     * Test of validateRestriction method, of class MathTools.
      */
     @Test
     public void testValidatesRestriction() {
-        System.out.printf("%nTesting MathTools.validatesRestriction...%n");
-        String equation = "3X1 <= 30";
+        System.out.printf("%nTesting MathTools.validateRestriction...%n");
+        String equation = "3X1 + X10 <= 30";
         boolean expResult = true;
-        boolean result = MathTools.validatesRestriction(equation);
+        boolean result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
-        equation = "<= 1";
+        equation = "<=1";
         expResult = false;
-        result = MathTools.validatesRestriction(equation);
+        result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "X2 > 1";
         expResult = false;
-        result = MathTools.validatesRestriction(equation);
+        result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "-X > 1";
         expResult = false;
-        result = MathTools.validatesRestriction(equation);
+        result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
-        System.out.printf("End of testing MathTools.validatesRestriction...%n");
+        
+        equation = "-1/2X1 >= 1.5";
+        expResult = true;
+        result = MathTools.validateRestriction(equation);
+        assertEquals(expResult, result);
+        
+        equation = "-1.2X10 <= 3/2";
+        expResult = true;
+        result = MathTools.validateRestriction(equation);
+        assertEquals(expResult, result);
+        
+        equation = "X100 <= 3/2";
+        expResult = false;
+        result = MathTools.validateRestriction(equation);
+        assertEquals(expResult, result);
+        System.out.printf("End of testing MathTools.validateRestriction...%n");
 
     }
 

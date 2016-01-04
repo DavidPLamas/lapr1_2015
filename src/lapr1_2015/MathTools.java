@@ -5,10 +5,12 @@ package lapr1_2015;
  */
 public class MathTools {
 
+    public static final String REAL_NUMBER_PATTERN = "(([0-9]*)|(([1-9]*)\\.([0-9]*))|([1-9]*/[1-9]*))";
+    
     /**
      * The regex pattern of variable.
      */
-    public static final String VARIABLE_PATTERN = "[+-]?\\d{0,}X[1-2]";
+    public static final String VARIABLE_PATTERN = "[+-]?" + REAL_NUMBER_PATTERN + "X\\d{1,2}";
 
     /**
      * Get the coefficient value of a certain variable. If there is no X in the
@@ -67,11 +69,11 @@ public class MathTools {
      * @param equation The equation that will be verified.
      * @return Whether the objective function is valid or not.
      */
-    public static boolean validatesObjectiveFunction(String equation) {
+    public static boolean validateObjectiveFunction(String equation) {
 
         equation = Tools.removeSpaces(equation);
 
-        String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?$";
+        String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2})?$";
 
         return equation.matches(pattern);
 
@@ -84,11 +86,12 @@ public class MathTools {
      * @param equation The equation that will be verified.
      * @return Whether this is a valid restriction or not.
      */
-    public static boolean validatesRestriction(String equation) {
+    public static boolean validateRestriction(String equation) {
 
         equation = Tools.removeSpaces(equation);
 
-        String pattern = "(" + VARIABLE_PATTERN + ")([+-]\\d{0,3}X[1-2])?(<=\\d{1,3}){1}";
+        //String pattern = "(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2})?(<="+REAL_NUMBER_PATTERN+"){1}";
+          String pattern = "^(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2}){0,}((<=|>=)"+REAL_NUMBER_PATTERN+"){1}$";
 
         return equation.matches(pattern);
 
