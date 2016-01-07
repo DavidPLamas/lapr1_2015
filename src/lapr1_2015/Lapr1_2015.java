@@ -10,6 +10,8 @@ public class Lapr1_2015 {
 
     static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
+    public static final String LOG_ERRORS = "log_erros.txt";
+
     /**
      * Apply the simplex method to a problem. This assumes the matrix is already
      * filled with the data from the file.
@@ -97,7 +99,9 @@ public class Lapr1_2015 {
             }
 
         } catch (Exception e) {
+
             Tools.printError(e.getMessage());
+
             Tools.printError("An error ocurred while reading the file.");
 
         }
@@ -300,30 +304,33 @@ public class Lapr1_2015 {
     /**
      * Resolve a maximization problem.
      *
-     * @param matrix The matrix that will be maximizated.
+     * @param matrix The matrix that will be used to solve the problem.
      * @param outputFileName The file that will contain the solution of the
      * problem.
      * @param nrVar The number of variables in the problem.
      * @param inputFileData The information existent in the input file.
-     * 
      */
     public static void maximizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+
         applySimplexMethod(matrix, outputFileName, nrVar, inputFileData);
+
     }
 
     /**
      * Resolve a minimization problem.
      *
-     * @param matrix The matrix that will be maximizated.
+     * @param matrix The matrix that will be used to solve the problem.
      * @param outputFileName The file that will contain the solution of the
      * problem.
      * @param nrVar The number of variables in the problem.
      * @param inputFileData The information existent in the input file.
-     * 
      */
-    public static void minimizeeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+    public static void minimizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+
         float[][] newMatrix = MathTools.transposeMatrix(matrix);
+
         applySimplexMethod(newMatrix, outputFileName, nrVar, inputFileData);
+
     }
 
     /**
@@ -377,7 +384,7 @@ public class Lapr1_2015 {
 
         }
 
-        //@todo David - continuar aqui. Criar funçao para determinar numero de variaveis
+        //@todo David - Continuar aqui. Criar função para determinar número de variáveis.
         int nrVar = FileTools.getNumberOfVariables(inputFileData);
 
         float[][] matrix = new float[nrLines][nrLines + nrVar];
@@ -387,11 +394,15 @@ public class Lapr1_2015 {
         String secondLine = inputFileData.split(LINE_SEPARATOR)[1];
 
         if (secondLine.contains("<=") || secondLine.contains("≤")) {
+
             maximizeFunction(matrix, outputFileName, nrVar, inputFileData);
+
         }
 
         if (secondLine.contains(">=") || secondLine.contains("≥")) {
-            minimizeeFunction(matrix, outputFileName, nrVar, inputFileData);
+
+            minimizeFunction(matrix, outputFileName, nrVar, inputFileData);
+
         }
 
     }

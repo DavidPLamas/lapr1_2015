@@ -9,16 +9,16 @@ import java.util.regex.Pattern;
 public class MathTools {
 
     /**
-     * The regex pattern for a number of type REAL. This means it can be either
-     * an integer, decimal or fractional number
+     * The regex pattern for a REAL number. This means it can be either an
+     * integer, decimal or fractional number.
      */
     public static final String REAL_NUMBER_PATTERN = "(([0-9]+\\.[0-9]{2})|([0-9]+/[1-9]\\d*)|([0-9]*))";
-    
+
     /**
-     * @todo review syntax The regex pattern for any variable. A variable is
-     * made of a signal (+ or -) or none, followed by any number. After that
-     * should be an X followed by a number from 1 to 99, which indicates the
-     * variable index
+     * The regex pattern for any variable. A variable contains (or not) a signal
+     * (+ or -), followed by a number. Following that, there should be an X
+     * followed by a number from 1 to 99, which indicates the variable index.
+     *
      * @see #REAL_NUMBER_PATTERN
      */
     public static final String VARIABLE_PATTERN = "[+-]?" + REAL_NUMBER_PATTERN + "X\\d{1,2}";
@@ -56,11 +56,13 @@ public class MathTools {
             coefficient += "1";
         }
 
-        //If coeficient is a fraction, we need to manualy divide the numbers
+        //If the coefficient is a fraction, we need to manualy divide the numbers.
         if (coefficient.contains("/")) {
+
             String[] parts = coefficient.split("/");
 
             return (Float.parseFloat(parts[0]) / Float.parseFloat(parts[1]));
+
         }
 
         return Float.parseFloat(coefficient);
@@ -83,7 +85,7 @@ public class MathTools {
      * Validate the objective function. To be valid, the objective function must
      * contain Z as the first character followed by an = operator and one or
      * more variables. All the variables must be in crescent order. For example
-     * X1 +X2 + X3. If they are not ordered, it will be considered invalid.
+     * X1 + X2 + X3. If they are not ordered, it will be considered invalid.
      *
      * @param equation The equation that will be verified.
      * @return Whether the objective function is valid or not.
@@ -95,12 +97,15 @@ public class MathTools {
         String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]" + REAL_NUMBER_PATTERN + "X\\d{1,2}){0,}$";
 
         if (!equation.matches(pattern)) {
+
             return false;
+
         }
 
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(equation);
 
         int lastIndex = 0;
+
         while (m.find()) {
 
             String variable = m.group(1);
@@ -108,9 +113,13 @@ public class MathTools {
             int currentIndex = MathTools.getXIndex(variable);
 
             if (currentIndex != (lastIndex + 1)) {
+
                 return false;
+
             } else {
+
                 lastIndex = currentIndex;
+
             }
         }
 
@@ -119,8 +128,8 @@ public class MathTools {
     }
 
     /**
-     * Validate a restriction. To be valid, the restriction start with one or
-     * more variables followed by &lt;= operator and a number next to it.
+     * Validate a restriction. To be valid, the restriction must start with one
+     * or more variables followed by &lt;= operator and a number next to it.
      *
      * @param equation The equation that will be verified.
      * @return Whether this is a valid restriction or not.
@@ -150,6 +159,7 @@ public class MathTools {
         if (XPos == -1) {
 
             return -1;
+            
         }
 
         return (Integer.parseInt(variable.substring(XPos + 1)));
@@ -247,9 +257,10 @@ public class MathTools {
      * @param matrix The matrix.
      * @param column The column that contains the pivot.
      * @return The line that contains the pivot or -1 if there is not a pivot
-     * line
+     * line.
      */
     public static int findPivotLine(float[][] matrix, int column) {
+        
         //Check if the column parameter is valid.
         if (column < 0) {
 
@@ -264,6 +275,7 @@ public class MathTools {
         int lastColumn = matrix[0].length - 1;
 
         for (int i = 1; i < matrix.length; i++) {
+            
             //Skip this element if it equals 0 (it's mathematically impossible to divide by 0).
             if (matrix[i][column] == 0) {
 
@@ -288,23 +300,36 @@ public class MathTools {
 
     /**
      * Calculates the transposed matrix of a matrix received as a parameter.
-     * 
+     *
      * @param matrix The matrix.
      * @return return The transposed matrix.
      */
     public static float[][] transposeMatrix(float[][] matrix) {
+        
         float[][] transposeMatrix = new float[matrix[0].length][matrix.length];
+        
         for (int line = 0; line < transposeMatrix.length; line++) {
+            
             for (int column = 0; column < transposeMatrix[line].length; column++) {
+                
                 if (column > line || column < line) {
+                    
                     transposeMatrix[line][column] = matrix[column][line];
+                    
                 }
+                
                 if (column == line) {
+                    
                     transposeMatrix[line][column] = matrix[line][column];
+                    
                 }
+                
             }
+            
         }
+        
         return transposeMatrix;
+        
     }
 
 }
