@@ -111,7 +111,8 @@ public class FileTools {
 
             column = MathTools.getXIndex(variable);
 
-            newLine[column - 1] += MathTools.calculateSymmetric(coeficient);
+            //newLine[column - 1] += MathTools.calculateSymmetric(coeficient);
+            newLine[column - 1] += coeficient;
 
         }
 
@@ -134,7 +135,7 @@ public class FileTools {
      */
     public static float[] getRestriction(String line, int matrixLine, int nrColumns, int nrVariables) {
 
-        String parts[] = line.split("<=");
+        String parts[] = line.split("<=|>=");
 
         int column;
 
@@ -160,7 +161,7 @@ public class FileTools {
         }
 
         //Fill S1, S2, etc.
-        newLine[matrixLine + nrVariables-1] = 1;
+        //newLine[matrixLine + nrVariables-1] = 1;
 
         //Fill solution.
         newLine[nrColumns - 1] = Float.parseFloat(parts[1]);
@@ -179,7 +180,7 @@ public class FileTools {
      * @param nrVariables The number of variables for this problem
      * @return The next line that will be filled.
      */
-    public static int readLine(String line, float[][] matrix, int matrixLine, int nrVariables) {
+    public static int fillLine(String line, float[][] matrix, int matrixLine, int nrVariables) {
 
         line = Tools.removeSpaces(line);
 
@@ -191,11 +192,11 @@ public class FileTools {
 
         if (matrixLine == 0) {
 
-            matrix[matrixLine] = getObjectiveFunction(line, matrix[matrixLine].length);
+            matrix[matrix.length -1] = getObjectiveFunction(line, matrix[matrixLine].length);
 
         } else {
 
-            matrix[matrixLine] = getRestriction(line, matrixLine, matrix[matrixLine].length, nrVariables);
+            matrix[matrixLine -1] = getRestriction(line, matrixLine -1, matrix[matrixLine].length, nrVariables);
             
         }
 
@@ -329,6 +330,58 @@ public class FileTools {
         }
 
         return nrVariables;
+    }
+    
+    public static float [][] addBasicVariables(float [][] matrix){
+        int nrVariables = matrix[0].length - 1;
+        
+        float[][] newMatrix = new float[matrix.length][matrix[0].length + nrVariables-1];
+        
+        //Start adding basic variables on the second line because the first line is the 
+        //objective function
+        for(int i=0; i < newMatrix.length; i++){
+            
+            //Fill the new matrix with values existant in the matrix
+            for (int j = 0; j < matrix[i].length - 1; j++) {
+                newMatrix[i][j] = matrix[i][j];
+            }
+            //Fill the solution
+            newMatrix[i][newMatrix[i].length - 1] = matrix[i][matrix[0].length -1];
+            
+            //Now add the basic variable to the new matrix
+            if(i < newMatrix.length -1){
+               newMatrix[i][nrVariables + i] = 1;
+            }
+        }
+        
+        return newMatrix;
+    }
+    
+    /**
+     * Fill the matrix with the problem's non basic variables (X1, X2, etc). This assumes that the
+     * file was already validated.
+     *
+     * @param problem The problem that it's going to be resolved.
+     * @param nrVariables The number of variables for this problem.
+     * @return The matrix with the data from the problem
+     * @see #isValid(java.io.File) 
+     */
+    public static float[][] fillMatrixWithNonBasicVariables(String problem, int nrVariables) {
+        String lineSeparator = System.getProperty("line.separator");
+        int nrLines = problem.split(lineSeparator).length;
+        
+        float[][] matrix = new float[nrLines][nrVariables + 1];
+        
+        int matrixLine = 0;
+        String[] lines = problem.split(lineSeparator);
+        
+        for(int i=0; i < lines.length; i++){
+            matrixLine = FileTools.fillLine(lines[i], matrix, matrixLine, nrVariables);
+        }
+        
+        return matrix;
+        
+
     }
 
 }

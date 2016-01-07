@@ -72,39 +72,6 @@ public class Lapr1_2015 {
     }
 
     /**
-     * Fill the matrix with the problem's information. This assumes that the
-     * file was already validated.
-     *
-     * @param matrix The matrix.
-     * @param file The input file.
-     * @param nrVariables The number of variables for this problem
-     * @see FileTools#isValid(java.io.File).
-     */
-    public static void fillMatrix(float[][] matrix, File file, int nrVariables) {
-
-        int matrixLine = 0;
-
-        try {
-
-            Scanner scan = new Scanner(file);
-
-            while (scan.hasNextLine()) {
-
-                String line = scan.nextLine();
-
-                matrixLine = FileTools.readLine(line, matrix, matrixLine, nrVariables);
-
-            }
-
-        } catch (Exception e) {
-            Tools.printError(e.getMessage());
-            Tools.printError("An error ocurred while reading the file.");
-
-        }
-
-    }
-
-    /**
      * Create a format for the main matrix to be written on the main file.
      *
      * @param matrix The matrix.
@@ -321,9 +288,13 @@ public class Lapr1_2015 {
      * @param inputFileData The information existent in the input file.
      * 
      */
-    public static void minimizeeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
-        float[][] newMatrix = MathTools.transposeMatrix(matrix);
-        applySimplexMethod(newMatrix, outputFileName, nrVar, inputFileData);
+    public static void minimizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+        float[][] transposedMatrix = MathTools.transposeMatrix(matrix);
+        float[][] fullMatrix = FileTools.addBasicVariables(transposedMatrix);
+        
+        fullMatrix[fullMatrix.length -1 ] = MathTools.multiplyLineByScalar(fullMatrix, fullMatrix.length -1, -1);
+        
+        applySimplexMethod(fullMatrix, outputFileName, nrVar, inputFileData);
     }
 
     /**
@@ -377,12 +348,9 @@ public class Lapr1_2015 {
 
         }
 
-        //@todo David - continuar aqui. Criar funçao para determinar numero de variaveis
         int nrVar = FileTools.getNumberOfVariables(inputFileData);
 
-        float[][] matrix = new float[nrLines][nrLines + nrVar];
-
-        fillMatrix(matrix, inputFile, nrVar);
+        float[][] matrix = FileTools.fillMatrixWithNonBasicVariables(inputFileData, nrVar);
 
         String secondLine = inputFileData.split(LINE_SEPARATOR)[1];
 
@@ -391,7 +359,7 @@ public class Lapr1_2015 {
         }
 
         if (secondLine.contains(">=") || secondLine.contains("≥")) {
-            minimizeeFunction(matrix, outputFileName, nrVar, inputFileData);
+            minimizeFunction(matrix, outputFileName, nrVar, inputFileData);
         }
 
     }
