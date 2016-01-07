@@ -77,9 +77,10 @@ public class Lapr1_2015 {
      *
      * @param matrix The matrix.
      * @param file The input file.
+     * @param nrVariables The number of variables for this problem
      * @see FileTools#isValid(java.io.File).
      */
-    public static void fillMatrix(float[][] matrix, File file) {
+    public static void fillMatrix(float[][] matrix, File file, int nrVariables) {
 
         int matrixLine = 0;
 
@@ -91,12 +92,12 @@ public class Lapr1_2015 {
 
                 String line = scan.nextLine();
 
-                matrixLine = FileTools.readLine(line, matrix, matrixLine);
+                matrixLine = FileTools.readLine(line, matrix, matrixLine, nrVariables);
 
             }
 
         } catch (Exception e) {
-
+            Tools.printError(e.getMessage());
             Tools.printError("An error ocurred while reading the file.");
 
         }
@@ -377,20 +378,19 @@ public class Lapr1_2015 {
         }
 
         //@todo David - continuar aqui. Criar funçao para determinar numero de variaveis
-        int nrVar = 3;
+        int nrVar = FileTools.getNumberOfVariables(inputFileData);
 
         float[][] matrix = new float[nrLines][nrLines + nrVar];
 
-        fillMatrix(matrix, inputFile);
+        fillMatrix(matrix, inputFile, nrVar);
 
-        String[] parts = inputFileData.split(LINE_SEPARATOR);
-        String line2 = parts[1];
+        String secondLine = inputFileData.split(LINE_SEPARATOR)[1];
 
-        if (line2.contains("<=") || line2.contains("≤")) {
+        if (secondLine.contains("<=") || secondLine.contains("≤")) {
             maximizeFunction(matrix, outputFileName, nrVar, inputFileData);
         }
 
-        if (line2.contains(">=") || line2.contains("≥")) {
+        if (secondLine.contains(">=") || secondLine.contains("≥")) {
             minimizeeFunction(matrix, outputFileName, nrVar, inputFileData);
         }
 

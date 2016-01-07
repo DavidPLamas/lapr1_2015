@@ -117,6 +117,11 @@ public class MathToolsTest {
         expResult = false;
         result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
+        
+        equation = "Z=X1 + X3";
+        expResult = false;
+        result = MathTools.validateObjectiveFunction(equation);
+        assertEquals(expResult, result);
         System.out.printf("End of testing MathTools.validateObjectiveFunction...%n");
     }
 
@@ -126,7 +131,7 @@ public class MathToolsTest {
     @Test
     public void testValidatesRestriction() {
         System.out.printf("%nTesting MathTools.validateRestriction...%n");
-        String equation = "3X1 + X10 <= 30";
+        String equation = "3X1 + 1X10 <= 30";
         boolean expResult = true;
         boolean result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);

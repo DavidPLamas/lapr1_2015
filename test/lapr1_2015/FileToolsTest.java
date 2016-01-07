@@ -81,22 +81,23 @@ public class FileToolsTest {
         String line = "3X1-2X2<=4";
         int matrixLine = 1;
         int nrColumns = 5;
+        int nrVariables = 2;
         float[] expResult = {3, -2, 1, 0, 4};
-        float[] result = FileTools.getRestriction(line, matrixLine, nrColumns);
+        float[] result = FileTools.getRestriction(line, matrixLine, nrColumns, nrVariables);
         assertArrayEquals(expResult, result, 0.0F);
 
         line = "-2X2<=5";
         matrixLine = 2;
         nrColumns = 5;
         float[] expResult2 = {0, -2, 0, 1, 5};
-        float[] result2 = FileTools.getRestriction(line, matrixLine, nrColumns);
+        float[] result2 = FileTools.getRestriction(line, matrixLine, nrColumns, nrVariables);
         assertArrayEquals(expResult2, result2, 0.0F);
 
         line = "-2X1<=7";
         matrixLine = 1;
         nrColumns = 5;
         float[] expResult3 = {-2, 0, 1, 0, 7};
-        float[] result3 = FileTools.getRestriction(line, matrixLine, nrColumns);
+        float[] result3 = FileTools.getRestriction(line, matrixLine, nrColumns, nrVariables);
         assertArrayEquals(expResult3, result3, 0.0F);
         System.out.printf("End of testing FileTools.getRestriction...%n");
     }
@@ -111,14 +112,15 @@ public class FileToolsTest {
         float[][] matrix = new float[3][4];
         int matrixLine = 2;
         int expResult = 3;
-        int result = FileTools.readLine(line, matrix, matrixLine);
+        int nrVariables = 2;
+        int result = FileTools.readLine(line, matrix, matrixLine, nrVariables);
         assertEquals(expResult, result);
 
         line = "3X1 + 2X2 <= 3";
         float[][] matrix2 = new float[3][5];
         matrixLine = 0;
         expResult = 1;
-        result = FileTools.readLine(line, matrix2, matrixLine);
+        result = FileTools.readLine(line, matrix2, matrixLine, nrVariables);
         assertEquals(expResult, result);
         System.out.printf("End of testing FileTools.readLine...%n");
     }
@@ -148,6 +150,36 @@ public class FileToolsTest {
         boolean result = FileTools.saveToFile(fileName, data);
         assertEquals(expResult, result);
         System.out.printf("End of testing FileTools.saveToFile...%n");
+    }
+    
+    /**
+     * Test of getNumberOfVariables method, of class FileTools.
+     */
+    @Test
+    public void testGetNumberOfVariables() {
+        System.out.printf("%nTesting FileTools.getNumberOfVariables...%n");
+        String lineSeparator = System.getProperty("line.separator");
+        
+        String problem = "Z=X1-2X2"+lineSeparator+"3X2<=1";
+        int expResult = 2;
+        int result = FileTools.getNumberOfVariables(problem);
+        assertEquals(expResult, result);
+        
+        problem = "Z=X1"+lineSeparator+"3X2<=1";
+        expResult = 1;
+        result = FileTools.getNumberOfVariables(problem);
+        assertEquals(expResult, result);
+        
+        problem = "Z="+lineSeparator+"3X2<=1";
+        expResult = 0;
+        result = FileTools.getNumberOfVariables(problem);
+        assertEquals(expResult, result);
+        
+        problem = "Z=3X1 + 2X1"+lineSeparator+"3X2<=1";
+        expResult = 1;
+        result = FileTools.getNumberOfVariables(problem);
+        assertEquals(expResult, result);
+        System.out.printf("End of testing FileTools.getNumberOfVariables...%n");
     }
 
 }

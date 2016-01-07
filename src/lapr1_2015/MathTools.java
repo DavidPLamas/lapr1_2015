@@ -1,5 +1,8 @@
 package lapr1_2015;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author Group 2
  */
@@ -9,7 +12,7 @@ public class MathTools {
      * The regex pattern for a number of type REAL. 
      * This means it can be either an integer, decimal or fractional number
      */
-    public static final String REAL_NUMBER_PATTERN = "(([0-9]*)|(([1-9]*)\\.([0-9]*))|([1-9]*/[1-9]*))";
+    public static final String REAL_NUMBER_PATTERN = "((([0-9]+)\\.([0-9]+))|([0-9]+/[1-9]\\d*)|([0-9]*))";
     
     /**
      * @todo review syntax
@@ -53,6 +56,13 @@ public class MathTools {
 
             coefficient += "1";
         }
+        
+        //If coeficient is a fraction, we need to manualy divide the numbers
+        if(coefficient.contains("/")){
+            String[] parts = coefficient.split("/");
+            
+            return (Float.parseFloat(parts[0])/Float.parseFloat(parts[1]));
+        }
 
         return Float.parseFloat(coefficient);
 
@@ -73,7 +83,8 @@ public class MathTools {
     /**
      * Validate the objective function. To be valid, the objective function must
      * contain Z as the first character followed by an = operator and one or
-     * more variables.
+     * more variables. All the variables must be in crescent order. For example
+     * X1 +X2 + X3. If they are not ordered, it will be considered invalid.
      *
      * @param equation The equation that will be verified.
      * @return Whether the objective function is valid or not.
@@ -83,8 +94,29 @@ public class MathTools {
         equation = Tools.removeSpaces(equation);
 
         String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2}){0,}$";
+        
+        if(!equation.matches(pattern)){
+            return false;
+        }
+        
+        Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(equation);
 
-        return equation.matches(pattern);
+        int lastIndex = 0;
+        while (m.find()) {
+
+            String variable = m.group(1);
+
+            int currentIndex = MathTools.getXIndex(variable);
+            
+            if(currentIndex != (lastIndex +1 )){
+                return false;
+            }else{
+                lastIndex = currentIndex;
+            }
+        }
+        
+        return true;
+        
 
     }
 
@@ -100,7 +132,7 @@ public class MathTools {
         equation = Tools.removeSpaces(equation);
 
         //String pattern = "(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2})?(<="+REAL_NUMBER_PATTERN+"){1}";
-          String pattern = "^(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2}){0,}((<=|>=)"+REAL_NUMBER_PATTERN+"){1}$";
+          String pattern = "^(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2}){0,}((<=|>=)[+-]?"+REAL_NUMBER_PATTERN+"){1}$";
 
         return equation.matches(pattern);
 

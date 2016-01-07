@@ -109,7 +109,7 @@ public class FileTools {
 
             column = MathTools.getXIndex(variable);
 
-            newLine[column - 1] = MathTools.calculateSymmetric(coeficient);
+            newLine[column - 1] += MathTools.calculateSymmetric(coeficient);
 
         }
 
@@ -127,9 +127,10 @@ public class FileTools {
      * @param matrixLine The index of the line that where we will be using the
      * output of this method. We need this to correctly fill S1, S2, etc...
      * @param nrColumns The number of columns of the main matrix.
+     * @param nrVariables The number of variables for this problem
      * @return An array that represents the restriction.
      */
-    public static float[] getRestriction(String line, int matrixLine, int nrColumns) {
+    public static float[] getRestriction(String line, int matrixLine, int nrColumns, int nrVariables) {
 
         String parts[] = line.split("<=");
 
@@ -148,12 +149,13 @@ public class FileTools {
 
             column = MathTools.getXIndex(variable);
 
-            newLine[column - 1] = coeficient;
-
+            if(column <= nrVariables){
+                newLine[column - 1] += coeficient;
+            }
         }
 
         //Fill S1, S2, etc.
-        newLine[matrixLine + 1] = 1;
+        newLine[matrixLine + nrVariables-1] = 1;
 
         //Fill solution.
         newLine[nrColumns - 1] = Float.parseFloat(parts[1]);
@@ -169,9 +171,10 @@ public class FileTools {
      * @param line The line that will be read.
      * @param matrix The main matrix.
      * @param matrixLine The index of the line that will be filled.
+     * @param nrVariables The number of variables for this problem
      * @return The next line that will be filled.
      */
-    public static int readLine(String line, float[][] matrix, int matrixLine) {
+    public static int readLine(String line, float[][] matrix, int matrixLine, int nrVariables) {
 
         line = Tools.removeSpaces(line);
 
@@ -187,7 +190,7 @@ public class FileTools {
 
         } else {
 
-            matrix[matrixLine] = getRestriction(line, matrixLine, matrix[matrixLine].length);
+            matrix[matrixLine] = getRestriction(line, matrixLine, matrix[matrixLine].length, nrVariables);
         }
 
         return ++matrixLine;
@@ -274,6 +277,38 @@ public class FileTools {
 
         }
 
+    }
+
+    /**
+     * Get the number of variables for the problem based on the first line
+     * 
+     * @param problem The problem we're analysing. Should be a formatted text
+     * with break lines
+     * @return The number of variables of the problem
+     */
+    public static int getNumberOfVariables(String problem) {
+        String firstLine = problem.split(System.getProperty("line.separator"))[0];
+
+        int nrVariables = 0;
+        String variables = "";
+        Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(firstLine);
+
+        while (m.find()) {
+
+            String variable = m.group(1);
+
+            //Get the variable name, ex: 3X1 -> X1
+            String variableName = variable.substring(variable.indexOf("X"));
+
+            //Check if that variable hasn't been found yet
+            if (!variables.contains(variableName + ";")) {
+                variables += variableName + ";";
+                nrVariables++;
+            }
+
+        }
+
+        return nrVariables;
     }
 
 }
