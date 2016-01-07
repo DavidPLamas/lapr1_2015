@@ -12,8 +12,8 @@ public class MathTools {
      * The regex pattern for a number of type REAL. This means it can be either
      * an integer, decimal or fractional number
      */
-    public static final String REAL_NUMBER_PATTERN = "((([0-9]+)\\.([0-9]+))|([0-9]+/[1-9]\\d*)|([0-9]*))";
-
+    public static final String REAL_NUMBER_PATTERN = "(([0-9]+\\.[0-9]{2})|([0-9]+/[1-9]\\d*)|([0-9]*))";
+    
     /**
      * @todo review syntax The regex pattern for any variable. A variable is
      * made of a signal (+ or -) or none, followed by any number. After that

@@ -38,12 +38,12 @@ public class Lapr1_2015Test {
     public void testFindZValue() {
         System.out.printf("%nTesting Lapr1_2015.findZValue...%n");
         float[][] matrix = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
-        String expResult = "Z = 4,00";
+        String expResult = "Z = 4.00";
         String result = Lapr1_2015.findZValue(matrix);
         assertEquals(expResult, result);
 
         float[][] matrix2 = {{1, 2, 3, -32}};
-        expResult = "Z = -32,00";
+        expResult = "Z = -32.00";
         result = Lapr1_2015.findZValue(matrix2);
         assertEquals(expResult, result);
         System.out.printf("End of testing Lapr1_2015.findZValue...%n");

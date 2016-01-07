@@ -122,6 +122,16 @@ public class MathToolsTest {
         expResult = false;
         result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
+        
+        equation = "Z=0.1X3";
+        expResult = false;
+        result = MathTools.validateObjectiveFunction(equation);
+        assertEquals(expResult, result);
+        
+        equation = "Z=0.10X1";
+        expResult = true;
+        result = MathTools.validateObjectiveFunction(equation);
+        assertEquals(expResult, result);
         System.out.printf("End of testing MathTools.validateObjectiveFunction...%n");
     }
 
@@ -152,17 +162,22 @@ public class MathToolsTest {
         assertEquals(expResult, result);
 
         equation = "-1/2X1 >= 1.5";
-        expResult = true;
+        expResult = false;
         result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "-1.2X10 <= 3/2";
-        expResult = true;
+        expResult = false;
         result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "X100 <= 3/2";
         expResult = false;
+        result = MathTools.validateRestriction(equation);
+        assertEquals(expResult, result);
+        
+        equation = "2.32X1 <= 5.27";
+        expResult = true;
         result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
         System.out.printf("End of testing MathTools.validateRestriction...%n");
