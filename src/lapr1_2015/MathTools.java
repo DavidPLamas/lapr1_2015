@@ -9,17 +9,16 @@ import java.util.regex.Pattern;
 public class MathTools {
 
     /**
-     * The regex pattern for a number of type REAL. 
-     * This means it can be either an integer, decimal or fractional number
+     * The regex pattern for a number of type REAL. This means it can be either
+     * an integer, decimal or fractional number
      */
     public static final String REAL_NUMBER_PATTERN = "((([0-9]+)\\.([0-9]+))|([0-9]+/[1-9]\\d*)|([0-9]*))";
-    
+
     /**
-     * @todo review syntax
-     * The regex pattern for any variable.
-     * A variable is made of a signal (+ or -) or none, followed by
-     * any number. After that should be an X followed by a number from 1 to 99,
-     * which indicates the variable index
+     * @todo review syntax The regex pattern for any variable. A variable is
+     * made of a signal (+ or -) or none, followed by any number. After that
+     * should be an X followed by a number from 1 to 99, which indicates the
+     * variable index
      * @see #REAL_NUMBER_PATTERN
      */
     public static final String VARIABLE_PATTERN = "[+-]?" + REAL_NUMBER_PATTERN + "X\\d{1,2}";
@@ -56,12 +55,12 @@ public class MathTools {
 
             coefficient += "1";
         }
-        
+
         //If coeficient is a fraction, we need to manualy divide the numbers
-        if(coefficient.contains("/")){
+        if (coefficient.contains("/")) {
             String[] parts = coefficient.split("/");
-            
-            return (Float.parseFloat(parts[0])/Float.parseFloat(parts[1]));
+
+            return (Float.parseFloat(parts[0]) / Float.parseFloat(parts[1]));
         }
 
         return Float.parseFloat(coefficient);
@@ -93,12 +92,12 @@ public class MathTools {
 
         equation = Tools.removeSpaces(equation);
 
-        String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2}){0,}$";
-        
-        if(!equation.matches(pattern)){
+        String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]" + REAL_NUMBER_PATTERN + "X\\d{1,2}){0,}$";
+
+        if (!equation.matches(pattern)) {
             return false;
         }
-        
+
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(equation);
 
         int lastIndex = 0;
@@ -107,16 +106,15 @@ public class MathTools {
             String variable = m.group(1);
 
             int currentIndex = MathTools.getXIndex(variable);
-            
-            if(currentIndex != (lastIndex +1 )){
+
+            if (currentIndex != (lastIndex + 1)) {
                 return false;
-            }else{
+            } else {
                 lastIndex = currentIndex;
             }
         }
-        
+
         return true;
-        
 
     }
 
@@ -132,7 +130,7 @@ public class MathTools {
         equation = Tools.removeSpaces(equation);
 
         //String pattern = "(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2})?(<="+REAL_NUMBER_PATTERN+"){1}";
-          String pattern = "^(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2}){0,}((<=|>=)[+-]?"+REAL_NUMBER_PATTERN+"){1}$";
+        String pattern = "^(" + VARIABLE_PATTERN + ")([+-]" + REAL_NUMBER_PATTERN + "X\\d{1,2}){0,}((<=|>=)[+-]?" + REAL_NUMBER_PATTERN + "){1}$";
 
         return equation.matches(pattern);
 
@@ -287,11 +285,13 @@ public class MathTools {
         return line;
 
     }
-/**
- * 
- * @param matrix The matrix.
- * @return return the transposed matrix.
- */
+
+    /**
+     * Calculates the transposed matrix of a matrix received as a parameter.
+     * 
+     * @param matrix The matrix.
+     * @return return The transposed matrix.
+     */
     public static float[][] transposeMatrix(float[][] matrix) {
         float[][] transposeMatrix = new float[matrix[0].length][matrix.length];
         for (int line = 0; line < transposeMatrix.length; line++) {
@@ -307,6 +307,4 @@ public class MathTools {
         return transposeMatrix;
     }
 
-    
- 
 }
