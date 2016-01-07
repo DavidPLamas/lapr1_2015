@@ -287,17 +287,11 @@ public class MathTools {
         return line;
 
     }
-
-    public static void Transpose(float[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = i + 1; j < matrix.length; j++) {
-                float temp = matrix[i][j];
-                matrix[i][j] = matrix[j][i];
-                matrix[j][i] = temp;
-            }
-        }
-    }
-
+/**
+ * 
+ * @param matrix The matrix.
+ * @return return the transposed matrix.
+ */
     public static float[][] transposeMatrix(float[][] matrix) {
         float[][] transposeMatrix = new float[matrix[0].length][matrix.length];
         for (int line = 0; line < transposeMatrix.length; line++) {
