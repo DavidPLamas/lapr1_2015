@@ -231,7 +231,8 @@ public class FileTools {
                     
                 }
 
-                String search = "\\s{3,}";
+                //@todo perguntar a stora se isto pode ser utilizado.
+                String search = "   ";
                 
                 if (line.contains(search)){
                     
