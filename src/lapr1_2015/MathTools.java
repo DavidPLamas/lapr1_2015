@@ -287,9 +287,10 @@ public class MathTools {
     }
 
     /**
-     *
+     * Calculates the transposed matrix of a matrix received as a parameter.
+     * 
      * @param matrix The matrix.
-     * @return return the transposed matrix.
+     * @return return The transposed matrix.
      */
     public static float[][] transposeMatrix(float[][] matrix) {
         float[][] transposeMatrix = new float[matrix[0].length][matrix.length];

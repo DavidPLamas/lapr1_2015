@@ -91,7 +91,7 @@ public class MathToolsTest {
      * Test of validateObjectiveFunction method, of class MathTools.
      */
     @Test
-    public void testValidatesObjectiveFunction() {
+    public void testValidateObjectiveFunction() {
         System.out.printf("%nTesting MathTools.validateObjectiveFunction...%n");
         String equation = "Z=3X1+2X2";
         boolean expResult = true;
@@ -117,7 +117,7 @@ public class MathToolsTest {
         expResult = false;
         result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
-        
+
         equation = "Z=X1 + X3";
         expResult = false;
         result = MathTools.validateObjectiveFunction(equation);
@@ -139,7 +139,7 @@ public class MathToolsTest {
      * Test of validateRestriction method, of class MathTools.
      */
     @Test
-    public void testValidatesRestriction() {
+    public void testValidateRestriction() {
         System.out.printf("%nTesting MathTools.validateRestriction...%n");
         String equation = "3X1 + 1X10 <= 30";
         boolean expResult = true;
@@ -160,17 +160,17 @@ public class MathToolsTest {
         expResult = false;
         result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
-        
+
         equation = "-1/2X1 >= 1.5";
         expResult = false;
         result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
-        
+
         equation = "-1.2X10 <= 3/2";
         expResult = false;
         result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
-        
+
         equation = "X100 <= 3/2";
         expResult = false;
         result = MathTools.validateRestriction(equation);
@@ -314,6 +314,19 @@ public class MathToolsTest {
         result = MathTools.findPivotLine(matrix, column);
         assertEquals(expResult, result);
         System.out.printf("End of testing MathTools.findPivotLine...%n");
+    }
+
+    /**
+     * Test of transposeMatrix method, of class MathTools.
+     */
+    @Test
+    public void testTransposeMatrix() {
+       System.out.printf("%nTesting MathTools.transposeMatrix...%n");
+        float[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
+        float[][] expResult = {{1,4,7},{2,5,8},{3,6,9}};
+        float[][] result = MathTools.transposeMatrix(matrix);
+        assertArrayEquals(expResult, result);
+        System.out.printf("End of testing MathTools.transposeMatrix...%n");
     }
 
 }
