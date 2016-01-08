@@ -73,9 +73,9 @@ public class FileTools {
                 if (!line.trim().equals("")) {
 
                     nrLines++;
-                    
+
                 }
-                
+
             }
 
         } catch (Exception e) {
@@ -152,12 +152,12 @@ public class FileTools {
 
             column = MathTools.getXIndex(variable);
 
-            if(column <= nrVariables){
-                
+            if (column <= nrVariables) {
+
                 newLine[column - 1] += coeficient;
-                
+
             }
-            
+
         }
 
         //Fill S1, S2, etc.
@@ -218,6 +218,10 @@ public class FileTools {
 
         int nrLine = 0;
 
+        String search = "   ";
+
+        Formatter logErrors = Log.openFile(Lapr1_2015.LOG_ERRORS);
+
         try {
 
             Scanner scan = new Scanner(file);
@@ -229,27 +233,36 @@ public class FileTools {
                 if (line.equals("")) {
 
                     continue;
-                    
+
                 }
 
-                //@todo perguntar a stora se isto pode ser utilizado.
-                String search = "   ";
-                
-                if (line.contains(search)){
-                    
+                if (line.contains(search)) {
+
+                    Log.insertLog("The line contains 3 or more consecutive white spaces.", logErrors);
+
+                    Log.closeFile(logErrors);
+
                     return false;
-                    
+
                 }
-                
+
                 if (nrLine == 0) {
 
                     if (!MathTools.validateObjectiveFunction(line)) {
 
+                        Log.insertLog("The objective function is not valid.", logErrors);
+
+                        Log.closeFile(logErrors);
+
                         return false;
-                        
+
                     }
 
                 } else if (!MathTools.validateRestriction(line)) {
+
+                    Log.insertLog("The restriction number " + nrLine + " is not valid.", logErrors);
+
+                    Log.closeFile(logErrors);
 
                     return false;
 
@@ -299,19 +312,19 @@ public class FileTools {
 
     /**
      * Get the number of variables of the problem based on the first line.
-     * 
+     *
      * @param problem The problem we're analyzing. Should be a formatted text
      * with break lines.
      * @return The number of variables of the problem.
      */
     public static int getNumberOfVariables(String problem) {
-        
+
         String firstLine = problem.split(System.getProperty("line.separator"))[0];
 
         int nrVariables = 0;
-        
+
         String variables = "";
-        
+
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(firstLine);
 
         while (m.find()) {
@@ -323,13 +336,16 @@ public class FileTools {
 
             //Check if that variable hasn't been found yet.
             if (!variables.contains(variableName + ";")) {
+
                 variables += variableName + ";";
+
                 nrVariables++;
             }
 
         }
 
         return nrVariables;
+        
     }
     
     public static float [][] addBasicVariables(float [][] matrix){
