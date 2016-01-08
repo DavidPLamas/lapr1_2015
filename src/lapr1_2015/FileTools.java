@@ -91,15 +91,14 @@ public class FileTools {
      * floats that represents the first line of the matrix.
      *
      * @param line The line that contains the objective function.
-     * @param nrColumns The number of columns we're from the main matrix (Number
-     * of variables + number of restrictions + 1).
+     * @param nrVariables The number of variables for the current problem
      * @return An array that represents the objective function.
      */
-    public static float[] getObjectiveFunction(String line, int nrColumns) {
+    public static float[] getObjectiveFunction(String line, int nrVariables) {
 
         int column;
 
-        float[] newLine = new float[nrColumns];
+        float[] newLine = new float[nrVariables + 1];
 
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(line);
 
@@ -116,7 +115,7 @@ public class FileTools {
 
         }
 
-        newLine[nrColumns - 1] = 0;
+        newLine[nrVariables] = 0;
 
         return newLine;
 
@@ -129,17 +128,16 @@ public class FileTools {
      * @param line The line that contains the restriction.
      * @param matrixLine The index of the line that where we will be using the
      * output of this method. We need this to correctly fill S1, S2, etc...
-     * @param nrColumns The number of columns of the main matrix.
-     * @param nrVariables The number of variables for this problem.
+     * @param nrVariables The number of variables for the current problem.
      * @return An array that represents the restriction.
      */
-    public static float[] getRestriction(String line, int matrixLine, int nrColumns, int nrVariables) {
+    public static float[] getRestriction(String line, int matrixLine, int nrVariables) {
 
         String parts[] = line.split("<=|>=");
 
         int column;
 
-        float[] newLine = new float[nrColumns];
+        float[] newLine = new float[nrVariables + 1];
 
         Matcher m = Pattern.compile("(" + MathTools.VARIABLE_PATTERN + ")").matcher(parts[0]);
 
@@ -160,11 +158,8 @@ public class FileTools {
 
         }
 
-        //Fill S1, S2, etc.
-        //newLine[matrixLine + nrVariables-1] = 1;
-
         //Fill solution.
-        newLine[nrColumns - 1] = Float.parseFloat(parts[1]);
+        newLine[nrVariables] = MathTools.parseToFloat(parts[1]);
 
         return newLine;
 
@@ -178,7 +173,7 @@ public class FileTools {
      * @param matrix The main matrix.
      * @param matrixLine The index of the line that will be filled.
      * @param nrVariables The number of variables for this problem
-     * @return The next line that will be filled.
+     * @return The next line index that will be filled.
      */
     public static int fillLine(String line, float[][] matrix, int matrixLine, int nrVariables) {
 
@@ -192,11 +187,11 @@ public class FileTools {
 
         if (matrixLine == 0) {
 
-            matrix[matrix.length -1] = getObjectiveFunction(line, matrix[matrixLine].length);
+            matrix[matrix.length -1] = getObjectiveFunction(line, nrVariables);
 
         } else {
 
-            matrix[matrixLine -1] = getRestriction(line, matrixLine -1, matrix[matrixLine].length, nrVariables);
+            matrix[matrixLine -1] = getRestriction(line, matrixLine -1, nrVariables);
             
         }
 
@@ -348,25 +343,32 @@ public class FileTools {
         
     }
     
+    /**
+     * Create a new matrix based on the received matrix and add columns for the
+     * basic variables
+     * 
+     * @param matrix The matrix
+     * @return The old matrix with more columns that represent the basic variables
+     */
     public static float [][] addBasicVariables(float [][] matrix){
         int nrVariables = matrix[0].length - 1;
+        int currentBasicVariable = nrVariables;
+        float[][] newMatrix = new float[matrix.length][nrVariables + matrix.length];
         
-        float[][] newMatrix = new float[matrix.length][matrix[0].length + nrVariables-1];
-        
-        //Start adding basic variables on the second line because the first line is the 
-        //objective function
+        //Dont add the basic variables on the last line because it's the objective function
         for(int i=0; i < newMatrix.length; i++){
             
-            //Fill the new matrix with values existant in the matrix
+            //Fill the new matrix with values existant in the matrix except the last column
             for (int j = 0; j < matrix[i].length - 1; j++) {
                 newMatrix[i][j] = matrix[i][j];
             }
-            //Fill the solution
+            //Fill the solution (the last column)
             newMatrix[i][newMatrix[i].length - 1] = matrix[i][matrix[0].length -1];
             
             //Now add the basic variable to the new matrix
             if(i < newMatrix.length -1){
-               newMatrix[i][nrVariables + i] = 1;
+               newMatrix[i][currentBasicVariable] = 1;
+               currentBasicVariable++;
             }
         }
         

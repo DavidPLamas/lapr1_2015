@@ -122,12 +122,12 @@ public class MathToolsTest {
         expResult = false;
         result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
-        
+
         equation = "Z=0.1X3";
         expResult = false;
         result = MathTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
-        
+
         equation = "Z=0.10X1";
         expResult = true;
         result = MathTools.validateObjectiveFunction(equation);
@@ -175,7 +175,7 @@ public class MathToolsTest {
         expResult = false;
         result = MathTools.validateRestriction(equation);
         assertEquals(expResult, result);
-        
+
         equation = "2.32X1 <= 5.27";
         expResult = true;
         result = MathTools.validateRestriction(equation);
@@ -272,12 +272,12 @@ public class MathToolsTest {
         int result = MathTools.findPivotColumn(matrix);
         assertEquals(expResult, result);
 
-        float[][] matrix2 = {{-1, 5, 0, 0, 3}, {3, -1, 5, 3, 2}, {2, -1, 3, 5, 8}};
+        float[][] matrix2 = {{-1, 5, 0, 0, 3}, {3, -1, 5, 3, 2}, {-2, -1, 3, 5, 8}};
         expResult = 0;
         result = MathTools.findPivotColumn(matrix2);
         assertEquals(expResult, result);
 
-        float[][] matrix3 = {{1, 5, 0, 0, 3}, {3, -1, 5, 3, 2}, {2, -1, 3, 5, 8}};
+        float[][] matrix3 = {{1, 5, 0, 0, 3}, {3, -1, 5, 3, 2}, {2, 1, 3, 5, -8}};
         expResult = -1;
         result = MathTools.findPivotColumn(matrix3);
         assertEquals(expResult, result);
@@ -321,12 +321,45 @@ public class MathToolsTest {
      */
     @Test
     public void testTransposeMatrix() {
-       System.out.printf("%nTesting MathTools.transposeMatrix...%n");
-        float[][] matrix = {{1,2,3},{4,5,6},{7,8,9}};
-        float[][] expResult = {{1,4,7},{2,5,8},{3,6,9}};
+        System.out.printf("%nTesting MathTools.transposeMatrix...%n");
+        float[][] matrix = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+        float[][] expResult = {{1, 4, 7}, {2, 5, 8}, {3, 6, 9}};
         float[][] result = MathTools.transposeMatrix(matrix);
         assertArrayEquals(expResult, result);
         System.out.printf("End of testing MathTools.transposeMatrix...%n");
+    }
+
+    /**
+     * Test of parseToFloat method, of class MathTools.
+     */
+    @Test
+    public void testParseToFloat() {
+        System.out.printf("%nTesting MathTools.parseToFloat...%n");
+        String number = "2";
+        float expResult = 2F;
+        float result = MathTools.parseToFloat(number);
+        assertEquals(expResult, result, 0.0);
+
+        number = "2.2";
+        expResult = 2.2F;
+        result = MathTools.parseToFloat(number);
+        assertEquals(expResult, result, 0.0);
+
+        number = "2/2";
+        expResult = 1F;
+        result = MathTools.parseToFloat(number);
+        assertEquals(expResult, result, 0.0);
+
+        number = "3/2";
+        expResult = 1.5F;
+        result = MathTools.parseToFloat(number);
+        assertEquals(expResult, result, 0.0);
+
+        number = "3/2";
+        expResult = 1.5F;
+        result = MathTools.parseToFloat(number);
+        assertEquals(expResult, result, 0.0);
+        System.out.printf("End of testing MathTools.parseToFloat...%n");
     }
 
 }

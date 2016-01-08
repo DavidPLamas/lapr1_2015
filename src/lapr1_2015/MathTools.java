@@ -56,16 +56,7 @@ public class MathTools {
             coefficient += "1";
         }
 
-        //If the coefficient is a fraction, we need to manualy divide the numbers.
-        if (coefficient.contains("/")) {
-
-            String[] parts = coefficient.split("/");
-
-            return (Float.parseFloat(parts[0]) / Float.parseFloat(parts[1]));
-
-        }
-
-        return Float.parseFloat(coefficient);
+        return parseToFloat(coefficient);
 
     }
 
@@ -180,6 +171,9 @@ public class MathTools {
 
         for (int i = 0; i < matrix[0].length; i++) {
 
+            if(matrix[lineIndex][i] == 0){
+                continue;
+            }
             newLine[i] = matrix[lineIndex][i] * scalar;
 
         }
@@ -225,7 +219,7 @@ public class MathTools {
 
         int column = 0;
 
-        for (int i = 0; i < matrix[0].length; i++) {
+        for (int i = 0; i < matrix[0].length - 1; i++) {
 
             if (matrix[matrix.length -1][i] < minor) {
 
@@ -274,7 +268,7 @@ public class MathTools {
 
         int lastColumn = matrix[0].length - 1;
 
-        for (int i = 1; i < matrix.length; i++) {
+        for (int i = 0; i < matrix.length - 1; i++) {
             
             //Skip this element if it equals 0 (it's mathematically impossible to divide by 0).
             if (matrix[i][column] == 0) {
@@ -299,7 +293,7 @@ public class MathTools {
     }
 
     /**
-     * Calculates the transposed matrix of a matrix received as a parameter.
+     * Calculate the transposed matrix of a matrix received as a parameter.
      *
      * @param matrix The matrix.
      * @return return The transposed matrix.
@@ -330,6 +324,22 @@ public class MathTools {
         
         return transposeMatrix;
         
+    }
+    
+    /**
+     * Parse any number to float. This differs  from Float.parseFloat because it accepts
+     * numbers formatted as fractions (Ex: 5/2).
+     * 
+     * @param number The number to be parsed to float
+     * @return The number formated to float
+     */
+    public static float parseToFloat(String number){
+        if(number.contains("/")){
+            String[] parts = number.split("/");
+            return (parseToFloat(parts[0]) / parseToFloat(parts[1]));
+        }else{
+            return Float.parseFloat(number);
+        }
     }
     
 
