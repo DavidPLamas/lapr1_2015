@@ -1,6 +1,7 @@
 package lapr1_2015;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Formatter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -171,7 +172,7 @@ public class FileTools {
      * means, the first line must have, for example, Z = 2X1 and the other lines
      * must have, for example, X1 &lt;= 3. All variables must be identified by X
      * and a number after it. That number should not be superior than 2.
-     * Also, there shouldn't be more than 2 spaces between each sequence of characters
+     * Also, there shouldn't be more than 2 white spaces between each sequence of characters
      *
      * @param fileData The information inside the file. Break lines are identified
      * using on the line.separator system's property.
@@ -183,9 +184,11 @@ public class FileTools {
 
         String search = "   ";
 
-        Formatter logErrors = Log.openFile(Lapr1_2015.LOG_ERRORS);
+        FileWriter logErrors = Log.openFile(Lapr1_2015.LOG_ERRORS, false);
         
         String[] lines = fileData.split(System.getProperty("line.separator"));
+        
+        int validLines = 0;
         
         for(int i = 0; i < lines.length; i++){
             String line = lines[i];
@@ -195,41 +198,28 @@ public class FileTools {
             }
             
             if (line.contains(search)) {
-
                 Log.insertLog("The line " + (i+1) +" contains 3 or more consecutive white spaces.", logErrors);
-
-                Log.closeFile(logErrors);
-
-                return false;
-
+                validLines--;
             }
 
             if (i == 0) {
 
                 if (!MathTools.validateObjectiveFunction(line)) {
-
-                    Log.insertLog("The objective function is not valid.", logErrors);
-
-                    Log.closeFile(logErrors);
-
-                    return false;
-
+                    Log.insertLog("The objective function is malformed.", logErrors);
+                    validLines--;
                 }
 
             } else if (!MathTools.validateRestriction(line)) {
-
-                Log.insertLog("The restriction number at line" + (i+1) + " is not valid.", logErrors);
-
-                Log.closeFile(logErrors);
-
-                return false;
-
+                Log.insertLog("The restriction at line " + (i+1) + " is malformed.", logErrors);
+                validLines--;
             }
+            
+            validLines++;
         }
         
         Log.closeFile(logErrors);
         
-        return (lines.length > 0);
+        return ( (lines.length > 0) && (lines.length == validLines ));
 
     }
 

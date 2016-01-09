@@ -1,10 +1,9 @@
 package lapr1_2015;
 
-import java.io.File;
+import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Formatter;
 
 /**
  * @author Group 2
@@ -14,16 +13,18 @@ public class Log {
     /**
      * Allocate the error log in memory.
      *
-     * @param fileName The name of the error log file.
+     * @param fileName The name of the file.
+     * @param append If true and the file exists the file will not be replaced
+     * by a new one
      * @return The allocated file or null if unsuccessful.
      */
-    public static Formatter openFile(String fileName) {
+    public static FileWriter openFile(String fileName, boolean append) {
 
-        Formatter logErrors = null;
+        FileWriter logErrors = null;
 
         try {
 
-            logErrors = new Formatter(new File(fileName));
+            logErrors = new FileWriter(fileName, append);
 
         } catch (Exception e) {
 
@@ -36,18 +37,26 @@ public class Log {
     }
 
     /**
-     * Write messages to the error log.
+     * Write messages to a specific file.
      *
      * @param message Message to be written to the error log.
-     * @param output The place where the message will be written.
+     * @param file The place where the message will be written.
+     * @return Whether the message was or not written to the file 
      */
-    public static void insertLog(String message, Formatter output) {
+    public static boolean insertLog(String message, FileWriter file) {
 
-        if (output != null) {
+        if (file != null) {
 
-            output.format("%s -> %s%n%n", calculateDate(), message);
-
+            try {
+                file.write(String.format("%s -> %s%n", getCurrentDate(), message));
+            } catch (Exception e) {
+                return false;
+            }
+            
+            return true;
         }
+        
+        return false;
 
     }
 
@@ -56,7 +65,7 @@ public class Log {
      *
      * @return The formatted time and date.
      */
-    private static String calculateDate() {
+    private static String getCurrentDate() {
 
         Calendar now = Calendar.getInstance();
 
@@ -67,17 +76,25 @@ public class Log {
     }
 
     /**
-     * Close the error log.
+     * Close the file.
      *
      * @param file The error log file.
+     * @return Whether the file was closed or not
      */
-    public static void closeFile(Formatter file) {
+    public static boolean closeFile(FileWriter file) {
 
         if (file != null) {
 
-            file.close();
+            try {
+                file.close();
+            } catch (Exception e) {
+                return false;
+            }
+            return true;
 
         }
+        
+        return false;
 
     }
 
