@@ -405,7 +405,7 @@ public class Lapr1_2015 {
         }
 
         //Verify if the input file is valid.    
-        if (!FileTools.isValid(inputFile)) {
+        if (!FileTools.isValid(inputFileData)) {
 
             Tools.printError(String.format("The file %s is not valid.", inputFileName));
 
@@ -419,13 +419,13 @@ public class Lapr1_2015 {
 
         String secondLine = inputFileData.split(LINE_SEPARATOR)[1];
 
-        if (secondLine.contains("<=") || secondLine.contains("≤")) {
+        if (secondLine.contains("<=")) {
 
             maximizeFunction(matrix, outputFileName, nrVar, inputFileData);
 
         }
 
-        if (secondLine.contains(">=") || secondLine.contains("≥")) {
+        if (secondLine.contains(">=")) {
             minimizeFunction(matrix, outputFileName, nrVar, inputFileData);
         }
 

@@ -33,19 +33,6 @@ public class FileToolsTest {
     }
 
     /**
-     * Test of getNumberOfLines method, of class FileTools.
-     */
-    @Test
-    public void testGetNumberOfLines() {
-        System.out.printf("%nTesting Filetools.getNumberOfLines...%n");
-        File file = new File("filetest.txt");
-        int expResult = 4;
-        int result = FileTools.getNumberOfLines(file);
-        assertEquals(expResult, result);
-        System.out.printf("End of testing FileTools.getNumberOfLines...%n");
-    }
-
-    /**
      * Test of getObjectiveFunction method, of class FileTools.
      */
     @Test
@@ -135,9 +122,30 @@ public class FileToolsTest {
     @Test
     public void testIsValid() {
         System.out.printf("%nTesting FileTools.isValid...%n");
-        File file = new File("filetest.txt");
+        String lineSeparator = System.getProperty("line.separator");
+        String fileData = "Z = 8X1 + 8X2 + X3" + lineSeparator
+                + "2X1 + 2X2 + X3 <= 12" + lineSeparator
+                + "2X1 + X2 + X3 <= 9" + lineSeparator
+                + "X1 + 3X2 + 2X3 <= 16";
         boolean expResult = true;
-        boolean result = FileTools.isValid(file);
+        boolean result = FileTools.isValid(fileData);
+        assertEquals(expResult, result);
+        
+        fileData = "Z = 8.X1 + 8X2 + X3" + lineSeparator;
+        expResult = false;
+        result = FileTools.isValid(fileData);
+        assertEquals(expResult, result);
+        
+        fileData = "2X1 + 2X2 + X3 <= 12" + lineSeparator
+                + "Z = 8X1 + 8X2 + X3" + lineSeparator;
+        expResult = false;
+        result = FileTools.isValid(fileData);
+        assertEquals(expResult, result);
+        
+        fileData = "2X1 + 2X2 + X3 <= 12" + lineSeparator
+                + "Z = 8X1 + 8X2 +   X3" + lineSeparator;
+        expResult = false;
+        result = FileTools.isValid(fileData);
         assertEquals(expResult, result);
         System.out.printf("End of testing FileTools.isValid...%n");
     }

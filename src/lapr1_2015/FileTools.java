@@ -53,40 +53,6 @@ public class FileTools {
     }
 
     /**
-     * Find the number of lines of a specific file, ignoring all empty lines.
-     *
-     * @param file The file.
-     * @return The number of lines.
-     */
-    public static int getNumberOfLines(File file) {
-
-        int nrLines = 0;
-
-        try {
-
-            Scanner scan = new Scanner(file);
-
-            while (scan.hasNextLine()) {
-
-                String line = scan.nextLine();
-
-                if (!line.trim().equals("")) {
-
-                    nrLines++;
-
-                }
-
-            }
-
-        } catch (Exception e) {
-
-        }
-
-        return nrLines;
-
-    }
-
-    /**
      * Transform the line which contains the objective function into an array of
      * floats that represents the first line of the matrix.
      *
@@ -200,80 +166,70 @@ public class FileTools {
     }
 
     /**
-     * Check if a file is valid. To be valid, the first line must be the
+     * Check if a file is valid based on the file's data. To be valid, the first line must be the
      * objective function and the other lines should be restrictions. This
      * means, the first line must have, for example, Z = 2X1 and the other lines
      * must have, for example, X1 &lt;= 3. All variables must be identified by X
      * and a number after it. That number should not be superior than 2.
+     * Also, there shouldn't be more than 2 spaces between each sequence of characters
      *
-     * @param file The file.
+     * @param fileData The information inside the file. Break lines are identified
+     * using on the line.separator system's property.
      * @return Whether the file is valid or not.
      */
-    public static boolean isValid(File file) {
+    public static boolean isValid(String fileData) {
 
         int nrLine = 0;
 
         String search = "   ";
 
         Formatter logErrors = Log.openFile(Lapr1_2015.LOG_ERRORS);
+        
+        String[] lines = fileData.split(System.getProperty("line.separator"));
+        
+        for(int i = 0; i < lines.length; i++){
+            String line = lines[i];
+            
+            if(line.trim().equals("")){
+                return false;
+            }
+            
+            if (line.contains(search)) {
 
-        try {
+                Log.insertLog("The line " + (i+1) +" contains 3 or more consecutive white spaces.", logErrors);
 
-            Scanner scan = new Scanner(file);
+                Log.closeFile(logErrors);
 
-            while (scan.hasNextLine()) {
-
-                String line = scan.nextLine();
-
-                if (line.equals("")) {
-
-                    continue;
-
-                }
-
-                if (line.contains(search)) {
-
-                    Log.insertLog("The line contains 3 or more consecutive white spaces.", logErrors);
-
-                    Log.closeFile(logErrors);
-
-                    return false;
-
-                }
-
-                if (nrLine == 0) {
-
-                    if (!MathTools.validateObjectiveFunction(line)) {
-
-                        Log.insertLog("The objective function is not valid.", logErrors);
-
-                        Log.closeFile(logErrors);
-
-                        return false;
-
-                    }
-
-                } else if (!MathTools.validateRestriction(line)) {
-
-                    Log.insertLog("The restriction number " + nrLine + " is not valid.", logErrors);
-
-                    Log.closeFile(logErrors);
-
-                    return false;
-
-                }
-
-                nrLine++;
+                return false;
 
             }
 
-        } catch (Exception e) {
+            if (i == 0) {
 
-            return false;
+                if (!MathTools.validateObjectiveFunction(line)) {
 
+                    Log.insertLog("The objective function is not valid.", logErrors);
+
+                    Log.closeFile(logErrors);
+
+                    return false;
+
+                }
+
+            } else if (!MathTools.validateRestriction(line)) {
+
+                Log.insertLog("The restriction number at line" + (i+1) + " is not valid.", logErrors);
+
+                Log.closeFile(logErrors);
+
+                return false;
+
+            }
         }
-
-        return (nrLine > 0);
+        
+        Log.closeFile(logErrors);
+        
+        return (lines.length > 0);
 
     }
 
