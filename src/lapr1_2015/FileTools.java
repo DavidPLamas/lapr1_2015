@@ -26,7 +26,7 @@ public class FileTools {
 
             Scanner scan = new Scanner(file);
 
-            String lineSeparator = System.getProperty("line.separator");
+            String lineSeparator = Lapr1_2015.LINE_SEPARATOR;
 
             while (scan.hasNext()) {
 
@@ -176,17 +176,19 @@ public class FileTools {
      *
      * @param fileData The information inside the file. Break lines are identified
      * using on the line.separator system's property.
+     * @param errorLog The file name where all errors will be recorded.
      * @return Whether the file is valid or not.
      */
-    public static boolean isValid(String fileData) {
+    public static boolean isValid(String fileData, String errorLog) {
 
         int nrLine = 0;
 
         String search = "   ";
+        String signal = null;
 
-        FileWriter logErrors = Log.openFile(Lapr1_2015.LOG_ERRORS, false);
+        FileWriter logErrors = Log.openFile(errorLog, true);
         
-        String[] lines = fileData.split(System.getProperty("line.separator"));
+        String[] lines = fileData.split(Lapr1_2015.LINE_SEPARATOR);
         
         int validLines = 0;
         
@@ -203,15 +205,34 @@ public class FileTools {
             }
 
             if (i == 0) {
-
+                //It should be a valid function
                 if (!MathTools.validateObjectiveFunction(line)) {
                     Log.insertLog("The objective function is malformed.", logErrors);
                     validLines--;
                 }
 
-            } else if (!MathTools.validateRestriction(line)) {
-                Log.insertLog("The restriction at line " + (i+1) + " is malformed.", logErrors);
-                validLines--;
+            } else {
+                //it should be a valid restriction
+                
+                if (!MathTools.validateRestriction(line)) {
+                    Log.insertLog("The restriction at line " + (i+1) + " is malformed.", logErrors);
+                    validLines--;
+                }else{
+                    if(signal == null){
+                        signal = getSignal(line);
+                    }
+
+                    String currentSignal = getSignal(line);
+
+                    if(!signal.equals(currentSignal)){
+                        Log.insertLog("Invalid signal found. Expected "+signal+" but "
+                                + "found "+currentSignal+" in line "+(i+1), logErrors);
+                        validLines--;
+                    }
+                }
+                
+                
+                    
             }
             
             validLines++;
@@ -260,7 +281,7 @@ public class FileTools {
      */
     public static int getNumberOfVariables(String problem) {
 
-        String firstLine = problem.split(System.getProperty("line.separator"))[0];
+        String firstLine = problem.split(Lapr1_2015.LINE_SEPARATOR)[0];
 
         int nrVariables = 0;
 
@@ -331,7 +352,7 @@ public class FileTools {
      * @see #isValid(java.lang.String)  
      */
     public static float[][] fillMatrixWithNonBasicVariables(String problem, int nrVariables) {
-        String lineSeparator = System.getProperty("line.separator");
+        String lineSeparator = Lapr1_2015.LINE_SEPARATOR;
         int nrLines = problem.split(lineSeparator).length;
         
         float[][] matrix = new float[nrLines][nrVariables + 1];
@@ -346,6 +367,15 @@ public class FileTools {
         return matrix;
         
 
+    }
+    
+    public static String getSignal(String line){
+        String signal = null;
+        Matcher m = Pattern.compile("(<=|>=)").matcher(line);
+        if(m.find()){
+            signal = m.group(1);
+        }
+        return signal;
     }
 
 }

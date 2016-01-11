@@ -68,7 +68,7 @@ public class ToolsTest {
     @Test
     public void testGetNumberOfLines() {
         System.out.printf("%nTesting Tools.getNumberOfLines...%n");
-        String separator = System.getProperty("line.separator");
+        String separator = Lapr1_2015.LINE_SEPARATOR;
         String text = "Test";
         int expResult = 1;
         int result = Tools.getNumberOfLines(text);

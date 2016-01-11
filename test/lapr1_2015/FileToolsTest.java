@@ -1,6 +1,5 @@
 package lapr1_2015;
 
-import java.io.File;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -122,30 +121,39 @@ public class FileToolsTest {
     @Test
     public void testIsValid() {
         System.out.printf("%nTesting FileTools.isValid...%n");
-        String lineSeparator = System.getProperty("line.separator");
+        String lineSeparator = Lapr1_2015.LINE_SEPARATOR;
+        String errorLog = "errorstest.txt";
         String fileData = "Z = 8X1 + 8X2 + X3" + lineSeparator
                 + "2X1 + 2X2 + X3 <= 12" + lineSeparator
                 + "2X1 + X2 + X3 <= 9" + lineSeparator
                 + "X1 + 3X2 + 2X3 <= 16";
         boolean expResult = true;
-        boolean result = FileTools.isValid(fileData);
+        boolean result = FileTools.isValid(fileData,errorLog);
         assertEquals(expResult, result);
         
         fileData = "Z = 8.X1 + 8X2 + X3" + lineSeparator;
         expResult = false;
-        result = FileTools.isValid(fileData);
+        result = FileTools.isValid(fileData,errorLog);
         assertEquals(expResult, result);
         
         fileData = "2X1 + 2X2 + X3 <= 12" + lineSeparator
                 + "Z = 8X1 + 8X2 + X3" + lineSeparator;
         expResult = false;
-        result = FileTools.isValid(fileData);
+        result = FileTools.isValid(fileData,errorLog);
         assertEquals(expResult, result);
         
         fileData = "2X1 + 2X2 + X3 <= 12" + lineSeparator
                 + "Z = 8X1 + 8X2 +   X3" + lineSeparator;
         expResult = false;
-        result = FileTools.isValid(fileData);
+        result = FileTools.isValid(fileData,errorLog);
+        assertEquals(expResult, result);
+        
+        fileData = "Z = 8X1 + 8X2 + X3" + lineSeparator
+                + "2X1 + 2X2 + X3 <= 12" + lineSeparator
+                + "2X1 + X2 + X3 >= 9" + lineSeparator
+                + "X1 + 3X2 + 2X3 >= 16";
+        expResult = false;
+        result = FileTools.isValid(fileData,errorLog);
         assertEquals(expResult, result);
         System.out.printf("End of testing FileTools.isValid...%n");
     }
@@ -156,7 +164,7 @@ public class FileToolsTest {
     @Test
     public void testSaveToFile() {
         System.out.printf("%nTesting FileTools.saveToFile...%n");
-        String fileName = "outputfile.txt";
+        String fileName = "outputfiletest.txt";
         String data = "Test data.\r\nTest data 2.";
         boolean expResult = true;
         boolean result = FileTools.saveToFile(fileName, data);
@@ -170,7 +178,7 @@ public class FileToolsTest {
     @Test
     public void testGetNumberOfVariables() {
         System.out.printf("%nTesting FileTools.getNumberOfVariables...%n");
-        String lineSeparator = System.getProperty("line.separator");
+        String lineSeparator = Lapr1_2015.LINE_SEPARATOR;
 
         String problem = "Z=X1-2X2" + lineSeparator + "3X2<=1";
         int expResult = 2;
@@ -223,7 +231,7 @@ public class FileToolsTest {
     @Test
     public void testFillMatrixWithNonBasicVariables() {
         System.out.printf("%nTesting FileTools.fillMatrixWithNonBasicVariables...%n");
-        String lineSeparator = System.getProperty("line.separator");
+        String lineSeparator = Lapr1_2015.LINE_SEPARATOR;
         String problem = "Z=3X1 + 4/2X2" + lineSeparator
                 + "3X1 >= 2" + lineSeparator
                 + "2X2 >= 10" + lineSeparator

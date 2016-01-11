@@ -42,7 +42,7 @@ public class Tools {
 
         text = text.trim();
 
-        String lineSeparator = System.getProperty("line.separator");
+        String lineSeparator = Lapr1_2015.LINE_SEPARATOR;
 
         if (text.isEmpty() || text.equals("")) {
 

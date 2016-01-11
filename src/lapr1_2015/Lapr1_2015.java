@@ -12,7 +12,7 @@ public class Lapr1_2015 {
     /**
      * The name of the file that will contain the validation errors 
      */
-    public static final String LOG_ERRORS = "errors.txt";
+    public static final String ERROR_LOG = "errors.txt";
 
     /**
      * Apply the simplex method to a problem and write the output to the 
@@ -407,7 +407,7 @@ public class Lapr1_2015 {
         }
 
         //Verify if the input file is valid.    
-        if (!FileTools.isValid(inputFileData)) {
+        if (!FileTools.isValid(inputFileData, ERROR_LOG)) {
 
             Tools.printError(String.format("The file %s is not valid.", inputFileName));
 

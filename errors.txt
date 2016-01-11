@@ -1,3 +1,28 @@
-11/01/2016 13:28:05 -> The objective function is malformed.
-11/01/2016 13:28:05 -> The line 2 contains 3 or more consecutive white spaces.
-11/01/2016 13:28:05 -> The restriction at line 2 is malformed.
+11/01/2016 14:06:58 -> Invalid signal found. Expected (<=) but found (>=).
+11/01/2016 14:06:58 -> Invalid signal found. Expected (<=) but found (>=).
+11/01/2016 14:10:04 -> Invalid signal found. Expected >= but found <=.
+11/01/2016 14:10:04 -> Invalid signal found. Expected (>=) but found (<=).
+11/01/2016 14:10:57 -> Invalid signal found. Expected >= but found <=.
+11/01/2016 14:10:57 -> Invalid signal found. Expected >= but found <=.
+11/01/2016 14:11:18 -> Invalid signal found. Expected >= but found <= in line 3
+11/01/2016 14:11:18 -> Invalid signal found. Expected >= but found <= in line 4
+11/01/2016 14:12:05 -> Invalid signal found. Expected >= but found <= in line 3
+11/01/2016 14:12:05 -> Invalid signal found. Expected >= but found <= in line 4
+11/01/2016 14:12:36 -> The objective function is malformed.
+11/01/2016 14:12:36 -> The objective function is malformed.
+11/01/2016 14:12:36 -> The restriction at line 2 is malformed.
+11/01/2016 14:12:36 -> The objective function is malformed.
+11/01/2016 14:12:36 -> The line 2 contains 3 or more consecutive white spaces.
+11/01/2016 14:12:36 -> The restriction at line 2 is malformed.
+11/01/2016 14:12:36 -> Invalid signal found. Expected <= but found >= in line 3
+11/01/2016 14:12:36 -> Invalid signal found. Expected <= but found >= in line 4
+11/01/2016 14:13:38 -> The objective function is malformed.
+11/01/2016 14:13:38 -> The objective function is malformed.
+11/01/2016 14:13:38 -> The restriction at line 2 is malformed.
+11/01/2016 14:13:38 -> The objective function is malformed.
+11/01/2016 14:13:38 -> The line 2 contains 3 or more consecutive white spaces.
+11/01/2016 14:13:38 -> The restriction at line 2 is malformed.
+11/01/2016 14:13:38 -> Invalid signal found. Expected <= but found >= in line 3
+11/01/2016 14:13:38 -> Invalid signal found. Expected <= but found >= in line 4
+11/01/2016 14:20:20 -> Invalid signal found. Expected >= but found <= in line 3
+11/01/2016 14:20:20 -> Invalid signal found. Expected >= but found <= in line 4

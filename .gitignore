@@ -20,3 +20,7 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+
+*test.txt
+!inputfiletest.txt
+errors.txt
