@@ -26,3 +26,4 @@
 11/01/2016 14:13:38 -> Invalid signal found. Expected <= but found >= in line 4
 11/01/2016 14:20:20 -> Invalid signal found. Expected >= but found <= in line 3
 11/01/2016 14:20:20 -> Invalid signal found. Expected >= but found <= in line 4
+11/01/2016 16:09:02 -> The restriction at line 4 is malformed.

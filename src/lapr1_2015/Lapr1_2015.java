@@ -350,7 +350,7 @@ public class Lapr1_2015 {
             } else if (i < matrix.length - 1) {
                 variables[i] = "Y" + (i + 1);
             } else {
-                variables[i] = "X" + (i - matrix.length + nrVar);
+                variables[i] = "X" + (i - matrix[0].length + nrVar - 1);
             }
 
         }
