@@ -15,8 +15,8 @@ public class Lapr1_2015 {
     public static final String LOG_ERRORS = "errors.txt";
 
     /**
-     * Apply the simplex method to a problem. This assumes the matrix is already
-     * filled with the data from the file.
+     * Apply the simplex method to a problem and write the output to the 
+     * outputFileName file.
      *
      * @param matrix The matrix that will be used to receive and manipulate the
      * necessary data to solve the problem.
@@ -69,8 +69,6 @@ public class Lapr1_2015 {
         outputFileData += LINE_SEPARATOR + "• = Pivot"
                 + LINE_SEPARATOR + findZValue(matrix)
                 + LINE_SEPARATOR + findVariableValues(matrix, nrVar, variables);
-
-        System.out.println(findZValue(matrix) + LINE_SEPARATOR + findVariableValues(matrix, nrVar, variables));
 
         FileTools.saveToFile(outputFileName, outputFileData);
 
@@ -324,6 +322,8 @@ public class Lapr1_2015 {
         }
 
         float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, inputFileData, variables);
+        
+        System.out.println(findZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
 
     }
 
@@ -356,6 +356,8 @@ public class Lapr1_2015 {
         }
 
         float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, inputFileData, variables);
+        
+        System.out.println(findZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
     }
 
     /**

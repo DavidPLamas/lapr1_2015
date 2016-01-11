@@ -328,7 +328,7 @@ public class FileTools {
      * @param problem The problem that it's going to be resolved.
      * @param nrVariables The number of variables for this problem.
      * @return The matrix with the data from the problem
-     * @see #isValid(java.io.File) 
+     * @see #isValid(java.lang.String)  
      */
     public static float[][] fillMatrixWithNonBasicVariables(String problem, int nrVariables) {
         String lineSeparator = System.getProperty("line.separator");
