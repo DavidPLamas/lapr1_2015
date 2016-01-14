@@ -59,5 +59,9 @@ public class Tools {
         return text.split(lineSeparator).length;
 
     }
+    
+    public static int getRandomNumber(int min, int max){
+         return (min + (int)(Math.random()*max)); 
+    }
 
 }

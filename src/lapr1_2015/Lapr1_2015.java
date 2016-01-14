@@ -419,6 +419,10 @@ public class Lapr1_2015 {
         if (secondLine.contains(">=")) {
             minimizeFunction(matrix, outputFileName, nrVar, inputFileData);
         }
+        
+        if(nrVar <= 2){
+            Graph.makeGraph("Grafico bonito", "graph", "png", inputFileData);
+        }
 
     }
 

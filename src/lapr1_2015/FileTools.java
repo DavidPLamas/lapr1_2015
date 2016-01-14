@@ -113,13 +113,13 @@ public class FileTools {
 
             String variable = m.group(1);
 
-            float coeficient = MathTools.getVariableCoefficient(variable);
+            float coefficient = MathTools.getVariableCoefficient(variable);
 
             column = MathTools.getXIndex(variable);
 
             if (column <= nrVariables) {
 
-                newLine[column - 1] += coeficient;
+                newLine[column - 1] += coefficient;
 
             }
 
@@ -302,7 +302,7 @@ public class FileTools {
             String variable = m.group(1);
 
             //Get the variable name (Ex: 3X1 -> X1).
-            String variableName = variable.substring(variable.indexOf("X"));
+            String variableName = getVariableName(variable);
 
             //Check if that variable hasn't been found yet.
             if (!variables.contains(variableName + ";")) {
@@ -384,6 +384,14 @@ public class FileTools {
             signal = m.group(1);
         }
         return signal;
+    }
+    
+    public static String getVariableName(String variable){
+        if(variable.contains("X")){
+            return variable.substring(variable.indexOf("X"));
+        }else{
+            return variable.substring(variable.indexOf("x"));
+        }
     }
 
 }

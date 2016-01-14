@@ -36,6 +36,10 @@ public class MathTools {
         String coefficient;
 
         int posX = variable.indexOf("X");
+        
+        if(posX == -1){
+            posX = variable.indexOf("x");
+        }
 
         if (posX == -1) {
 
