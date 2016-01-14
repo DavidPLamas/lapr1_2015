@@ -155,6 +155,14 @@ public class FileToolsTest {
         expResult = false;
         result = FileTools.isValid(fileData,errorLog);
         assertEquals(expResult, result);
+        
+        fileData = "Z = 8x1 + 8x2 + x3" + lineSeparator
+                + "2x1 + 2x2 + x3 <= 12" + lineSeparator
+                + "2x1 + x2 + x3 <= 9" + lineSeparator
+                + "x1 + 3x2 + 2x3 <= 16";
+        expResult = true;
+        result = FileTools.isValid(fileData,errorLog);
+        assertEquals(expResult, result);
         System.out.printf("End of testing FileTools.isValid...%n");
     }
 

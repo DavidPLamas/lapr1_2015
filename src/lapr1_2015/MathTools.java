@@ -21,7 +21,7 @@ public class MathTools {
      *
      * @see #REAL_NUMBER_PATTERN
      */
-    public static final String VARIABLE_PATTERN = "[+-]?" + REAL_NUMBER_PATTERN + "X\\d{1,2}";
+    public static final String VARIABLE_PATTERN = "[+-]?" + REAL_NUMBER_PATTERN + "[Xx]\\d{1,2}";
 
     /**
      * Get the coefficient value of a certain variable. If there is no X in the
@@ -85,7 +85,7 @@ public class MathTools {
 
         equation = Tools.removeSpaces(equation);
 
-        String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]" + REAL_NUMBER_PATTERN + "X\\d{1,2}){0,}$";
+        String pattern = "^Z=(" + VARIABLE_PATTERN + ")([+-]" + REAL_NUMBER_PATTERN + "[Xx]\\d{1,2}){0,}$";
 
         if (!equation.matches(pattern)) {
 
@@ -130,7 +130,7 @@ public class MathTools {
         equation = Tools.removeSpaces(equation);
 
         //String pattern = "(" + VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2})?(<="+REAL_NUMBER_PATTERN+"){1}";
-        String pattern = "^(" + VARIABLE_PATTERN + ")([+-]" + REAL_NUMBER_PATTERN + "X\\d{1,2}){0,}((<=|>=)[+-]?" + REAL_NUMBER_PATTERN + ")$";
+        String pattern = "^(" + VARIABLE_PATTERN + ")([+-]" + REAL_NUMBER_PATTERN + "[Xx]\\d{1,2}){0,}((<=|>=)[+-]?" + REAL_NUMBER_PATTERN + ")$";
 
         return equation.matches(pattern);
 
@@ -148,9 +148,11 @@ public class MathTools {
         int XPos = variable.indexOf("X");
 
         if (XPos == -1) {
-
+            XPos = variable.indexOf("x");
+        }
+        
+        if(XPos == -1){
             return -1;
-            
         }
 
         return (Integer.parseInt(variable.substring(XPos + 1)));

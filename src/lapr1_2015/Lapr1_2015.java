@@ -395,17 +395,6 @@ public class Lapr1_2015 {
 
         String inputFileData = FileTools.getFileData(inputFile);
 
-        int nrLines = Tools.getNumberOfLines(inputFileData);
-
-        //Verify if the input file is not empty.
-        if (nrLines <= 0) {
-
-            Tools.printError(String.format("The file %s shouldn't be empty.", inputFileName));
-
-            return;
-
-        }
-
         //Verify if the input file is valid.    
         if (!FileTools.isValid(inputFileData, ERROR_LOG)) {
 

@@ -192,6 +192,14 @@ public class FileTools {
         
         int validLines = 0;
         
+        int nrLines = Tools.getNumberOfLines(fileData);
+
+        //Verify if the input file has more than one line.
+        if (nrLines <= 1) {
+            Log.insertLog("The file should have more than one line.", logErrors);
+            validLines--;
+        }
+        
         for(int i = 0; i < lines.length; i++){
             String line = lines[i];
             
@@ -239,7 +247,7 @@ public class FileTools {
         }
         
         Log.closeFile(logErrors);
-        
+       
         return ( (lines.length > 0) && (lines.length == validLines ));
 
     }
