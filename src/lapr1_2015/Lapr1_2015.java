@@ -8,6 +8,10 @@ import java.io.File;
 public class Lapr1_2015 {
 
     static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    
+    static final String GRAPH_NAME = "Graph";
+    
+    static String extraEquations = "";
 
     /**
      * The name of the file that will contain the validation errors 
@@ -41,8 +45,17 @@ public class Lapr1_2015 {
         while (pivotColumn >= 0 && pivotLine >= 0) {
 
             float pivot = matrix[pivotLine][pivotColumn];
-
-            matrix[pivotLine] = MathTools.multiplyLineByScalar(matrix, pivotLine, 1 / pivot);
+            float scalar;
+            
+            //To make sure the pivot value will be changed to 0, we need to make sure if
+            //it wasn't negative first
+            if(matrix[pivotLine][pivotColumn] < 0){
+                scalar = MathTools.calculateSymmetric(1/pivot);
+            }else{
+                scalar = 1/pivot;
+            }
+            
+            matrix[pivotLine] = MathTools.multiplyLineByScalar(matrix, pivotLine, scalar);
 
             for (int i = 0; i < matrix.length; i++) {
 
@@ -52,7 +65,7 @@ public class Lapr1_2015 {
 
                 }
 
-                float scalar = MathTools.calculateSymmetric(matrix[i][pivotColumn]);
+                scalar = MathTools.calculateSymmetric(matrix[i][pivotColumn]);
 
                 matrix[i] = MathTools.addTwoLinesWithScalar(matrix, i, pivotLine, scalar);
 
@@ -283,12 +296,16 @@ public class Lapr1_2015 {
      */
     public static String findZValue(float[][] matrix) {
 
-        float zValue = matrix[matrix.length - 1][matrix[0].length - 1];
+        
 
-        return "Z = " + String.format("%.2f", zValue);
+        return "Z = " + String.format("%.2f", getZValue(matrix));
 
     }
 
+    private static float getZValue(float [][] matrix){
+        float zValue = matrix[matrix.length - 1][matrix[0].length - 1];
+        return zValue;
+    }
     /**
      * Resolve a maximization problem.
      *
@@ -298,7 +315,7 @@ public class Lapr1_2015 {
      * @param nrVar The number of variables in the problem.
      * @param inputFileData The information existent in the input file.
      */
-    public static void maximizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+    public static float[][] maximizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
         float[][] fullMatrix = FileTools.addBasicVariables(matrix);
         fullMatrix[fullMatrix.length - 1] = MathTools.multiplyLineByScalar(fullMatrix, fullMatrix.length - 1, -1);
 
@@ -324,7 +341,15 @@ public class Lapr1_2015 {
         float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, inputFileData, variables);
         
         System.out.println(findZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
-
+        
+        if(nrVar <= 2){
+            float x = getBasicVariableValue(finalMatrix, "x1", nrVar, variables);
+            float y = getBasicVariableValue(finalMatrix, "x2", nrVar, variables);
+            inputFileData = inputFileData.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
+            Graph.makeGraph(GRAPH_NAME, "graph", "png", inputFileData,x,y);
+        }
+        
+        return finalMatrix;
     }
 
     /**
@@ -336,7 +361,7 @@ public class Lapr1_2015 {
      * @param nrVar The number of variables in the problem.
      * @param inputFileData The information existent in the input file.
      */
-    public static void minimizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+    public static float [][] minimizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
         float[][] transposedMatrix = MathTools.transposeMatrix(matrix);
         float[][] fullMatrix = FileTools.addBasicVariables(transposedMatrix);
 
@@ -358,8 +383,36 @@ public class Lapr1_2015 {
         float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, inputFileData, variables);
         
         System.out.println(findZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
+        
+        if(nrVar <= 2){
+            if(nrVar <= 2){
+                float x = getBasicVariableValue(finalMatrix, "x1", nrVar, variables);
+                float y = getBasicVariableValue(finalMatrix, "x2", nrVar, variables);
+                inputFileData = inputFileData.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
+                Graph.makeGraph(GRAPH_NAME, "graph", "png", inputFileData,x,y);
+            }
+        }
+        
+        return finalMatrix;
     }
-
+    
+    
+    
+    public static float getBasicVariableValue(float [][] matrix, String variable, int nrVariables, String[] variables){
+        int index = Tools.getPositionOf(variables, variable);
+        //check for minimization problem
+        if(variables[0].equals("Y1")){
+            return matrix[matrix.length - 1][index];
+        }else{
+            for(int i = 0; i < matrix.length; i++){
+                if(matrix[i][index] == 1){
+                    return matrix[i][matrix[i].length- 1];
+                }
+            }
+        }
+        return 0;
+    }
+    
     /**
      * Execute the program, reading the information from the first argument 
      * and writing information to the second argument
@@ -410,18 +463,13 @@ public class Lapr1_2015 {
 
         String secondLine = inputFileData.split(LINE_SEPARATOR)[1];
 
+        float[][] finalMatrix;
         if (secondLine.contains("<=")) {
 
-            maximizeFunction(matrix, outputFileName, nrVar, inputFileData);
+             finalMatrix = maximizeFunction(matrix, outputFileName, nrVar, inputFileData);
 
-        }
-
-        if (secondLine.contains(">=")) {
-            minimizeFunction(matrix, outputFileName, nrVar, inputFileData);
-        }
-        
-        if(nrVar <= 2){
-            Graph.makeGraph("Grafico bonito", "graph", "png", inputFileData);
+        }else{
+            finalMatrix = minimizeFunction(matrix, outputFileName, nrVar, inputFileData);
         }
 
     }

@@ -340,6 +340,7 @@ public class MathTools {
      * @return The number formated to float
      */
     public static float parseToFloat(String number){
+        number = number.replaceAll(",", ".");
         if(number.contains("/")){
             String[] parts = number.split("/");
             return (parseToFloat(parts[0]) / parseToFloat(parts[1]));
