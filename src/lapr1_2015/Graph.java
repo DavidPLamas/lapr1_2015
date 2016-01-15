@@ -5,8 +5,7 @@
  */
 package lapr1_2015;
 
-import java.io.File;
-import java.util.Formatter;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +15,8 @@ import java.util.regex.Pattern;
  */
 public class Graph {
     private static final String LINE_SEPARATOR = Lapr1_2015.LINE_SEPARATOR;
-    private static final String[] COLORS = {"black","blue","orange","yellow","red","pink"};
+    private static final String[] COLORS = {"black","gold","dark-orange","grey","red","turquoise", 
+        "blue", "violet", "dark-green"};
     
     public static boolean makeGraph(String title, String outputFileName, String terminal, String equations, 
             float pointX, float pointY){
@@ -57,7 +57,7 @@ public class Graph {
             if(currentFunction.startsWith("p")){
                 //its a parametric function
                 
-                //remove the p
+                //remove the "p"
                 currentFunction = currentFunction.substring(1, currentFunction.length());
                 
                 parametrics += String.format("%s,t lt rgb '%s' notitle,\\%n", currentFunction,COLORS[colorIndex]);
@@ -83,7 +83,7 @@ public class Graph {
         parametrics = parametrics.substring(0, parametrics.length() - 4);
         
         //Build the whole script
-        String script = String.format("%s%n"
+        String scriptData = String.format("%s%n"
                 + "%s%n"
                 + "%s%n%n"
                 + "%s%n%n"
@@ -91,20 +91,18 @@ public class Graph {
                 + "%s%n", 
                 header, functions, pointLine, plotLine, parametrics,footer);
         
-        try{
-            Formatter output = new Formatter(new File("graphScript.plt"));
-            output.format("%s", script);
-            output.close();
-            
-            //run the script
-            Runtime  rt = Runtime.getRuntime(); 
-            Process prcs = rt.exec("gnuplot graphScript.plt");
-            
-        } catch (Exception ex) {
+        if(FileTools.saveToFile("graphScript.plt", scriptData)){
+            try {
+                //run the script
+                Runtime  rt = Runtime.getRuntime();
+                Process prcs = rt.exec("gnuplot graphScript.plt");
+                return true;
+            } catch (IOException ex) {
+                return false;
+            }
+        }else{
             return false;
         }
-        
-        return true;
     }
     
     private static String getInitialCommands(String terminal, String fileName, String title){

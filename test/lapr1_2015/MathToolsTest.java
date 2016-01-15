@@ -92,47 +92,47 @@ public class MathToolsTest {
      */
     @Test
     public void testValidateObjectiveFunction() {
-        System.out.printf("%nTesting MathTools.validateObjectiveFunction...%n");
+        System.out.printf("%nTesting FileTools.validateObjectiveFunction...%n");
         String equation = "Z=3X1+2X2";
         boolean expResult = true;
-        boolean result = MathTools.validateObjectiveFunction(equation);
+        boolean result = FileTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "Z=X1+X2";
         expResult = true;
-        result = MathTools.validateObjectiveFunction(equation);
+        result = FileTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "Z=X1+2";
         expResult = false;
-        result = MathTools.validateObjectiveFunction(equation);
+        result = FileTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "z=X1+X2";
         expResult = false;
-        result = MathTools.validateObjectiveFunction(equation);
+        result = FileTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "Z=x12";
         expResult = false;
-        result = MathTools.validateObjectiveFunction(equation);
+        result = FileTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "Z=X1 + X3";
         expResult = false;
-        result = MathTools.validateObjectiveFunction(equation);
+        result = FileTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "Z=0.1X3";
         expResult = false;
-        result = MathTools.validateObjectiveFunction(equation);
+        result = FileTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
 
         equation = "Z=0.10X1";
         expResult = true;
-        result = MathTools.validateObjectiveFunction(equation);
+        result = FileTools.validateObjectiveFunction(equation);
         assertEquals(expResult, result);
-        System.out.printf("End of testing MathTools.validateObjectiveFunction...%n");
+        System.out.printf("End of testing FileTools.validateObjectiveFunction...%n");
     }
 
     /**
@@ -140,47 +140,47 @@ public class MathToolsTest {
      */
     @Test
     public void testValidateRestriction() {
-        System.out.printf("%nTesting MathTools.validateRestriction...%n");
+        System.out.printf("%nTesting FileTools.validateRestriction...%n");
         String equation = "3X1 + 1X10 <= 30";
         boolean expResult = true;
-        boolean result = MathTools.validateRestriction(equation);
+        boolean result = FileTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "<=1";
         expResult = false;
-        result = MathTools.validateRestriction(equation);
+        result = FileTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "X2 > 1";
         expResult = false;
-        result = MathTools.validateRestriction(equation);
+        result = FileTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "-X > 1";
         expResult = false;
-        result = MathTools.validateRestriction(equation);
+        result = FileTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "-1/2X1 >= 1.5";
         expResult = false;
-        result = MathTools.validateRestriction(equation);
+        result = FileTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "-1.2X10 <= 3/2";
         expResult = false;
-        result = MathTools.validateRestriction(equation);
+        result = FileTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "X100 <= 3/2";
         expResult = false;
-        result = MathTools.validateRestriction(equation);
+        result = FileTools.validateRestriction(equation);
         assertEquals(expResult, result);
 
         equation = "2.32X1 <= 5.27";
         expResult = true;
-        result = MathTools.validateRestriction(equation);
+        result = FileTools.validateRestriction(equation);
         assertEquals(expResult, result);
-        System.out.printf("End of testing MathTools.validateRestriction...%n");
+        System.out.printf("End of testing FileTools.validateRestriction...%n");
 
     }
 

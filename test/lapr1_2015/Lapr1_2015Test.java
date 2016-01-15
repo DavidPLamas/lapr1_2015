@@ -99,7 +99,7 @@ public class Lapr1_2015Test {
             {0, 0, 1.50F, -2.50F, 2, 1, 4},
             {0, 0, 3, 4, 0, 0, 48}
         };
-        float[][] result = Lapr1_2015.applySimplexMethod(matrix, outputFileName, nrVar, inputFileData, variables);
+        float[][] result = Lapr1_2015.applySimplexMethod(matrix, outputFileName, nrVar, inputFileData, variables, "");
         assertArrayEquals(expResult, result);
         System.out.printf("End of testing Lapr1_2015.applySimplexMethod...%n");
     }

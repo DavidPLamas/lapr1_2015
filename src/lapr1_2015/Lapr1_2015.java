@@ -27,23 +27,25 @@ public class Lapr1_2015 {
      * @param outputFileName The file that will contain the solution of the
      * problem.
      * @param nrVar The number of variables in the problem.
-     * @param inputFileData The information existent in the input file.
+     * @param problem The information existent in the input file.
      * @param variables The variable names for the output header
      * @return The final matrix
      */
-    public static float[][] applySimplexMethod(float[][] matrix, String outputFileName, int nrVar, String inputFileData, String[] variables) {
+    public static float[][] applySimplexMethod(float[][] matrix, String outputFileName, int nrVar, 
+            String problem, String[] variables, String outputHeader) {
 
         int pivotColumn = MathTools.findPivotColumn(matrix);
 
         int pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
 
-        String outputFileData = inputFileData
+        String outputFileData = problem
                 + LINE_SEPARATOR
                 + LINE_SEPARATOR
+                + outputHeader
                 + getFormattedMatrix(matrix, nrVar, variables);
 
         while (pivotColumn >= 0 && pivotLine >= 0) {
-            intermediateEquations += LINE_SEPARATOR + inputFileData.split(LINE_SEPARATOR)[0].replace("Z", String.format("%.2f",getZValue(matrix)));
+            intermediateEquations += LINE_SEPARATOR + problem.split(LINE_SEPARATOR)[0].replace("Z", String.format("%.2f",getZValue(matrix)));
             float pivot = matrix[pivotLine][pivotColumn];
             float scalar;
             
@@ -306,6 +308,7 @@ public class Lapr1_2015 {
         float zValue = matrix[matrix.length - 1][matrix[0].length - 1];
         return zValue;
     }
+    
     /**
      * Resolve a maximization problem.
      *
@@ -313,9 +316,9 @@ public class Lapr1_2015 {
      * @param outputFileName The file that will contain the solution of the
      * problem.
      * @param nrVar The number of variables in the problem.
-     * @param inputFileData The information existent in the input file.
+     * @param problem The information existent in the input file.
      */
-    public static float[][] maximizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+    public static float[][] maximizeFunction(float[][] matrix, String outputFileName, int nrVar, String problem) {
         float[][] fullMatrix = FileTools.addBasicVariables(matrix);
         fullMatrix[fullMatrix.length - 1] = MathTools.multiplyLineByScalar(fullMatrix, fullMatrix.length - 1, -1);
 
@@ -338,13 +341,13 @@ public class Lapr1_2015 {
 
         }
 
-        float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, inputFileData, variables);
+        float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, problem, variables, "");
         
         System.out.println(formatZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
         
         if(nrVar <= 2){
             //Set the last z value
-            String equations = inputFileData.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
+            String equations = problem.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
             
             float x = getBasicVariableValue(finalMatrix, "x1", nrVar, variables);
             float y = getBasicVariableValue(finalMatrix, "x2", nrVar, variables);
@@ -365,9 +368,17 @@ public class Lapr1_2015 {
      * @param outputFileName The file that will contain the solution of the
      * problem.
      * @param nrVar The number of variables in the problem.
-     * @param inputFileData The information existent in the input file.
+     * @param problem The information existent in the input file.
      */
-    public static float [][] minimizeFunction(float[][] matrix, String outputFileName, int nrVar, String inputFileData) {
+    public static float [][] minimizeFunction(float[][] matrix, String outputFileName, int nrVar, String problem) {
+        //Prepare data to write to the file, we we can see the matrix before it's transposed
+        String[] firstVariables = new String[nrVar + 1];
+        for (int i = 0; i < firstVariables.length - 1; i++) {
+            firstVariables[i] = "X"+(i+1); 
+        }
+        firstVariables[firstVariables.length - 1] = "SOL";
+        String outputFileData = getFormattedMatrix(matrix, nrVar, firstVariables) + LINE_SEPARATOR;
+        
         float[][] transposedMatrix = MathTools.transposeMatrix(matrix);
         float[][] fullMatrix = FileTools.addBasicVariables(transposedMatrix);
 
@@ -386,7 +397,7 @@ public class Lapr1_2015 {
 
         }
 
-        float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, inputFileData, variables);
+        float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, problem, variables, outputFileData);
         
         System.out.println(formatZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
         
@@ -394,15 +405,13 @@ public class Lapr1_2015 {
             if(nrVar <= 2){
                 float x = getBasicVariableValue(finalMatrix, "x1", nrVar, variables);
                 float y = getBasicVariableValue(finalMatrix, "x2", nrVar, variables);
-                inputFileData = inputFileData.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
-                Graph.makeGraph(GRAPH_NAME, "graph", "png", inputFileData,x,y);
+                problem = problem.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
+                Graph.makeGraph(GRAPH_NAME, "graph", "png", problem,x,y);
             }
         }
         
         return finalMatrix;
     }
-    
-    
     
     public static float getBasicVariableValue(float [][] matrix, String variable, int nrVariables, String[] variables){
         int index = Tools.getPositionOf(variables, variable);
