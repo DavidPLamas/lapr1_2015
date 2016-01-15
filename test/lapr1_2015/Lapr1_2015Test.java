@@ -32,21 +32,21 @@ public class Lapr1_2015Test {
     }
 
     /**
-     * Test of findZValue method, of class Lapr1_2015.
+     * Test of formatZValue method, of class Lapr1_2015.
      */
     @Test
     public void testFindZValue() {
-        System.out.printf("%nTesting Lapr1_2015.findZValue...%n");
+        System.out.printf("%nTesting Lapr1_2015.formatZValue...%n");
         float[][] matrix = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
         String expResult = "Z = 12,00";
-        String result = Lapr1_2015.findZValue(matrix);
+        String result = Lapr1_2015.formatZValue(matrix);
         assertEquals(expResult, result);
 
         float[][] matrix2 = {{1, 2, 3, -32}};
         expResult = "Z = -32,00";
-        result = Lapr1_2015.findZValue(matrix2);
+        result = Lapr1_2015.formatZValue(matrix2);
         assertEquals(expResult, result);
-        System.out.printf("End of testing Lapr1_2015.findZValue...%n");
+        System.out.printf("End of testing Lapr1_2015.formatZValue...%n");
     }
 
     /**

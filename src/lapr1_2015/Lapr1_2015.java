@@ -11,7 +11,7 @@ public class Lapr1_2015 {
     
     static final String GRAPH_NAME = "Graph";
     
-    static String extraEquations = "";
+    static String intermediateEquations = "";
 
     /**
      * The name of the file that will contain the validation errors 
@@ -43,7 +43,7 @@ public class Lapr1_2015 {
                 + getFormattedMatrix(matrix, nrVar, variables);
 
         while (pivotColumn >= 0 && pivotLine >= 0) {
-
+            intermediateEquations += LINE_SEPARATOR + inputFileData.split(LINE_SEPARATOR)[0].replace("Z", String.format("%.2f",getZValue(matrix)));
             float pivot = matrix[pivotLine][pivotColumn];
             float scalar;
             
@@ -72,15 +72,15 @@ public class Lapr1_2015 {
             }
 
             outputFileData += LINE_SEPARATOR + getFormattedMatrix(matrix, nrVar, variables);
-
+            
             pivotColumn = MathTools.findPivotColumn(matrix);
 
             pivotLine = MathTools.findPivotLine(matrix, pivotColumn);
-
+            
         }
 
         outputFileData += LINE_SEPARATOR + "• = Pivot"
-                + LINE_SEPARATOR + findZValue(matrix)
+                + LINE_SEPARATOR + formatZValue(matrix)
                 + LINE_SEPARATOR + findVariableValues(matrix, nrVar, variables);
 
         FileTools.saveToFile(outputFileName, outputFileData);
@@ -294,7 +294,7 @@ public class Lapr1_2015 {
      * @param matrix The matrix that will be analyzed.
      * @return The Z value.
      */
-    public static String findZValue(float[][] matrix) {
+    public static String formatZValue(float[][] matrix) {
 
         
 
@@ -340,13 +340,19 @@ public class Lapr1_2015 {
 
         float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, inputFileData, variables);
         
-        System.out.println(findZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
+        System.out.println(formatZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
         
         if(nrVar <= 2){
+            //Set the last z value
+            String equations = inputFileData.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
+            
             float x = getBasicVariableValue(finalMatrix, "x1", nrVar, variables);
             float y = getBasicVariableValue(finalMatrix, "x2", nrVar, variables);
-            inputFileData = inputFileData.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
-            Graph.makeGraph(GRAPH_NAME, "graph", "png", inputFileData,x,y);
+            
+            //Append the intermediate equations
+            equations += intermediateEquations;
+            
+            Graph.makeGraph(GRAPH_NAME, "graph", "png", equations,x,y);
         }
         
         return finalMatrix;
@@ -382,7 +388,7 @@ public class Lapr1_2015 {
 
         float[][] finalMatrix = applySimplexMethod(fullMatrix, outputFileName, nrVar, inputFileData, variables);
         
-        System.out.println(findZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
+        System.out.println(formatZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
         
         if(nrVar <= 2){
             if(nrVar <= 2){

@@ -18,7 +18,8 @@ public class Graph {
     private static final String LINE_SEPARATOR = Lapr1_2015.LINE_SEPARATOR;
     private static final String[] COLORS = {"black","blue","orange","yellow","red","pink"};
     
-    public static boolean makeGraph(String title, String outputFileName, String terminal, String equations, float pointX, float pointY){
+    public static boolean makeGraph(String title, String outputFileName, String terminal, String equations, 
+            float pointX, float pointY){
         String[] lines = equations.split(LINE_SEPARATOR);
         
         String header = getInitialCommands(terminal, outputFileName, title);
@@ -27,37 +28,68 @@ public class Graph {
         
         String plotLine = "plot ";
         
-        String signal = FileTools.getSignal(lines[1]);
+        String parametrics = String.format("set parametric%n"
+                + "set xrange restore%n" 
+                + "set yrange restore%n" 
+                + "set trange [-500:500]%n"
+                + "plot ");
+        
+        String footer = getFooterCommands();
+        
+        /*String signal = FileTools.getSignal(lines[1]);
         
         if(signal.equals(">=")){
             signal = "x2";
         }else{
             signal = "x1";
-        }
+        }*/
         int nrVar = FileTools.getNumberOfVariables(equations);
         int colorIndex = 0;
         
         for(int i = 0; i< lines.length; i++){
-            String currentFunction = convertFunctionForScript(lines[i], nrVar);
-            if(currentFunction.equals("")){
-                //its parametric
-                continue;
-            }
-            functions += String.format("%n r%d(x) = %s",i,currentFunction);
+            //Check if colorIndex is not out of bounds
             if(colorIndex >= COLORS.length){
                 colorIndex = 0;
             }
-            //plotLine += String.format("r%d(x) with filledcurve %s lt rgb '%s' title '%s',", i,signal,COLORS[colorIndex], lines[i]);
-            plotLine += String.format("r%d(x) lt rgb '%s' title '%s',", i,COLORS[colorIndex], currentFunction);
+            
+            //Format the line into a graphical function
+            String currentFunction = convertFunctionForScript(lines[i], nrVar);
+            if(currentFunction.startsWith("p")){
+                //its a parametric function
+                
+                //remove the p
+                currentFunction = currentFunction.substring(1, currentFunction.length());
+                
+                parametrics += String.format("%s,t lt rgb '%s' notitle,\\%n", currentFunction,COLORS[colorIndex]);
+                plotLine += String.format("NaN lt rgb '%s' title 'x = %s',\\%n", COLORS[colorIndex], currentFunction);
+            }else{
+                functions += String.format("%nf%d(x) = %s",i,currentFunction);
+            
+                //plotLine += String.format("r%d(x) with filledcurve %s lt rgb '%s' title '%s',", i,signal,COLORS[colorIndex], lines[i]);
+                plotLine += String.format("f%d(x) lt rgb '%s' title 'y = %s',\\%n", i,COLORS[colorIndex], currentFunction);
+            }
+            
             colorIndex++;
         }
         
+        //Set the point to draw
         String pointLine = String.format("set label 1 '     (%.2f ; %.2f)' at %.2f|%.2f point ps 2 pointtype 2", 
                 pointX, pointY, pointX, pointY).replaceAll(",", ".").replace("|", ",");
         
         //remove the last comma in the plot line
-        plotLine = plotLine.substring(0,plotLine.length() - 1);
-        String script = String.format("%s%n%s%n%s%n%s", header, functions, pointLine, plotLine);
+        plotLine = plotLine.substring(0,plotLine.length() - 4);
+        
+        //remove the last comma in the parametrics functions
+        parametrics = parametrics.substring(0, parametrics.length() - 4);
+        
+        //Build the whole script
+        String script = String.format("%s%n"
+                + "%s%n"
+                + "%s%n%n"
+                + "%s%n%n"
+                + "%s%n%n"
+                + "%s%n", 
+                header, functions, pointLine, plotLine, parametrics,footer);
         
         try{
             Formatter output = new Formatter(new File("graphScript.plt"));
@@ -81,13 +113,24 @@ public class Graph {
                 + "set style fill transparent solid 0.4%n"
                 + "set terminal %s%n"
                 + "set output '%s.%s'%n"
-                + "set title '%s'",
+                + "set multiplot%n"
+                + "set title '%s'%n"
+                + "set xrange[] writeback%n"
+                + "set yrange[] writeback%n" 
+                + "set trange[] writeback",
                 terminal,
                 fileName,
                 terminal,
                 title);
         /*return "reset" + LINE_SEPARATOR +
                 "set style fill transparent solid 0.4";*/
+    }
+    
+    private static String getFooterCommands(){
+        return String.format("unset parametric%n"
+                + "unset multiplot%n"
+                + "unset output%n"
+                + "unset terminal");
     }
     
     private static String convertFunctionForScript(String line, int nrVar){
@@ -135,7 +178,8 @@ public class Graph {
             }else {
                 if(coefficients[0] != 0){
                     //its a parametric function
-                    return "";
+                    coefficients[2] /= coefficients[0];
+                    function = String.format("p%.2f", coefficients[2]);
                 }else{
                     //we assume coefficents[1] is diff than 0
                     //its a function y = b
@@ -162,10 +206,6 @@ public class Graph {
         }*/
         
         return function.replaceAll(",", ".");
-    }
-    
-    private static boolean isParametric(String function){
-        return function.contains("[Xx]2");
     }
     
 }
