@@ -391,14 +391,20 @@ public class Lapr1_2015 {
         fullMatrix[fullMatrix.length - 1] = MathTools.multiplyLineByScalar(fullMatrix, fullMatrix.length - 1, -1);
 
         String[] variables = new String[fullMatrix[0].length];
+        int index = 1;
         for (int i = 0; i < variables.length; i++) {
 
             if (i == variables.length - 1) {
                 variables[i] = "SOL";
             } else if (i < matrix.length - 1) {
-                variables[i] = "Y" + (i + 1);
+                variables[i] = "Y" + index;
+                index++;
             } else {
-                variables[i] = "X" + (i - matrix[0].length + nrVar - 1);
+                if(i == matrix.length - 1){
+                    index = 1;
+                }
+                variables[i] = "X" + index;
+                index++;
             }
 
         }

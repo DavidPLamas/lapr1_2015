@@ -15,8 +15,8 @@ import java.util.regex.Pattern;
  */
 public class Graph {
     private static final String LINE_SEPARATOR = Lapr1_2015.LINE_SEPARATOR;
-    private static final String[] COLORS = {"black","gold","dark-orange","grey","red","turquoise", 
-        "blue", "violet", "dark-green"};
+    private static final String[] COLORS = {"black","gold","dark-orange","grey","green","turquoise", 
+        "blue", "violet"};
     
     public static boolean makeGraph(String title, String outputFileName, String terminal, String equations, 
             float pointX, float pointY){

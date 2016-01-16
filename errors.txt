@@ -33,3 +33,4 @@
 15/01/2016 11:51:14 -> The objective function is malformed.
 15/01/2016 12:05:01 -> The restriction at line 4 is malformed.
 15/01/2016 22:43:53 -> The restriction at line 3 is malformed.
+16/01/2016 23:06:43 -> The objective function is malformed.
