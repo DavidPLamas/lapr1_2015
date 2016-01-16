@@ -73,5 +73,9 @@ public class Tools {
         
         return -1;
     }
+    
+    public static String encodeString(String text){
+        return text.replaceAll("\\s", "_").replaceAll("\\.", "");
+    }
 
 }

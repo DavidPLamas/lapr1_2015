@@ -26,13 +26,14 @@ public class Graph {
         
         String functions = "";
         
-        String plotLine = "plot ";
+        String plotLine = "";
         
         String parametrics = String.format("set parametric%n"
                 + "set xrange restore%n" 
                 + "set yrange restore%n" 
-                + "set trange [-500:500]%n"
-                + "plot ");
+                + "set trange [-500:500]%n");
+        
+        String parametricFunctions = "";
         
         String footer = getFooterCommands();
         
@@ -60,13 +61,13 @@ public class Graph {
                 //remove the "p"
                 currentFunction = currentFunction.substring(1, currentFunction.length());
                 
-                parametrics += String.format("%s,t lt rgb '%s' notitle,\\%n", currentFunction,COLORS[colorIndex]);
-                plotLine += String.format("NaN lt rgb '%s' title 'x = %s',\\%n", COLORS[colorIndex], currentFunction);
+                parametricFunctions += String.format("%s,t lt rgb '%s' notitle,", currentFunction,COLORS[colorIndex]);
+                plotLine += String.format("NaN lt rgb '%s' title '%s',", COLORS[colorIndex], lines[i]);
             }else{
                 functions += String.format("%nf%d(x) = %s",i,currentFunction);
             
                 //plotLine += String.format("r%d(x) with filledcurve %s lt rgb '%s' title '%s',", i,signal,COLORS[colorIndex], lines[i]);
-                plotLine += String.format("f%d(x) lt rgb '%s' title 'y = %s',\\%n", i,COLORS[colorIndex], currentFunction);
+                plotLine += String.format("f%d(x) lt rgb '%s' title '%s',", i,COLORS[colorIndex], lines[i]);
             }
             
             colorIndex++;
@@ -76,11 +77,16 @@ public class Graph {
         String pointLine = String.format("set label 1 '     (%.2f ; %.2f)' at %.2f|%.2f point ps 2 pointtype 2", 
                 pointX, pointY, pointX, pointY).replaceAll(",", ".").replace("|", ",");
         
-        //remove the last comma in the plot line
-        plotLine = plotLine.substring(0,plotLine.length() - 4);
+        if(!plotLine.equals("")){
+            //remove the last comma in the plot line
+            plotLine = "plot " + plotLine.substring(0,plotLine.length() - 1);
+        }
         
-        //remove the last comma in the parametrics functions
-        parametrics = parametrics.substring(0, parametrics.length() - 4);
+        if(!parametricFunctions.equals("")){
+            //remove the last comma in the parametrics functions
+            parametrics += "plot " + parametricFunctions.substring(0, parametricFunctions.length() - 1);
+        }
+        
         
         //Build the whole script
         String scriptData = String.format("%s%n"
@@ -110,7 +116,7 @@ public class Graph {
                 "reset%n"
                 + "set style fill transparent solid 0.4%n"
                 + "set terminal %s%n"
-                + "set output '%s.%s'%n"
+                + "set output '%s'%n"
                 + "set multiplot%n"
                 + "set title '%s'%n"
                 + "set xrange[] writeback%n"
@@ -118,7 +124,6 @@ public class Graph {
                 + "set trange[] writeback",
                 terminal,
                 fileName,
-                terminal,
                 title);
         /*return "reset" + LINE_SEPARATOR +
                 "set style fill transparent solid 0.4";*/
@@ -185,6 +190,10 @@ public class Graph {
                     function = String.format("%.2f", coefficients[2]);
                 }
             }
+        }else{
+            //its a parametric function
+            coefficients[2] /= coefficients[0];
+            function = String.format("p%.2f", coefficients[2]);
         }
         
         /*if(coefficients[1] != 0){

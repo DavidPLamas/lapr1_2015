@@ -1,6 +1,7 @@
 package lapr1_2015;
 
 import java.io.File;
+import java.util.Scanner;
 
 /**
  * @author Group 2
@@ -45,7 +46,8 @@ public class Lapr1_2015 {
                 + getFormattedMatrix(matrix, nrVar, variables);
 
         while (pivotColumn >= 0 && pivotLine >= 0) {
-            intermediateEquations += LINE_SEPARATOR + problem.split(LINE_SEPARATOR)[0].replace("Z", String.format("%.2f",getZValue(matrix)));
+            intermediateEquations += problem.split(LINE_SEPARATOR)[0].replace("Z", String.format("%.2f",getZValue(matrix))) 
+                    + LINE_SEPARATOR;
             float pivot = matrix[pivotLine][pivotColumn];
             float scalar;
             
@@ -346,16 +348,20 @@ public class Lapr1_2015 {
         System.out.println(formatZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
         
         if(nrVar <= 2){
-            //Set the last z value
-            String equations = problem.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
+            String graphDetails[] = askForGraphDetails();
+            if(!graphDetails[0].equals("")){
+                //Set the last z value
+                String equations = problem.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
+
+                float x = getBasicVariableValue(finalMatrix, "x1", nrVar, variables);
+                float y = getBasicVariableValue(finalMatrix, "x2", nrVar, variables);
+
+                //Append the intermediate equations
+                equations = intermediateEquations + equations;
+
+                Graph.makeGraph(graphDetails[0], graphDetails[1], graphDetails[2], equations,x,y);
+            }
             
-            float x = getBasicVariableValue(finalMatrix, "x1", nrVar, variables);
-            float y = getBasicVariableValue(finalMatrix, "x2", nrVar, variables);
-            
-            //Append the intermediate equations
-            equations += intermediateEquations;
-            
-            Graph.makeGraph(GRAPH_NAME, "graph", "png", equations,x,y);
         }
         
         return finalMatrix;
@@ -402,11 +408,17 @@ public class Lapr1_2015 {
         System.out.println(formatZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
         
         if(nrVar <= 2){
-            if(nrVar <= 2){
+            String graphDetails[] = askForGraphDetails();
+            if(!graphDetails[0].equals("")){
+                //Set the last z value
+                String equations = problem.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
+
                 float x = getBasicVariableValue(finalMatrix, "x1", nrVar, variables);
                 float y = getBasicVariableValue(finalMatrix, "x2", nrVar, variables);
-                problem = problem.replace("Z", String.format("%.2f",getZValue(finalMatrix)));
-                Graph.makeGraph(GRAPH_NAME, "graph", "png", problem,x,y);
+
+                //Append the intermediate equations
+                equations = intermediateEquations + equations;
+                Graph.makeGraph(graphDetails[0], graphDetails[1], graphDetails[2], equations,x,y);
             }
         }
         
@@ -426,6 +438,56 @@ public class Lapr1_2015 {
             }
         }
         return 0;
+    }
+    
+    public static String[] askForGraphDetails(){
+        System.out.printf("%nWould you like to save this information in a graphic? (Y/N) ");
+        
+        String[] response = {"","",""};
+        
+        Scanner in = new Scanner(System.in);
+        
+        String answer = in.nextLine();
+        
+        if(answer.trim().equalsIgnoreCase("y")){
+            do{
+                System.out.printf("Insert the graph name: ");
+                answer = in.nextLine();
+            }while(answer.trim().equals(""));
+            
+            int option;       
+            do{
+                System.out.printf("Save graph as...?%n"
+                    + "1 -> Image (.png)%n"
+                    + "2 -> Ascii (.txt)%n"
+                    + "3 -> PostScript (.eps)%n"
+                    + "Insert your option here: ");
+                option = in.nextInt();
+            }while(option < 1 || option > 3);
+            
+            switch(option){
+                case 1:
+                    response[0] = answer;
+                    response[1] = Tools.encodeString(answer)+".png";
+                    response[2] = "png";
+                    break;
+                case 2:
+                    response[0] = answer;
+                    response[1] = Tools.encodeString(answer)+".txt";
+                    response[2] = "dumb";
+                    break;
+                case 3:
+                    response[0] = answer;
+                    response[1] = Tools.encodeString(answer)+".eps";
+                    response[2] = "postscript";
+                    break;
+                default:
+                    //do nothing    
+                    break;
+            }
+        }
+        
+        return response;
     }
     
     /**
