@@ -60,6 +60,13 @@ public class Tools {
 
     }
     
+    /**
+     * Get a random integer number between 2 integer numbers
+     * 
+     * @param min The minimum number
+     * @param max The maximum number
+     * @return A random number between the min and max numbers received
+     */
     public static int getRandomNumber(int min, int max){
         
          return (min + (int)(Math.random()*max)); 
@@ -82,6 +89,12 @@ public class Tools {
         
     }
     
+    /**
+     * Encode a string to a filename friendly string.
+     * 
+     * @param text The text to be encoded
+     * @return An encoded string
+     */
     public static String encodeString(String text){
         
         return text.replaceAll("\\s", "_").replaceAll("\\.", "");

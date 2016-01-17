@@ -15,11 +15,11 @@ public class Graph {
         "blue", "violet"};
 
     /**
-     * Makes the graph of the problem, containing the various states of the
-     * objective function and the restrictions.
+     * Build a graph using unlimited equations and one point.
+     * This assumes all equations are from a two variable problem.
      *
-     * @param title The title of the graphic.
-     * @param outputFileName The name of the output file.
+     * @param title The title for graphic.
+     * @param outputFileName The name of the file this graph will be saved
      * @param terminal The gnuplot terminal that will be used.
      * @param equations The equations that will be used to draw the graphic.
      * @param pointX The abscissa of the optimal point.
@@ -46,8 +46,6 @@ public class Graph {
 
         String footer = getFooterCommands();
 
-        int nrVar = FileTools.getNumberOfVariables(equations);
-
         int colorIndex = 0;
 
         for (int i = 0; i < lines.length; i++) {
@@ -60,7 +58,7 @@ public class Graph {
             }
 
             //Format the line into a graphical function.
-            String currentFunction = convertFunctionForScript(lines[i], nrVar);
+            String currentFunction = convertEquationForScript(lines[i]);
 
             if (currentFunction.startsWith("p")) {
                 //It's a parametric function.
@@ -138,7 +136,7 @@ public class Graph {
 
     /**
      * Get the initial commands that will be used in the script.
-     * 
+     *
      * @param terminal The gnuplot terminal that will be used.
      * @param fileName The name of the output file.
      * @param title The title of the graph.
@@ -164,7 +162,7 @@ public class Graph {
 
     /**
      * Get the footer commands.
-     * 
+     *
      * @return The footer commands.
      */
     private static String getFooterCommands() {
@@ -177,26 +175,30 @@ public class Graph {
     }
 
     /**
-     * Convert a function to be used in the script.
-     * @param line The function to be converted.
-     * @param nrVar The number of variables of the problem.
-     * @return The function converted correctly.
+     * Convert an equation to a mathematical function.
+     * This means the x1 will be converted to x and x2 will be converted to y.
+     * If the equation has x1 only, this method will return "p" before the function
+     * which means it's a parametric function. This is absolutely crucial because
+     * gnuplot has a different approach when working with parametric functions
+     *
+     * @param line The equation to be converted.
+     * @return The function in an acceptable format for gnuplot.
      */
-    private static String convertFunctionForScript(String line, int nrVar) {
+    private static String convertEquationForScript(String equation) {
 
-        line = Tools.removeSpaces(line);
+        equation = Tools.removeSpaces(equation);
 
-        float[] coefficients = new float[nrVar + 1];
+        float[] coefficients = new float[3];
 
         String parts[];
 
-        if (line.contains("<=") || line.contains(">=")) {
+        if (equation.contains("<=") || equation.contains(">=")) {
 
-            parts = line.split("<=|>=");
+            parts = equation.split("<=|>=");
 
         } else {
 
-            parts = line.split("=");
+            parts = equation.split("=");
 
             String temp = parts[1];
 
@@ -218,49 +220,41 @@ public class Graph {
 
             column = MathTools.getXIndex(variable);
 
-            coefficients[column - 1] += coefficient;
+            if(column <= 2){
+                coefficients[column - 1] += coefficient;
+            }
 
         }
 
-        coefficients[coefficients.length - 1] = MathTools.parseToFloat(parts[1]);
+        coefficients[2] = MathTools.parseToFloat(parts[1]);
 
         String function = "";
 
-        if (nrVar == 2) {
+        if (coefficients[0] != 0 && coefficients[1] != 0) {
+            //It's a function y = mx + b, and m <> 0.
 
-            if (coefficients[0] != 0 && coefficients[1] != 0) {
-                //It's a function y = mx + b, and m <> 0.
+            coefficients[2] /= coefficients[1];
 
-                coefficients[2] /= coefficients[1];
+            coefficients[0] *= -1;
 
-                coefficients[0] *= -1;
+            coefficients[0] /= coefficients[1];
 
-                coefficients[0] /= coefficients[1];
+            function = String.format("%.2f*x %+.2f", coefficients[0], coefficients[2]);
 
-                function = String.format("%.2f*x %+.2f", coefficients[0], coefficients[2]);
-
-            } else if (coefficients[0] != 0) {
-                //It's a parametric function.
-
-                coefficients[2] /= coefficients[0];
-
-                function = String.format("p%.2f", coefficients[2]);
-
-            } else {
-                //We assume coefficents[1] is different than 0.
-                //It's a function y = b.
-
-                coefficients[2] /= coefficients[1];
-
-                function = String.format("%.2f", coefficients[2]);
-
-            }
-
-        } else {
+        } else if (coefficients[0] != 0) {
+            //It's a parametric function.
 
             coefficients[2] /= coefficients[0];
 
             function = String.format("p%.2f", coefficients[2]);
+
+        } else {
+            //We assume coefficents[1] is different than 0.
+            //It's a function y = b.
+
+            coefficients[2] /= coefficients[1];
+
+            function = String.format("%.2f", coefficients[2]);
 
         }
 

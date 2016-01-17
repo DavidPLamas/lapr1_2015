@@ -8,11 +8,15 @@ import java.util.Scanner;
  */
 public class Lapr1_2015 {
 
-    static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    /**
+     * The line separator identifier.
+     */
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    static final String GRAPH_NAME = "Graph";
-
-    static String intermediateEquations = "";
+    /**
+     * Stores equations parallel to the objective function. To be used in the graph.
+     */
+    private static String intermediateEquations = "";
 
     /**
      * The name of the file that will contain the validation errors.
@@ -28,10 +32,10 @@ public class Lapr1_2015 {
      * @param outputFileName The file that will contain the solution of the
      * problem.
      * @param nrVar The number of variables in the problem.
-     * @param problem The information existent in the input file.
+     * @param problem The problem.
      * @param variables The variable names for the output header.
-     * @param outputHeader The header for the matrices that will be written on
-     * the output file.
+     * @param outputHeader Information that will be prepended to the information
+     * gathered on this method
      * @return The final matrix.
      */
     public static float[][] applySimplexMethod(float[][] matrix, String outputFileName, int nrVar,
@@ -192,7 +196,7 @@ public class Lapr1_2015 {
     }
 
     /**
-     * Create a header for the main matrix to be written in the output file.
+     * Create a header for the main matrix to be written
      *
      * @param nrColumns The number of columns in the matrix.
      * @param nrVar The number of variables of the problem.
@@ -286,7 +290,7 @@ public class Lapr1_2015 {
     }
 
     /**
-     * Get the Z Value.
+     * Get the Z Value and format it.
      *
      * @param matrix The matrix that will be analyzed.
      * @return The Z value.
@@ -297,6 +301,12 @@ public class Lapr1_2015 {
 
     }
 
+    /**
+     * Find the current value of the Z
+     * 
+     * @param matrix The matrix
+     * @return 
+     */
     private static float getZValue(float[][] matrix) {
 
         float zValue = matrix[matrix.length - 1][matrix[0].length - 1];
@@ -313,6 +323,7 @@ public class Lapr1_2015 {
      * problem.
      * @param nrVar The number of variables in the problem.
      * @param problem The information existent in the input file.
+     * @return The matrix after the simplex method
      */
     public static float[][] maximizeFunction(float[][] matrix, String outputFileName, int nrVar, String problem) {
 
@@ -344,7 +355,7 @@ public class Lapr1_2015 {
 
         System.out.println(formatZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
 
-        if (nrVar <= 2) {
+        if (nrVar == 2) {
 
             String graphDetails[] = askForGraphDetails();
 
@@ -378,7 +389,7 @@ public class Lapr1_2015 {
      * problem.
      * @param nrVar The number of variables in the problem.
      * @param problem The information existent in the input file.
-     * @return The final matrix.
+     * @return The matrix after the simplex method.
      */
     public static float[][] minimizeFunction(float[][] matrix, String outputFileName, int nrVar, String problem) {
 
@@ -437,7 +448,7 @@ public class Lapr1_2015 {
 
         System.out.println(formatZValue(finalMatrix) + LINE_SEPARATOR + findVariableValues(finalMatrix, nrVar, variables));
 
-        if (nrVar <= 2) {
+        if (nrVar == 2) {
 
             String graphDetails[] = askForGraphDetails();
 
@@ -464,18 +475,21 @@ public class Lapr1_2015 {
     }
 
     /**
-     * Get the value of a variable (X1, X2, etc).
+     * Get the value of a non basic variable (X1, X2, X3, etc).
      * 
      * @param matrix The matrix that will be used to solve the problem.
      * @param variable The variable designation (X1, X2, etc).
      * @param nrVariables The number of variables in the problem.
      * @param variables The variable names.
-     * @return The value of a variable.
+     * @return The value of a variable or 0 if not found
      */
     public static float getNonBasicVariableValue(float[][] matrix, String variable, int nrVariables, String[] variables) {
 
         int index = Tools.getPositionOf(variables, variable);
 
+        if(index < 0){
+            return 0;
+        }
         //Check for minimization problem.
         if (variables[0].equals("Y1")) {
 
@@ -500,10 +514,13 @@ public class Lapr1_2015 {
     }
 
     /**
-     * Ask the user about the graphic (if he wants it to be created, the output
-     * format, etc).
+     * Ask the user if he wants to save the information in a graph.
+     * If true, he will be prompted for a graph name and extension.
      *
-     * @return The output format chosen.
+     * @return All the information gathered by the user
+     *          The position 0 contains the Graph name
+     *          The position 1 contains the Graph name + extension (can be used for filenames)
+     *          The position 2 contains the terminal for gnuplot
      */
     public static String[] askForGraphDetails() {
 

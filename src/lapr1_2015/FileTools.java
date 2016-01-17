@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class FileTools {
 
     /**
-     * Get the file's data and ignore all empty lines.
+     * Get the file's data ignoring all empty lines.
      *
      * @param file The input file.
      * @return The input file's data.
@@ -56,10 +56,12 @@ public class FileTools {
     /**
      * Transform the line which contains the objective function into an array of
      * floats that represents the first line of the matrix.
+     * This assumes the line was already validated.
      *
      * @param line The line that contains the objective function.
      * @param nrVariables The number of variables for the current problem
      * @return An array that represents the objective function.
+     * @see #validateObjectiveFunction(java.lang.String) 
      */
     public static float[] getObjectiveFunction(String line, int nrVariables) {
 
@@ -77,7 +79,10 @@ public class FileTools {
 
             column = MathTools.getXIndex(variable);
 
-            newLine[column - 1] += coeficient;
+            if(column <= nrVariables){
+                newLine[column - 1] += coeficient;
+            }
+            
 
         }
 
@@ -90,12 +95,14 @@ public class FileTools {
     /**
      * Transform the line which contains a restriction into an array of floats
      * that represents one restriction.
+     * This assumes the line was already validated.
      *
      * @param line The line that contains the restriction.
      * @param matrixLine The index of the line that where we will be using the
      * output of this method. We need this to correctly fill S1, S2, etc...
      * @param nrVariables The number of variables for the current problem.
      * @return An array that represents the restriction.
+     * @see #validateRestriction(java.lang.String) 
      */
     public static float[] getRestriction(String line, int matrixLine, int nrVariables) {
 
@@ -134,12 +141,16 @@ public class FileTools {
     /**
      * Inspects a line, and based on the type of line (objective function or
      * restriction), adds information to the main matrix.
+     * This assumes all lines were previously validated.
      *
      * @param line The line that will be read.
      * @param matrix The main matrix.
      * @param matrixLine The index of the line that will be filled.
      * @param nrVariables The number of variables for this problem
      * @return The next line index that will be filled.
+     * @see #validateObjectiveFunction(java.lang.String) 
+     * @see #validateRestriction(java.lang.String) 
+     * @see #isValid(java.lang.String, java.lang.String) 
      */
     public static int fillLine(String line, float[][] matrix, int matrixLine, int nrVariables) {
 
@@ -171,8 +182,8 @@ public class FileTools {
      * restrictions. This means the first line must have, for example, Z = 2X1
      * and the other lines must have, for example, X1 &lt;= 3. All variables
      * must be identified by X and a number after it. That number should not be
-     * superior than 2. Also, there shouldn't be more than 2 white spaces
-     * between each sequence of characters
+     * superior than 99. Also, there shouldn't be more than 2 white spaces
+     * between each sequence of characters.
      *
      * @param fileData The information inside the file. Break lines are
      * identified using on the line.separator system's property.
@@ -476,6 +487,13 @@ public class FileTools {
 
     }
 
+    /**
+     * Find what is the signal for a specific restriction. 
+     * The signal can be either &lt; or &gt;
+     * 
+     * @param line The line to be analysed
+     * @return The last signal found. If none, null will be returned
+     */
     public static String getRestrictionSignal(String line) {
 
         String signal = null;
@@ -492,6 +510,13 @@ public class FileTools {
 
     }
 
+    /**
+     * Retrieve the full variable name. This is usefull because the variable
+     * can have an X or an x and its followed by an index
+     * 
+     * @param variable
+     * @return The full variable name
+     */
     public static String getVariableName(String variable) {
 
         if (variable.contains("X")) {
