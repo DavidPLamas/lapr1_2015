@@ -73,11 +73,18 @@ public class Tools {
          
     }
     
-    public static int getPositionOf(String[] matrix, String search){
+    /**
+     * Find the position of the first ocurrence of something in an array
+     * 
+     * @param array The array 
+     * @param search The word or words being searched in the array
+     * @return The position of the ocurrence or -1 if not found
+     */
+    public static int getPositionOf(String[] array, String search){
         
-        for (int i = 0; i < matrix.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             
-            if(matrix[i].equalsIgnoreCase(search)){
+            if(array[i].equalsIgnoreCase(search)){
                 
                 return i;
                 

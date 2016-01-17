@@ -523,10 +523,12 @@ public class FileTools {
 
             return variable.substring(variable.indexOf("X"));
 
-        } else {
+        } else if(variable.contains("x")){
 
             return variable.substring(variable.indexOf("x"));
 
+        }else{
+            return "";
         }
 
     }

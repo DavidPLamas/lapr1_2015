@@ -1,9 +1,5 @@
 package lapr1_2015;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -11,25 +7,6 @@ import static org.junit.Assert.*;
  * @author Group 2
  */
 public class ToolsTest {
-
-    public ToolsTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of removeSpaces method, of class Tools.
@@ -88,6 +65,57 @@ public class ToolsTest {
         expResult = 0;
         result = Tools.getNumberOfLines(text);
         assertEquals(expResult, result);
+        System.out.printf("End of testing Tools.getNumberOfLines...%n");
+    }
+
+    /**
+     * Test of getPositionOf method, of class Tools.
+     */
+    @Test
+    public void testGetPositionOf() {
+        System.out.printf("%nTesting Tools.getPositionOf...%n");
+        
+        String[] array = {"X1","X2"};
+        String search = "X1";
+        int expResult = 0;
+        int result = Tools.getPositionOf(array, search);
+        assertEquals(expResult, result);
+        
+        search = "X2";
+        expResult = 1;
+        result = Tools.getPositionOf(array, search);
+        assertEquals(expResult, result);
+        
+        search = "X";
+        expResult = -1;
+        result = Tools.getPositionOf(array, search);
+        assertEquals(expResult, result);
+        
+        search = "x1";
+        expResult = 0;
+        result = Tools.getPositionOf(array, search);
+        assertEquals(expResult, result);
+        System.out.printf("End of testing Tools.getPositionOf...%n");
+    }
+
+    /**
+     * Test of encodeString method, of class Tools.
+     */
+    @Test
+    public void testEncodeString() {
+        System.out.printf("%nTesting Tools.encodeString...%n");
+        
+        String text = "Test text.txt";
+        String expResult = "Test_texttxt";
+        String result = Tools.encodeString(text);
+        assertEquals(expResult, result);
+        
+        text = "Test text txt";
+        expResult = "Test_text_txt";
+        result = Tools.encodeString(text);
+        assertEquals(expResult, result);
+        
+        System.out.printf("End of testing Tools.encodeString...%n");
     }
 
 }
