@@ -9,8 +9,15 @@ import java.util.regex.Pattern;
  */
 public class Graph {
 
+    /**
+     * The line separator. It's imported from the main class
+     * @see Lapr1_2015#LINE_SEPARATOR
+     */
     private static final String LINE_SEPARATOR = Lapr1_2015.LINE_SEPARATOR;
 
+    /**
+     * The available rgb colors for the graph functions
+     */
     private static final String[] COLORS = {"black", "gold", "dark-orange", "grey", "green", "turquoise",
         "blue", "violet"};
 

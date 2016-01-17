@@ -305,7 +305,7 @@ public class Lapr1_2015 {
      * Find the current value of the Z
      * 
      * @param matrix The matrix
-     * @return 
+     * @return The current optimized value for the problem
      */
     public static float getZValue(float[][] matrix) {
 

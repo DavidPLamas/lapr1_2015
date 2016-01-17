@@ -463,7 +463,7 @@ public class FileTools {
      * @param problem The problem that it's going to be resolved.
      * @param nrVariables The number of variables for this problem.
      * @return The matrix with the data from the problem.
-     * @see #isValid(java.lang.String)
+     * @see #isValid(java.lang.String, java.lang.String) 
      */
     public static float[][] fillMatrixWithNonBasicVariables(String problem, int nrVariables) {
 
@@ -514,7 +514,7 @@ public class FileTools {
      * Retrieve the full variable name. This is usefull because the variable
      * can have an X or an x and its followed by an index
      * 
-     * @param variable
+     * @param variable The variable
      * @return The full variable name
      */
     public static String getVariableName(String variable) {

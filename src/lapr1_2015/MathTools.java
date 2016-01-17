@@ -26,7 +26,7 @@ public class MathTools {
      *
      * @param variable Variable from where the coefficient will be taken.
      * @return The coefficient.
-     * @throws Error
+     * @throws Error An error
      */
     public static float getVariableCoefficient(String variable) {
 
