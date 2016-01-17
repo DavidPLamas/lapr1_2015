@@ -1,27 +1,28 @@
 reset
-set multiplot
-
 set style fill transparent solid 0.4
-set title 'Grafico bonito'
+set terminal postscript
+set output 'Graph.eps'
+set multiplot
+set title 'Graph'
+set xrange[] writeback
+set yrange[] writeback
+set trange[] writeback
 
-# turn everything off
-set format x ""   #numbers off
-set format y ""
-set xlabel ""     #label off
-set ylabel ""
-set border 0      #border off
-unset xtics       #tics off
-unset ytics
-unset grid        #grid off
-unset title       #title off
+f0(x) = -0.03*x +0.00
+f1(x) = -0.03*x +0.17
+f2(x) = -5.00*x +15.00
+f3(x) = -1.00*x +7.00
+set label 1 '     (7.00 ; 0.00)' at 7.00,0.00 point ps 2 pointtype 2
 
- r1(x) = 1.50 +1.50*x
- r2(x) = 3.00 -3.00*x
-plot r1(x) with filledcurve x1 lt rgb 'black' title 'reta diagonal',NaN w l ls 2 lt 2 title "parametric line"
+plot f0(x) lt rgb 'black' title '0,00 = 0.05X1 +2X2',f1(x) lt rgb 'gold' title '0,35 = 0.05X1 +2X2',f2(x) lt rgb 'dark-orange' title '50X1 + 10X2 >= 150',f3(x) lt rgb 'grey' title '30X1 + 30X2 >= 210'
 
 set parametric
-const = 3
-plot const,t with filledcurve y1 lt 5 notitle
+set xrange restore
+set yrange restore
+set trange [-500:500]
 
-#unset parametric
+
+unset parametric
 unset multiplot
+unset output
+unset terminal

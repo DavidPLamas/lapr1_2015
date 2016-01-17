@@ -15,7 +15,7 @@ public class Log {
      *
      * @param fileName The name of the file.
      * @param append If true and the file exists the file will not be replaced
-     * by a new one
+     * by a new one.
      * @return The allocated file or null if unsuccessful.
      */
     public static FileWriter openFile(String fileName, boolean append) {
@@ -41,21 +41,26 @@ public class Log {
      *
      * @param message Message to be written to the error log.
      * @param file The place where the message will be written.
-     * @return Whether the message was or not written to the file 
+     * @return Whether the message was or not written to the file
      */
     public static boolean insertLog(String message, FileWriter file) {
 
         if (file != null) {
 
             try {
+                
                 file.write(String.format("%s -> %s%n", getCurrentDate(), message));
+                
             } catch (Exception e) {
+                
                 return false;
+                
             }
-            
+
             return true;
+            
         }
-        
+
         return false;
 
     }
@@ -79,21 +84,26 @@ public class Log {
      * Close the file.
      *
      * @param file The error log file.
-     * @return Whether the file was closed or not
+     * @return Whether the file was closed or not.
      */
     public static boolean closeFile(FileWriter file) {
 
         if (file != null) {
 
             try {
+                
                 file.close();
+                
             } catch (Exception e) {
+                
                 return false;
+                
             }
+            
             return true;
 
         }
-        
+
         return false;
 
     }
