@@ -307,7 +307,7 @@ public class Lapr1_2015 {
      * @param matrix The matrix
      * @return 
      */
-    private static float getZValue(float[][] matrix) {
+    public static float getZValue(float[][] matrix) {
 
         float zValue = matrix[matrix.length - 1][matrix[0].length - 1];
 
@@ -318,7 +318,7 @@ public class Lapr1_2015 {
     /**
      * Resolve a maximization problem.
      *
-     * @param matrix The matrix that will be used to solve the problem.
+     * @param matrix The matrix with basic variables that will be used to solve the problem.
      * @param outputFileName The file that will contain the solution of the
      * problem.
      * @param nrVar The number of variables in the problem.
@@ -384,7 +384,7 @@ public class Lapr1_2015 {
     /**
      * Resolve a minimization problem.
      *
-     * @param matrix The matrix that will be used to solve the problem.
+     * @param matrix The matrix without basic variables that will be used to solve the problem.
      * @param outputFileName The file that will contain the solution of the
      * problem.
      * @param nrVar The number of variables in the problem.

@@ -1,9 +1,5 @@
 package lapr1_2015;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -11,25 +7,6 @@ import static org.junit.Assert.*;
  * @author Group 2
  */
 public class Lapr1_2015Test {
-
-    public Lapr1_2015Test() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of formatZValue method, of class Lapr1_2015.
@@ -126,6 +103,106 @@ public class Lapr1_2015Test {
         assertEquals(expResult, result);
 
         System.out.printf("End of testing Lapr1_2015.findVariableValues...%n");
+    }
+
+    /**
+     * Test of formatZValue method, of class Lapr1_2015.
+     */
+    @Test
+    public void testGetZValue() {
+        System.out.printf("%nTesting Lapr1_2015.formatZValue...%n");
+        float[][] matrix = {
+            {-1,2,-3},
+            {-3,4.5F,1}};
+        float expResult = 1;
+        float result = Lapr1_2015.getZValue(matrix);
+        assertEquals(expResult, result,0.0F);
+        
+        System.out.printf("End of testing Lapr1_2015.formatZValue...%n");
+    }
+
+    /**
+     * Test of maximizeFunction method, of class Lapr1_2015.
+     */
+    /*@Test
+    public void testMaximizeFunction() {
+        System.out.printf("%nTesting Lapr1_2015.maximizeFunction...%n");
+        float[][] matrix = {
+            {1,0,4},
+            {0,2,12},
+            {3,2,18},
+            {3,5,0}
+        };
+        String outputFileName = "outputfiletest.txt";
+        int nrVar = 2;
+        String problem = "Z = 3X1 + 5X2" + Lapr1_2015.LINE_SEPARATOR +
+        "X1 + 0X2 <= 4" + Lapr1_2015.LINE_SEPARATOR +
+        "0X1 + 2X2 <= 12" + Lapr1_2015.LINE_SEPARATOR +
+        "3X1 + 2X2 <= 18";
+        float[][] expResult = {
+            {0,0,1,0.33F,-0.33F,2},
+            {0,1,0,0,0.50F,0,6},
+            {1,0,0,-0.33F,0.33F,2},
+            {0,0,0,1.5F,1,36}
+        };
+        float[][] result = Lapr1_2015.maximizeFunction(matrix, outputFileName, nrVar, problem);
+        assertArrayEquals(expResult, result);
+        
+        System.out.printf("End of testing Lapr1_2015.maximizeFunction...%n");
+    }*/
+
+    /**
+     * Test of minimizeFunction method, of class Lapr1_2015.
+     */
+    /*@Test
+    public void testMinimizeFunction() {
+        System.out.printf("%nTesting Lapr1_2015.minimizeFunction...%n");
+        float[][] matrix = {
+            {50,10,150},
+            {30,30,210},
+            {0.05F, 0.03F, 0}
+        };
+        String outputFileName = "outputfiletest.txt";
+        int nrVar = 2;
+        String problem = "Z = 0.05X1 + 0.03X2" + Lapr1_2015.LINE_SEPARATOR+
+        "50X1 + 10X2 >= 150" + Lapr1_2015.LINE_SEPARATOR+
+        "30X1 + 30X2 >= 210";
+        float[][] expResult = {
+            {1,0,0.03F,-0.03F,0},
+            {0,1,-0.01F,0.04F,0},
+            {0,0,2,5,0.25F}
+        };
+        float[][] result = Lapr1_2015.minimizeFunction(matrix, outputFileName, nrVar, problem);
+        assertArrayEquals(expResult, result);
+        
+        System.out.printf("End of testing Lapr1_2015.minimizeFunction...%n");
+    }*/
+
+    /**
+     * Test of getNonBasicVariableValue method, of class Lapr1_2015.
+     */
+    @Test
+    public void testGetNonBasicVariableValue() {
+        System.out.printf("%nTesting Lapr1_2015.getNonBasicVariableValue...%n");
+        float[][] matrix = {
+            {0,0,1,0.33F,-0.33F,2},
+            {0,1,0,0,0.50F,0.6F},
+            {1,0,0,-0.33F,0.33F,2},
+            {0,0,0,1.5F,1,36}
+        };
+        String variable = "X1";
+        int nrVariables = 2;
+        String[] variables = {"X1","X2","S1","S2","S3","SOL"};
+        float expResult = 2;
+        float result = Lapr1_2015.getNonBasicVariableValue(matrix, variable, nrVariables, variables);
+        assertEquals(expResult, result, 0.0);
+        
+        variable = "X2";
+        expResult = 0.6F;
+        result = Lapr1_2015.getNonBasicVariableValue(matrix, variable, nrVariables, variables);
+        assertEquals(expResult, result, 0.0);
+        
+        System.out.printf("End of testing Lapr1_2015.getNonBasicVariableValue...%n");
     }
 
 }
