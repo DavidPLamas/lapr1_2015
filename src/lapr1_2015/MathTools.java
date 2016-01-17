@@ -1,8 +1,5 @@
 package lapr1_2015;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * @author Group 2
  */
@@ -36,9 +33,11 @@ public class MathTools {
         String coefficient;
 
         int posX = variable.indexOf("X");
-        
-        if(posX == -1){
+
+        if (posX == -1) {
+
             posX = variable.indexOf("x");
+
         }
 
         if (posX == -1) {
@@ -58,6 +57,7 @@ public class MathTools {
         if (coefficient.equals("-") || coefficient.equals("+")) {
 
             coefficient += "1";
+
         }
 
         return parseToFloat(coefficient);
@@ -88,11 +88,15 @@ public class MathTools {
         int XPos = variable.indexOf("X");
 
         if (XPos == -1) {
+            
             XPos = variable.indexOf("x");
+            
         }
-        
-        if(XPos == -1){
+
+        if (XPos == -1) {
+            
             return -1;
+            
         }
 
         return (Integer.parseInt(variable.substring(XPos + 1)));
@@ -113,9 +117,12 @@ public class MathTools {
 
         for (int i = 0; i < matrix[0].length; i++) {
 
-            if(matrix[lineIndex][i] == 0){
+            if (matrix[lineIndex][i] == 0) {
+                
                 continue;
+                
             }
+            
             newLine[i] = matrix[lineIndex][i] * scalar;
 
         }
@@ -163,9 +170,9 @@ public class MathTools {
 
         for (int i = 0; i < matrix[0].length - 1; i++) {
 
-            if (matrix[matrix.length -1][i] < minor) {
+            if (matrix[matrix.length - 1][i] < minor) {
 
-                minor = matrix[matrix.length -1][i];
+                minor = matrix[matrix.length - 1][i];
 
                 column = i;
 
@@ -196,7 +203,7 @@ public class MathTools {
      * line.
      */
     public static int findPivotLine(float[][] matrix, int column) {
-        
+
         //Check if the column parameter is valid.
         if (column < 0) {
 
@@ -211,7 +218,7 @@ public class MathTools {
         int lastColumn = matrix[0].length - 1;
 
         for (int i = 0; i < matrix.length - 1; i++) {
-            
+
             //Skip this element if it equals 0 (it's mathematically impossible to divide by 0).
             if (matrix[i][column] == 0) {
 
@@ -241,49 +248,56 @@ public class MathTools {
      * @return return The transposed matrix.
      */
     public static float[][] transposeMatrix(float[][] matrix) {
-        
+
         float[][] transposeMatrix = new float[matrix[0].length][matrix.length];
-        
+
         for (int line = 0; line < transposeMatrix.length; line++) {
-            
+
             for (int column = 0; column < transposeMatrix[line].length; column++) {
-                
+
                 if (column > line || column < line) {
-                    
+
                     transposeMatrix[line][column] = matrix[column][line];
-                    
+
                 }
-                
+
                 if (column == line) {
-                    
+
                     transposeMatrix[line][column] = matrix[line][column];
-                    
+
                 }
-                
+
             }
-            
+
         }
-        
+
         return transposeMatrix;
-        
+
     }
-    
+
     /**
-     * Parse any number to float. This differs  from Float.parseFloat because it accepts
-     * numbers formatted as fractions (Ex: 5/2).
-     * 
+     * Parse any number to float. This differs from Float.parseFloat because it
+     * accepts numbers formatted as fractions (Ex: 5/2).
+     *
      * @param number The number to be parsed to float
      * @return The number formated to float
      */
-    public static float parseToFloat(String number){
+    public static float parseToFloat(String number) {
+        
         number = number.replaceAll(",", ".");
-        if(number.contains("/")){
+        
+        if (number.contains("/")) {
+            
             String[] parts = number.split("/");
+            
             return (parseToFloat(parts[0]) / parseToFloat(parts[1]));
-        }else{
+            
+        } else {
+            
             return Float.parseFloat(number);
+            
         }
+        
     }
-    
 
 }

@@ -77,7 +77,6 @@ public class FileTools {
 
             column = MathTools.getXIndex(variable);
 
-            //newLine[column - 1] += MathTools.calculateSymmetric(coeficient);
             newLine[column - 1] += coeficient;
 
         }
@@ -169,7 +168,7 @@ public class FileTools {
     /**
      * Check if a file is valid based on the file's data. To be valid, the first
      * line must be the objective function and the other lines should be
-     * restrictions. This means, the first line must have, for example, Z = 2X1
+     * restrictions. This means the first line must have, for example, Z = 2X1
      * and the other lines must have, for example, X1 &lt;= 3. All variables
      * must be identified by X and a number after it. That number should not be
      * superior than 2. Also, there shouldn't be more than 2 white spaces
@@ -182,9 +181,8 @@ public class FileTools {
      */
     public static boolean isValid(String fileData, String errorLog) {
 
-        int nrLine = 0;
-
         String search = "   ";
+
         String signal = null;
 
         FileWriter logErrors = Log.openFile(errorLog, true);
@@ -197,48 +195,74 @@ public class FileTools {
 
         //Verify if the input file has more than one line.
         if (nrLines <= 1) {
+
             Log.insertLog("The file should have more than one line.", logErrors);
+
             validLines--;
+
         }
 
         for (int i = 0; i < lines.length; i++) {
+
             String line = lines[i];
 
             if (line.trim().equals("")) {
+
                 return false;
+
             }
 
             if (line.contains(search)) {
+
                 Log.insertLog("The line " + (i + 1) + " contains 3 or more consecutive white spaces.", logErrors);
+
                 validLines--;
+
             }
 
             if (i == 0) {
-                //It should be a valid function
+
+                //It should be a valid function.
                 if (!validateObjectiveFunction(line)) {
+
                     Log.insertLog("The objective function is malformed.", logErrors);
+
                     validLines--;
+
                 }
 
-            } else //it should be a valid restriction
-            if (!validateRestriction(line)) {
-                Log.insertLog("The restriction at line " + (i + 1) + " is malformed.", logErrors);
-                validLines--;
-            } else {
-                if (signal == null) {
-                    signal = getRestrictionSignal(line);
-                }
+            } else //It should be a valid restriction.
+            {
+                if (!validateRestriction(line)) {
 
-                String currentSignal = getRestrictionSignal(line);
+                    Log.insertLog("The restriction at line " + (i + 1) + " is malformed.", logErrors);
 
-                if (!signal.equals(currentSignal)) {
-                    Log.insertLog("Invalid signal found. Expected " + signal + " but "
-                            + "found " + currentSignal + " in line " + (i + 1), logErrors);
                     validLines--;
+
+                } else {
+
+                    if (signal == null) {
+
+                        signal = getRestrictionSignal(line);
+
+                    }
+
+                    String currentSignal = getRestrictionSignal(line);
+
+                    if (!signal.equals(currentSignal)) {
+
+                        Log.insertLog("Invalid signal found. Expected " + signal + " but "
+                                + "found " + currentSignal + " in line " + (i + 1), logErrors);
+
+                        validLines--;
+
+                    }
+
                 }
             }
 
             validLines++;
+
         }
 
         Log.closeFile(logErrors);
@@ -287,6 +311,7 @@ public class FileTools {
                 lastIndex = currentIndex;
 
             }
+
         }
 
         return true;
@@ -304,8 +329,7 @@ public class FileTools {
 
         equation = Tools.removeSpaces(equation);
 
-        //String pattern = "(" + MathTools.VARIABLE_PATTERN + ")([+-]"+REAL_NUMBER_PATTERN+"X\\d{1,2})?(<="+REAL_NUMBER_PATTERN+"){1}";
-        String pattern = "^(" + MathTools.VARIABLE_PATTERN + ")([+-]" + MathTools.REAL_NUMBER_PATTERN 
+        String pattern = "^(" + MathTools.VARIABLE_PATTERN + ")([+-]" + MathTools.REAL_NUMBER_PATTERN
                 + "[Xx]\\d{1,2}){0,}((<=|>=)[+-]?" + MathTools.REAL_NUMBER_PATTERN + ")$";
 
         return equation.matches(pattern);
@@ -370,6 +394,7 @@ public class FileTools {
                 variables += variableName + ";";
 
                 nrVariables++;
+
             }
 
         }
@@ -380,31 +405,40 @@ public class FileTools {
 
     /**
      * Create a new matrix based on the received matrix and add columns for the
-     * basic variables
+     * basic variables.
      *
-     * @param matrix The matrix
+     * @param matrix The matrix.
      * @return The old matrix with more columns that represent the basic
-     * variables
+     * variables.
      */
     public static float[][] addBasicVariables(float[][] matrix) {
+
         int nrVariables = matrix[0].length - 1;
+
         int currentBasicVariable = nrVariables;
+
         float[][] newMatrix = new float[matrix.length][nrVariables + matrix.length];
 
-        //Dont add the basic variables on the last line because it's the objective function
+        //Don't add the basic variables on the last line because it's the objective function.
         for (int i = 0; i < newMatrix.length; i++) {
 
-            //Fill the new matrix with values existant in the matrix except the last column
+            //Fill the new matrix with values existant in the matrix except the last column.
             for (int j = 0; j < matrix[i].length - 1; j++) {
+
                 newMatrix[i][j] = matrix[i][j];
+
             }
-            //Fill the solution (the last column)
+
+            //Fill the solution (the last column).
             newMatrix[i][newMatrix[i].length - 1] = matrix[i][matrix[0].length - 1];
 
-            //Now add the basic variable to the new matrix
+            //Now add the basic variable to the new matrix.
             if (i < newMatrix.length - 1) {
+
                 newMatrix[i][currentBasicVariable] = 1;
+
                 currentBasicVariable++;
+
             }
         }
 
@@ -417,20 +451,25 @@ public class FileTools {
      *
      * @param problem The problem that it's going to be resolved.
      * @param nrVariables The number of variables for this problem.
-     * @return The matrix with the data from the problem
+     * @return The matrix with the data from the problem.
      * @see #isValid(java.lang.String)
      */
     public static float[][] fillMatrixWithNonBasicVariables(String problem, int nrVariables) {
+
         String lineSeparator = Lapr1_2015.LINE_SEPARATOR;
+
         int nrLines = problem.split(lineSeparator).length;
 
         float[][] matrix = new float[nrLines][nrVariables + 1];
 
         int matrixLine = 0;
+
         String[] lines = problem.split(lineSeparator);
 
         for (int i = 0; i < lines.length; i++) {
+
             matrixLine = FileTools.fillLine(lines[i], matrix, matrixLine, nrVariables);
+
         }
 
         return matrix;
@@ -438,20 +477,33 @@ public class FileTools {
     }
 
     public static String getRestrictionSignal(String line) {
+
         String signal = null;
+
         Matcher m = Pattern.compile("(<=|>=)").matcher(line);
+
         if (m.find()) {
+
             signal = m.group(1);
+
         }
+
         return signal;
+
     }
 
     public static String getVariableName(String variable) {
+
         if (variable.contains("X")) {
+
             return variable.substring(variable.indexOf("X"));
+
         } else {
+
             return variable.substring(variable.indexOf("x"));
+
         }
+
     }
 
 }

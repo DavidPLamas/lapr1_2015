@@ -61,21 +61,31 @@ public class Tools {
     }
     
     public static int getRandomNumber(int min, int max){
+        
          return (min + (int)(Math.random()*max)); 
+         
     }
     
     public static int getPositionOf(String[] matrix, String search){
+        
         for (int i = 0; i < matrix.length; i++) {
+            
             if(matrix[i].equalsIgnoreCase(search)){
+                
                 return i;
+                
             }
+            
         }
         
         return -1;
+        
     }
     
     public static String encodeString(String text){
+        
         return text.replaceAll("\\s", "_").replaceAll("\\.", "");
+        
     }
 
 }
